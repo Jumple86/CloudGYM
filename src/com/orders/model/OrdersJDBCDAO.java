@@ -66,6 +66,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		PreparedStatement pstmt = null;
 		
 		try {
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
@@ -79,6 +80,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			
 		}catch(SQLException se) {
 			se.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}finally {
 			if(pstmt != null) {
 				try {
@@ -106,6 +109,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		ResultSet rs = null;
 
 		try {
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(FIND_BY_USERID_STMT);
 
@@ -123,6 +127,9 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		} catch (SQLException se) {
 			// TODO Auto-generated catch block
 			se.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -160,6 +167,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		ResultSet rs = null;
 		
 		try {
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(FIND_BY_DATE_STMT);
 			
@@ -178,6 +186,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		
 		}catch(SQLException se) {
 			se.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}finally {
 			if(rs != null) {
 				try {
@@ -216,6 +226,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		ResultSet rs = null;
 		
 		try {
+			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(FIND_ALL);
 			rs = pstmt.executeQuery();
@@ -230,6 +241,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			}
 			
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}finally {
 			if(rs != null) {
