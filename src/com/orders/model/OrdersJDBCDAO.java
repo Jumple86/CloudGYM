@@ -281,7 +281,6 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		Scanner sc = new Scanner(System.in);
 		int orderNo = sc.nextInt();
 		int userID = sc.nextInt();
-//		String queryDate = sc.next();
 		int totalPrice = sc.nextInt();
 		
 
