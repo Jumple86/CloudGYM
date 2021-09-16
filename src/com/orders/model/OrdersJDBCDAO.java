@@ -285,7 +285,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		
 
 		
-		// ·s¼W
+		// æ–°å¢ž
 //		OrdersVO ordersVO1 = new OrdersVO();
 //		ordersVO1.setOrderNo(orderNo);
 //		ordersVO1.setUserID(userID);
@@ -295,7 +295,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 //		dao.insert(ordersVO1);
 		
 		
-		// ­×§ï
+		// ä¿®æ”¹
 		OrdersVO ordersVO2 = new OrdersVO();
 		ordersVO2.setOrderNo(orderNo);
 		ordersVO2.setUserID(userID);
@@ -303,7 +303,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		ordersVO2.setTotalPrice(totalPrice);
 		dao.update(ordersVO2);
 		
-		// ¥Î·|­û½s¸¹¬d¸ß
+		// ç”¨æœƒå“¡ç·¨è™ŸæŸ¥è©¢
 //		OrdersVO ordersVO3 = dao.findByUserID(userID);
 //		System.out.print(ordersVO3.getOrderNo() + ",");
 //		System.out.print(ordersVO3.getUserID() + ",");
@@ -312,7 +312,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 //		System.out.println();
 		
 		
-		// ¥Î¤é´Á¬d¸ß
+		// ç”¨æ—¥æœŸæŸ¥è©¢
 //		List<OrdersVO> list = dao.findByDate(queryDate);
 //		for(OrdersVO orders : list) {
 //			System.out.print(orders.getOrderNo() + ",");
@@ -323,7 +323,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 //		}
 		
 		
-		// ¬d¸ß¥þ³¡
+		// æŸ¥è©¢å…¨éƒ¨
 		List<OrdersVO> list2 = dao.findAll();
 		for(OrdersVO orders : list2) {
 			System.out.print(orders.getOrderNo() + ",");

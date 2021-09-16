@@ -292,29 +292,29 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 		String str = sd.format(new Date(System.currentTimeMillis()));
 		Timestamp ts = Timestamp.valueOf(str);
 		
-		// ·s¼W
+		// æ–°å¢
 //		CoachMenuVO coachMenuVO1 = new CoachMenuVO();
 //		coachMenuVO1.setMenuID(60012);
 //		coachMenuVO1.setUserID(2006);
-//		coachMenuVO1.setMenuName("´ú¸Õ2");
+//		coachMenuVO1.setMenuName("ï¿½ï¿½ï¿½ï¿½2");
 //		coachMenuVO1.setPublishDate(ts);
 //		coachMenuVO1.setPrice(50);
 //		dao.insert(coachMenuVO1);
 		
-		// §ó·s
+		// ä¿®æ”¹
 //		CoachMenuVO coachMenuVO2 = new CoachMenuVO();
 //		coachMenuVO2.setMenuID(60012);
 //		coachMenuVO2.setUserID(2006);
-//		coachMenuVO2.setMenuName("´ú¸Õ´ú¸Õ");
+//		coachMenuVO2.setMenuName("ï¿½ï¿½ï¿½Õ´ï¿½ï¿½ï¿½");
 //		coachMenuVO2.setPublishDate(ts);
 //		coachMenuVO2.setPrice(100);
 //		dao.update(coachMenuVO2);
 		
-		// §R°£
+		// åˆªé™¤
 		dao.delete(60011);
 		
 		
-		// ¥Î½²³æ½s¸¹¬d¸ß
+		// ç”¨èœå–®ç·¨è™ŸæŸ¥è©¢
 //		CoachMenuVO cmvo = dao.findByMenuID(60005);
 //		System.out.print(cmvo.getMenuID() + ", ");
 //		System.out.print(cmvo.getUserID() + ", ");
@@ -323,7 +323,7 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //		System.out.print(cmvo.getPrice());
 //		System.out.println();
 		
-		// ¥Î±Ğ½m½s¸¹¬d¸ß
+		// ç”¨æœƒå“¡ç·¨è™ŸæŸ¥è©¢
 //		List<CoachMenuVO> list = dao.findByUserID(2002);
 //		for(CoachMenuVO menu : list) {
 //			System.out.print(menu.getMenuID() + ", ");
@@ -334,7 +334,7 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //			System.out.println();
 //		}
 		
-		// ¬d¸ß¥ş³¡
+		// æŸ¥è©¢å…¨éƒ¨
 		List<CoachMenuVO> list2 = dao.findAll();
 		for(CoachMenuVO menu : list2) {
 			System.out.print(menu.getMenuID() + ",\t");

@@ -263,27 +263,27 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 	public static void main(String[] arg) {
 		CoachMenuListJDBCDAO dao = new CoachMenuListJDBCDAO();
 		
-		// ·s¼W
+		// æ–°å¢
 //		CoachMenuListVO cml = new CoachMenuListVO();
 //		cml.setMenuID(60001);
 //		cml.setVideoID(30005);
-//		cml.setExercise("ÁëÁå");
+//		cml.setExercise("ï¿½ï¿½ï¿½ï¿½");
 //		cml.setTimes(30);
 //		dao.insert(cml);
 		
-		// §ó·s
+		// ä¿®æ”¹
 //		CoachMenuListVO cml2 = new CoachMenuListVO();
 //		cml2.setMenuNo(21);
 //		cml2.setMenuID(60002);
 //		cml2.setVideoID(30005);
-//		cml2.setExercise("ÁëÁå2");
+//		cml2.setExercise("ï¿½ï¿½ï¿½ï¿½2");
 //		cml2.setTimes(50);
 //		dao.update(cml2);
 		
-		// §R°£
+		// åˆªé™¤
 		dao.delete(21);
 
-		// ¥Îµæ³æ©ú²Ó½s¸¹¬d¸ß
+		// ç”¨èœå–®æ˜ç´°ç·¨è™ŸæŸ¥è©¢
 //		CoachMenuListVO cml = dao.findByMenuNo(01);
 //		System.out.print(cml.getMenuNo() + ", ");
 //		System.out.print(cml.getMenuID() + ", ");
@@ -292,7 +292,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //		System.out.print(cml.getTimes());
 //		System.out.println();
 		
-		// ¥Îµæ³æ½s¸¹¬d¸ß
+		// ç”¨èœå–®ç·¨è™ŸæŸ¥è©¢
 //		List<CoachMenuListVO> list1 = dao.findByMenuID(60001);
 //		for(CoachMenuListVO cmlvo : list1) {
 //			System.out.print(cmlvo.getMenuNo() + ", ");
@@ -303,7 +303,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //			System.out.println();
 //		}
 		
-		// ¬d¸ß¥ş³¡
+		// æŸ¥è©¢å…¨éƒ¨
 		List<CoachMenuListVO> list2 = dao.findAll();
 		for(CoachMenuListVO cmlvo2 : list2) {
 			System.out.print(cmlvo2.getMenuNo() + ", ");

@@ -299,23 +299,23 @@ public class OrderListJDBCDAO implements OrderListDAO_interface {
 //		int orderNo = sc.nextInt();
 //		int itemID = sc.nextInt();
 
-		// ·s¼W
+		// æ–°å¢ž
 //		OrderListVO olvo1 = new OrderListVO();
 //		olvo1.setOrderNo(90005);
 //		olvo1.setItemID(60004);
 //		dao.insert(olvo1);
 
-		// ­×§ï
+		// ä¿®æ”¹
 //		OrderListVO olvo2 = new OrderListVO();
 //		olvo2.setOrderListNo(orderListNo);
 //		olvo2.setOrderNo(orderNo);
 //		olvo2.setItemID(itemID);
 //		dao.update(olvo2);
 		
-		// §R°£
+		// åˆªé™¤
 //		dao.delete(21);
 		
-		// ¥Î©ú²Ó½s¸¹¬d¸ß
+		// ç”¨è¨‚å–®æ˜Žç´°ç·¨è™ŸæŸ¥è©¢
 		OrderListVO olvo3 = dao.findByOrderListNo(20);
 		System.out.print(olvo3.getOrderListNo() + ", ");
 		System.out.print(olvo3.getOrderNo() + ", ");
@@ -323,7 +323,7 @@ public class OrderListJDBCDAO implements OrderListDAO_interface {
 		System.out.println();
 		System.out.println("---------------------------");
 		
-		// ¥Î­q³æ½s¸¹¬d¸ß
+		// ç”¨è¨‚å–®ç·¨è™ŸæŸ¥è©¢
 		List<OrderListVO> list = dao.findByOrderNo(90003);
 		for(OrderListVO orderListVO : list) {
 			System.out.print(orderListVO.getOrderListNo() + ", ");
@@ -332,7 +332,7 @@ public class OrderListJDBCDAO implements OrderListDAO_interface {
 			System.out.println();
 		}
 
-		// ¬d¸ß¥þ³¡
+		// æŸ¥è©¢å…¨éƒ¨
 //		List<OrderListVO> list2 = dao.findAll();
 //		for (OrderListVO orderListVO : list2) {
 //			System.out.print(orderListVO.getOrderListNo() + ", ");
