@@ -1,0 +1,188 @@
+package com.likes.model;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LikesJDBCDAO implements LikesDAO_interface {
+
+	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+	private static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
+	private static final String USER = "David";
+	private static final String PASSWORD = "123456";
+	private static final String INSERT = "INSERT INTO LIKES(postsID, userID) VALUES(?, ?)";
+	private static final String DELETE = "DELETE FROM LIKES WHERE LIKESID = ?";
+	private static final String FIND_PK = "SELECT * FROM LIKES WHERE LIKESID = ?";
+	private static final String FIND_UID = "SELECT USERID FROM LIKES WHERE LIKESID = ?";
+	private static final String FIND_ALL = "SELECT * FROM LIKES";
+
+	static {
+		try {
+			Class.forName(DRIVER);
+		} catch (ClassNotFoundException ce) {
+			ce.printStackTrace();
+		}
+	}
+
+	@Override
+	public void insert(LikesVO likesVO) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(INSERT);
+
+			pstmt.setInt(1, likesVO.getPostsID());
+			pstmt.setInt(2, likesVO.getUserID());
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception se) {
+					se.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public void delete(Integer likesID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setInt(1, likesID);
+			pstmt.executeUpdate();
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception se) {
+					se.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Override
+	public LikesVO findByPrimaryKey(Integer likesID) {
+		LikesVO likesVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_PK);
+			pstmt.setInt(1, likesID);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				likesVO = new LikesVO();
+				likesVO.setLikesID(rs.getInt("likesid"));
+				likesVO.setPostsID(rs.getInt("postsid"));
+				likesVO.setUserID(rs.getInt("userid"));
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return likesVO;
+	}
+
+	@Override
+	public List<LikesVO> findAll() {
+		List<LikesVO> list = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_ALL);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				LikesVO likesVO = new LikesVO();
+				likesVO.setLikesID(rs.getInt("likesid"));
+				likesVO.setPostsID(rs.getInt("postsid"));
+				likesVO.setUserID(rs.getInt("userid"));
+				list.add(likesVO);
+			}
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+
+}
