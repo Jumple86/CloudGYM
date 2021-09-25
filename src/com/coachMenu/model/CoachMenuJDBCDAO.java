@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
-	private static final String url = "jdbc:mysql://localhost:3306/GROUP3?serverTimezone=Asia/Taipei";
+	private static final String url = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	private static final String userid = "David";
 	private static final String passwd = "123456";
 

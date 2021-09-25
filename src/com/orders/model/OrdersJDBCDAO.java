@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class OrdersJDBCDAO implements OrdersDAO_interface {
 
 	String driver = "com.mysql.cj.jdbc.Driver";
-	String url = "jdbc:mysql://localhost:3306/GROUP3?serverTimezone=Asia/Taipei";
+	String url = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	String userid = "David";
 	String passwd = "123456";
 
