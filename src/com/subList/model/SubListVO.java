@@ -2,7 +2,7 @@ package com.subList.model;
 
 import java.io.Serializable;
 
-public class subListVO implements Serializable {
+public class SubListVO implements Serializable {
 	private Integer subID;
 	private String duration;
 	private String subName;

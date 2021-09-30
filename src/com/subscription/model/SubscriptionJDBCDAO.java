@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
+public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 	
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/cloudGYM?serverTimezone=Asia/Taipei";
@@ -27,7 +27,7 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 	}
 	
 	@Override
-	public void insert(subscriptionVO subscriptionVO) {
+	public void insert(SubscriptionVO subscriptionVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -66,7 +66,7 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 }
 
 	@Override
-	public void update(subscriptionVO subscriptionVO) {
+	public void update(SubscriptionVO subscriptionVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -143,9 +143,9 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 	}
 
 	@Override
-	public subscriptionVO findBySubNo(Integer subNo) {
+	public SubscriptionVO findBySubNo(Integer subNo) {
 		// TODO Auto-generated method stub
-		subscriptionVO subscriptionVO = null;
+		SubscriptionVO subscriptionVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -157,7 +157,7 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subscriptionVO = new subscriptionVO();
+				subscriptionVO = new SubscriptionVO();
 				subscriptionVO.setSubNo(rs.getInt("subNo"));
 				subscriptionVO.setSubID(rs.getInt("subID"));
 				subscriptionVO.setUserID(rs.getInt("userID"));
@@ -191,10 +191,10 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 	}
 
 	@Override
-	public List<subscriptionVO> findAll() {
+	public List<SubscriptionVO> findAll() {
 		// TODO Auto-generated method stub
-		List<subscriptionVO> list = new ArrayList<subscriptionVO>();
-		subscriptionVO subscriptionVO = null;
+		List<SubscriptionVO> list = new ArrayList<SubscriptionVO>();
+		SubscriptionVO subscriptionVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -205,7 +205,7 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subscriptionVO = new subscriptionVO();
+				subscriptionVO = new SubscriptionVO();
 				subscriptionVO.setSubNo(rs.getInt("subNo"));
 				subscriptionVO.setSubID(rs.getInt("subID"));
 				subscriptionVO.setUserID(rs.getInt("userID"));
@@ -241,7 +241,7 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 	}
 	
 	public static void main(String[] args) {
-		subscriptionJDBCDAO dao = new subscriptionJDBCDAO();
+		SubscriptionJDBCDAO dao = new SubscriptionJDBCDAO();
 		
 		
 		// 新增
@@ -273,8 +273,8 @@ public class subscriptionJDBCDAO  implements subscriptionDAO_interface{
 //		System.out.println();
 		
 		// 查詢全部
-				List<subscriptionVO> list = dao.findAll();
-				for(subscriptionVO subVo : list) {
+				List<SubscriptionVO> list = dao.findAll();
+				for(SubscriptionVO subVo : list) {
 					System.out.print(subVo.getSubNo() + ", ");
 					System.out.print(subVo.getSubID() + ", ");
 					System.out.print(subVo.getUserID() );

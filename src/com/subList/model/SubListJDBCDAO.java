@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class subListJDBCDAO implements subListDAO_interface {
+public class SubListJDBCDAO implements SubListDAO_interface {
 	
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/cloudGYM?serverTimezone=Asia/Taipei";
@@ -27,7 +27,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public void insert(subListVO subListVO) {
+	public void insert(SubListVO subListVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -67,7 +67,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public void update(subListVO subListVO) {
+	public void update(SubListVO subListVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -144,9 +144,9 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public subListVO findBySubID(Integer subID) {
+	public SubListVO findBySubID(Integer subID) {
 		// TODO Auto-generated method stub
-		subListVO subListVO = null;
+		SubListVO subListVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -160,7 +160,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 			rs =pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subListVO = new subListVO();
+				subListVO = new SubListVO();
 				subListVO.setSubID(rs.getInt("subID"));
 				subListVO.setDuration(rs.getString("duration"));
 				subListVO.setSubName(rs.getNString("subName"));
@@ -198,10 +198,10 @@ public class subListJDBCDAO implements subListDAO_interface {
 
 
 	@Override
-	public List<subListVO> findAll() {
+	public List<SubListVO> findAll() {
 		// TODO Auto-generated method stub
-		List<subListVO> list = new ArrayList<subListVO>();
-		subListVO subListVO = null;
+		List<SubListVO> list = new ArrayList<SubListVO>();
+		SubListVO subListVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -212,7 +212,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subListVO = new subListVO();
+				subListVO = new SubListVO();
 				subListVO.setSubID(rs.getInt("subID"));
 				subListVO.setDuration(rs.getString("duration"));
 				subListVO.setSubName(rs.getString("subName"));
@@ -248,7 +248,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 		return list;
 	}
 	public static void main(String[] args) {
-		subListJDBCDAO dao = new subListJDBCDAO();
+		SubListJDBCDAO dao = new SubListJDBCDAO();
 		
 		//更新
 //		subListVO sbl = new subListVO();
@@ -283,8 +283,8 @@ public class subListJDBCDAO implements subListDAO_interface {
 //		System.out.println();
 		
 		//查詢全部
-		List<subListVO>list = dao.findAll();
-		for(subListVO subList : list) {
+		List<SubListVO>list = dao.findAll();
+		for(SubListVO subList : list) {
 			System.out.println(subList.getSubID()+",");
 			System.out.println(subList.getDuration()+",");
 			System.out.println(subList.getSubName()+",");

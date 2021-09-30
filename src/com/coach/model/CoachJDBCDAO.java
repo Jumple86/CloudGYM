@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class coachJDBCDAO implements coachDAO_interface {
+public class CoachJDBCDAO implements CoachDAO_interface {
 	
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/cloudGYM?serverTimezone=Asia/Taipei";
@@ -37,7 +37,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public void insert(coachVO coachVO) {
+	public void insert(CoachVO coachVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -89,7 +89,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public void update(coachVO coachVO) {
+	public void update(CoachVO coachVO) {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -165,9 +165,9 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public coachVO findByUserID(Integer userID) {
+	public CoachVO findByUserID(Integer userID) {
 
-		coachVO coachVO = null;
+		CoachVO coachVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -179,7 +179,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				coachVO = new coachVO();
+				coachVO = new CoachVO();
 				coachVO.setUserID(rs.getInt("userID"));
 				coachVO.setCoachAccount(rs.getString("coachAccount"));
 				coachVO.setCoachName(rs.getString("coachName"));
@@ -223,10 +223,10 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public List<coachVO> findAll() {
+	public List<CoachVO> findAll() {
 
-		List<coachVO> list = new ArrayList<coachVO>();
-		coachVO coachVO = null;
+		List<CoachVO> list = new ArrayList<CoachVO>();
+		CoachVO coachVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -237,7 +237,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				coachVO = new coachVO();
+				coachVO = new CoachVO();
 				coachVO.setUserID(rs.getInt("userID"));
 				coachVO.setCoachAccount(rs.getString("coachAccount"));
 				coachVO.setCoachName(rs.getString("coachName"));
@@ -282,7 +282,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 	
 	public static void main(String[] args) throws IOException {
 		
-		coachJDBCDAO dao = new coachJDBCDAO();
+		CoachJDBCDAO dao = new CoachJDBCDAO();
 
 //	新增
 //		coachVO coachVO1 = new coachVO();
@@ -324,7 +324,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 //		System.out.println("刪除成功");
 		
 //		用會員編號查詢
-		coachVO coachVO3 = dao.findByUserID(2001);
+		CoachVO coachVO3 = dao.findByUserID(2001);
 		System.out.println(coachVO3.getUserID()+ ",");
 		System.out.println();
 		System.out.print(coachVO3.getCoachAccount() + ",");

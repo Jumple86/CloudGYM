@@ -185,4 +185,30 @@ public class LikesJDBCDAO implements LikesDAO_interface {
 		return list;
 	}
 
+	public static void main(String[] args) {
+		LikesJDBCDAO dao = new LikesJDBCDAO();
+
+//		新增
+//		LikesVO likesVO = new LikesVO();
+//		likesVO.setPostsID(40005);
+//		likesVO.setUserID(1005);
+//		dao.insert(likesVO);
+//		System.out.println("新增成功");
+
+//		刪除
+//		dao.delete(80013);
+//		System.out.println("刪除成功");
+
+//		查詢PK
+//		LikesVO PK = dao.findByPrimaryKey(80002);
+//		System.out.println(PK);
+
+//		查詢All
+//		List<LikesVO> list = dao.findAll();
+//		for (LikesVO all : list) {
+//			System.out.println(all);
+//		}
+
+	}
+
 }

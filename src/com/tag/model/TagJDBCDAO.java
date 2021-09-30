@@ -117,4 +117,19 @@ public class TagJDBCDAO implements TagDAO_interface {
 		return list;
 	}
 
+	public static void main(String[] args) {
+		TagJDBCDAO dao = new TagJDBCDAO();
+
+//		查詢PK
+//		TagVO PK = dao.findByPrimaryKey(10);
+//		System.out.println(PK);
+
+//		 查詢All
+//		List<TagVO> list = dao.findAll();
+//		for (TagVO all : list) {
+//			System.out.println(all);
+//		}
+
+	}
+
 }
