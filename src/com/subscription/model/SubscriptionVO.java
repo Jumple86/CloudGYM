@@ -2,7 +2,7 @@ package com.subscription.model;
 
 import java.io.Serializable;
 
-public class subscriptionVO implements Serializable{
+public class SubscriptionVO implements Serializable{
 	private Integer subNo;
 	private Integer subID;
 	private Integer userID;

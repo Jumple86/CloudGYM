@@ -2,10 +2,10 @@ package com.subList.model;
 
 import java.util.List;
 
-public interface subListDAO_interface {
-	public void insert(subListVO subListVO);
-	public void update(subListVO subListVO);
+public interface SubListDAO_interface {
+	public void insert(SubListVO subListVO);
+	public void update(SubListVO subListVO);
 	public void delete(Integer subID);
-	public subListVO findBySubID(Integer subID);
-	public List<subListVO> findAll();
+	public SubListVO findBySubID(Integer subID);
+	public List<SubListVO> findAll();
 }

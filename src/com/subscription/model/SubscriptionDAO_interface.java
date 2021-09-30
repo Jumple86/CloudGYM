@@ -2,10 +2,10 @@ package com.subscription.model;
 
 import java.util.List;
 
-public interface subscriptionDAO_interface {
-	public void insert(subscriptionVO subscriptionVO);
-	public void update(subscriptionVO subscriptionVO);
+public interface SubscriptionDAO_interface {
+	public void insert(SubscriptionVO subscriptionVO);
+	public void update(SubscriptionVO subscriptionVO);
 	public void delete(Integer subNo);
-	public subscriptionVO findBySubNo(Integer subNo);
-	public List<subscriptionVO> findAll();
+	public SubscriptionVO findBySubNo(Integer subNo);
+	public List<SubscriptionVO> findAll();
 }

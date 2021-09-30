@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Date;
 
-public class coachVO implements Serializable{
+public class CoachVO implements Serializable{
 	
 	private Integer userID;
 	private String coachAccount;
