@@ -267,7 +267,7 @@ public class UserJDBCDAO implements UserDAO_interface {
 //		userVO2.setUserBirthday(java.sql.Date.valueOf("1941-01-01"));
 //		userVO2.setUserReportedTimes(0);
 //		dao.update(userVO2);
-//		System.out.println("更新成功");
+//		System.out.println("修改成功");
 
 		// DELETE 刪除
 //		dao.delete(1021);
