@@ -16,6 +16,7 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 	private static final String UPDATE_STMT ="UPDATE subscription SET subID=?,userID=? WHERE subNo=?";
 	private static final String DELETE_STMT = "DELETE FROM subscription WHERE subNo=?";
 	private static final String FIND_BY_SUBNO = "SELECT * FROM subscription WHERE subNo=?";
+	private static final String FIND_BY_USERID = "SELECT * FROM subscription WHERE userID=?";
 	private static final String FIND_ALL = "SELECT * FROM subscription";
 	
 	static {
@@ -189,6 +190,57 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 		}
 		return subscriptionVO;
 	}
+	
+	@Override
+	public List<SubscriptionVO> findByUserID(Integer userID) {
+		List<SubscriptionVO> list = new ArrayList<SubscriptionVO>();
+		SubscriptionVO subscriptionVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(FIND_BY_USERID);
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				subscriptionVO = new SubscriptionVO();
+				subscriptionVO.setSubNo(rs.getInt("subNo"));
+				subscriptionVO.setSubID(rs.getInt("subID"));
+				subscriptionVO.setUserID(rs.getInt("userID"));
+
+				list.add(subscriptionVO);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
 	@Override
 	public List<SubscriptionVO> findAll() {
@@ -272,13 +324,22 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 //		System.out.print(sub.getUserID());
 //		System.out.println();
 		
+		// 用userID查詢
+		List<SubscriptionVO> list1 = dao.findByUserID(2001);
+		for(SubscriptionVO subVo : list1) {
+			System.out.print(subVo.getSubNo() + ", ");
+			System.out.print(subVo.getSubID() + ", ");
+			System.out.print(subVo.getUserID() );
+			System.out.println();
+		}
+		
 		// 查詢全部
-				List<SubscriptionVO> list = dao.findAll();
-				for(SubscriptionVO subVo : list) {
-					System.out.print(subVo.getSubNo() + ", ");
-					System.out.print(subVo.getSubID() + ", ");
-					System.out.print(subVo.getUserID() );
-					System.out.println();
-				}
+		List<SubscriptionVO> list = dao.findAll();
+			for(SubscriptionVO subVo : list) {
+				System.out.print(subVo.getSubNo() + ", ");
+				System.out.print(subVo.getSubID() + ", ");
+				System.out.print(subVo.getUserID() );
+				System.out.println();
+			}
 	}
 }

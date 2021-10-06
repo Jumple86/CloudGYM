@@ -9,11 +9,11 @@ public class UserJDBCDAO implements UserDAO_interface {
 
 	private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 	private static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
-	private static final String USERID = "root";
-	private static final String PASSWORD = "3022";
+	private static final String USERID = "David";
+	private static final String PASSWORD = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO user(userID, userAccount, userName, userPassword, userMobile, userSex, userBirthday, userRegisterDate, userReportedTimes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	private static final String UPDATE_STMT = "UPDATE user SET userAccount=?, userName=?, userPassword=?, userMobile=?, userSex=?, userBirthday=?, userRegisterDate=?, userReportedTimes=? WHERE userID=?";
+	private static final String UPDATE_STMT = "UPDATE user SET userAccount=?, userName=?, userPassword=?, userMobile=?, userSex=?, userBirthday=?, userReportedTimes=? WHERE userID=?";
 	private static final String DELETE_STMT = "DELETE FROM user WHERE userID=?";
 	private static final String FIND_BY_USERID = "SELECT * FROM user WHERE userID=?";
 	private static final String GET_ALL = "SELECT * FROM user";
@@ -81,9 +81,9 @@ public class UserJDBCDAO implements UserDAO_interface {
 			pstmt.setString(4, userVO.getUserMobile());
 			pstmt.setString(5, userVO.getUserSex());
 			pstmt.setDate(6, userVO.getUserBirthday());
-			pstmt.setTimestamp(7, userVO.getUserRegisterDate());
-			pstmt.setInt(8, userVO.getUserReportedTimes());
-			pstmt.setInt(9, userVO.getUserID());
+//			pstmt.setTimestamp(7, userVO.getUserRegisterDate());
+			pstmt.setInt(7, userVO.getUserReportedTimes());
+			pstmt.setInt(8, userVO.getUserID());
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -153,6 +153,7 @@ public class UserJDBCDAO implements UserDAO_interface {
 
 			while (rs.next()) {
 				userVO = new UserVO();
+				userVO.setUserID(rs.getInt("UserID"));
 				userVO.setUserAccount(rs.getString("UserAccount"));
 				userVO.setUserName(rs.getString("UserName"));
 				userVO.setUserPassword(rs.getString("UserPassword"));
@@ -264,7 +265,6 @@ public class UserJDBCDAO implements UserDAO_interface {
 //		userVO2.setUserMobile("0921123456");
 //		userVO2.setUserSex("男");
 //		userVO2.setUserBirthday(java.sql.Date.valueOf("1941-01-01"));
-//		userVO2.setUserRegisterDate(ts);
 //		userVO2.setUserReportedTimes(0);
 //		dao.update(userVO2);
 //		System.out.println("更新成功");
@@ -274,33 +274,34 @@ public class UserJDBCDAO implements UserDAO_interface {
 //		System.out.println("刪除成功");
 
 		// FIND_BY_USERID 單筆查詢
-//		UserVO userVO3 = dao.findByUserId(1021);
-//		System.out.print(userVO3.getUserAccount() + ", ");
-//		System.out.print(userVO3.getUserName() + ", ");
-//		System.out.print(userVO3.getUserPassword() + ", ");
-//		System.out.print(userVO3.getUserMobile() + ", ");
-//		System.out.print(userVO3.getUserSex() + ", ");
-//		System.out.print(userVO3.getUserBirthday() + ", ");
-//		System.out.print(userVO3.getUserRegisterDate() + ", ");
-//		System.out.print(userVO3.getUserReportedTimes());
-//		System.out.println();
-//		System.out.println("單筆查詢完成");
+		UserVO userVO3 = dao.findByUserId(1021);
+		System.out.print(userVO3.getUserID() + ", ");
+		System.out.print(userVO3.getUserAccount() + ", ");
+		System.out.print(userVO3.getUserName() + ", ");
+		System.out.print(userVO3.getUserPassword() + ", ");
+		System.out.print(userVO3.getUserMobile() + ", ");
+		System.out.print(userVO3.getUserSex() + ", ");
+		System.out.print(userVO3.getUserBirthday() + ", ");
+		System.out.print(userVO3.getUserRegisterDate() + ", ");
+		System.out.print(userVO3.getUserReportedTimes());
+		System.out.println();
+		System.out.println("單筆查詢完成");
 
 		// FIND_ALL 查詢全部
-		List<UserVO> userList1 = dao.getAll();
-		for (UserVO userVO4 : userList1) {
-			System.out.print(userVO4.getUserID() + ", ");
-			System.out.print(userVO4.getUserAccount() + ", ");
-			System.out.print(userVO4.getUserName() + ", ");
-			System.out.print(userVO4.getUserPassword() + ", ");
-			System.out.print(userVO4.getUserMobile() + ", ");
-			System.out.print(userVO4.getUserSex() + ", ");
-			System.out.print(userVO4.getUserBirthday() + ", ");
-			System.out.print(userVO4.getUserRegisterDate() + ", ");
-			System.out.print(userVO4.getUserReportedTimes());
-			System.out.println();
-		}
-		System.out.println("全部查詢完成");			
+//		List<UserVO> userList1 = dao.getAll();
+//		for (UserVO userVO4 : userList1) {
+//			System.out.print(userVO4.getUserID() + ", ");
+//			System.out.print(userVO4.getUserAccount() + ", ");
+//			System.out.print(userVO4.getUserName() + ", ");
+//			System.out.print(userVO4.getUserPassword() + ", ");
+//			System.out.print(userVO4.getUserMobile() + ", ");
+//			System.out.print(userVO4.getUserSex() + ", ");
+//			System.out.print(userVO4.getUserBirthday() + ", ");
+//			System.out.print(userVO4.getUserRegisterDate() + ", ");
+//			System.out.print(userVO4.getUserReportedTimes());
+//			System.out.println();
+//		}
+//		System.out.println("全部查詢完成");			
 		
 	}
 

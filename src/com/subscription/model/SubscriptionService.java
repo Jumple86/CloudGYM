@@ -47,6 +47,11 @@ public class SubscriptionService {
 	public SubscriptionVO getBySubNo(Integer subNo) {
 		return dao.findBySubNo(subNo);
 	}
+	
+	public List<SubscriptionVO> getByUserID(Integer userID){
+		return dao.findByUserID(userID);
+	}
+	
 	public List<SubscriptionVO> getAll() {
 		return dao.findAll();
 	}
