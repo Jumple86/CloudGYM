@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class subListJDBCDAO implements subListDAO_interface {
+public class SubListJDBCDAO implements SubListDAO_interface {
 	
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/cloudGYM?serverTimezone=Asia/Taipei";
 	private static final String userid = "David";
 	private static final String passwd = "123456";
 	
-	private static final String INSERT_STMT ="INSERT INTO subList(subID,duration,subName,price) VALUES(?,?,?,?)";
+	private static final String INSERT_STMT ="INSERT INTO subList(duration,subName,price) VALUES(?,?,?)";
 	private static final String UPDATE_STMT ="UPDATE subList SET duration=?,subName=?,price=? WHERE subID=?";
 	private static final String DELETE_STMT = "DELETE FROM subList WHERE subID=?";
 	private static final String FIND_BY_SUBID_STMT ="SELECT * FROM subList WHERE subID = ?";
@@ -27,7 +27,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public void insert(subListVO subListVO) {
+	public void insert(SubListVO subListVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -37,10 +37,9 @@ public class subListJDBCDAO implements subListDAO_interface {
 			con = DriverManager.getConnection(url,userid,passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setInt(1, subListVO.getSubID());
-			pstmt.setString(2, subListVO.getDuration());
-			pstmt.setString(3, subListVO.getSubName());
-			pstmt.setInt(4, subListVO.getPrice());
+			pstmt.setString(1, subListVO.getDuration());
+			pstmt.setString(2, subListVO.getSubName());
+			pstmt.setInt(3, subListVO.getPrice());
 			
 			pstmt.executeUpdate();
 			
@@ -67,7 +66,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public void update(subListVO subListVO) {
+	public void update(SubListVO subListVO) {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -144,9 +143,9 @@ public class subListJDBCDAO implements subListDAO_interface {
 	}
 
 	@Override
-	public subListVO findBySubID(Integer subID) {
+	public SubListVO findBySubID(Integer subID) {
 		// TODO Auto-generated method stub
-		subListVO subListVO = null;
+		SubListVO subListVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -160,7 +159,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 			rs =pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subListVO = new subListVO();
+				subListVO = new SubListVO();
 				subListVO.setSubID(rs.getInt("subID"));
 				subListVO.setDuration(rs.getString("duration"));
 				subListVO.setSubName(rs.getNString("subName"));
@@ -198,10 +197,10 @@ public class subListJDBCDAO implements subListDAO_interface {
 
 
 	@Override
-	public List<subListVO> findAll() {
+	public List<SubListVO> findAll() {
 		// TODO Auto-generated method stub
-		List<subListVO> list = new ArrayList<subListVO>();
-		subListVO subListVO = null;
+		List<SubListVO> list = new ArrayList<SubListVO>();
+		SubListVO subListVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -212,7 +211,7 @@ public class subListJDBCDAO implements subListDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				subListVO = new subListVO();
+				subListVO = new SubListVO();
 				subListVO.setSubID(rs.getInt("subID"));
 				subListVO.setDuration(rs.getString("duration"));
 				subListVO.setSubName(rs.getString("subName"));
@@ -248,34 +247,33 @@ public class subListJDBCDAO implements subListDAO_interface {
 		return list;
 	}
 	public static void main(String[] args) {
-		subListJDBCDAO dao = new subListJDBCDAO();
+		SubListJDBCDAO dao = new SubListJDBCDAO();
 		
-		//更新
-//		subListVO sbl = new subListVO();
-//		sbl.setSubID(70011);
-//		sbl.setDuration("三個月");
-//		sbl.setSubName("季方案");
-//		sbl.setPrice(400);
+		//新增
+//		SubListVO sbl = new SubListVO();
+//		sbl.setDuration("一個月");
+//		sbl.setSubName("月方案");
+//		sbl.setPrice(120);
 //		dao.insert(sbl);
-//		System.out.println("更新成功");
+//		System.out.println("新增成功");
 		
 		
 		
 		//更新
-//		subListVO sbl2 = new subListVO();
+//		SubListVO sbl2 = new SubListVO();
 //		sbl2.setDuration("十二個月");
 //		sbl2.setSubName("年方案");
 //		sbl2.setPrice(1000);
-//		sbl2.setSubID(70011);
+//		sbl2.setSubID(7004);
 //		dao.update(sbl2);
 //		System.out.println("更新成功");
 		
 		// 刪除
-//		dao.delete(70011);
+//		dao.delete(70004);
 //		System.out.println("刪除成功");
 		
 		//用subID搜尋
-//		subListVO sbl3 = dao.findBySubID(subID);
+//		SubListVO sbl3 = dao.findBySubID(70001);
 //		System.out.println(sbl3.getSubID()+",");
 //		System.out.println(sbl3.getDuration()+",");
 //		System.out.println(sbl3.getSubName()+",");
@@ -283,8 +281,8 @@ public class subListJDBCDAO implements subListDAO_interface {
 //		System.out.println();
 		
 		//查詢全部
-		List<subListVO>list = dao.findAll();
-		for(subListVO subList : list) {
+		List<SubListVO>list = dao.findAll();
+		for(SubListVO subList : list) {
 			System.out.println(subList.getSubID()+",");
 			System.out.println(subList.getDuration()+",");
 			System.out.println(subList.getSubName()+",");

@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
-public class coachJDBCDAO implements coachDAO_interface {
+public class CoachJDBCDAO implements CoachDAO_interface {
 	
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	private static final String url = "jdbc:mysql://localhost:3306/cloudGYM?serverTimezone=Asia/Taipei";
@@ -37,7 +37,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public void insert(coachVO coachVO) {
+	public void insert(CoachVO coachVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -89,7 +89,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public void update(coachVO coachVO) {
+	public void update(CoachVO coachVO) {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -165,9 +165,9 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public coachVO findByUserID(Integer userID) {
+	public CoachVO findByUserID(Integer userID) {
 
-		coachVO coachVO = null;
+		CoachVO coachVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -179,7 +179,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				coachVO = new coachVO();
+				coachVO = new CoachVO();
 				coachVO.setUserID(rs.getInt("userID"));
 				coachVO.setCoachAccount(rs.getString("coachAccount"));
 				coachVO.setCoachName(rs.getString("coachName"));
@@ -223,10 +223,10 @@ public class coachJDBCDAO implements coachDAO_interface {
 	}
 
 	@Override
-	public List<coachVO> findAll() {
+	public List<CoachVO> findAll() {
 
-		List<coachVO> list = new ArrayList<coachVO>();
-		coachVO coachVO = null;
+		List<CoachVO> list = new ArrayList<CoachVO>();
+		CoachVO coachVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -237,7 +237,7 @@ public class coachJDBCDAO implements coachDAO_interface {
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				coachVO = new coachVO();
+				coachVO = new CoachVO();
 				coachVO.setUserID(rs.getInt("userID"));
 				coachVO.setCoachAccount(rs.getString("coachAccount"));
 				coachVO.setCoachName(rs.getString("coachName"));
@@ -282,10 +282,10 @@ public class coachJDBCDAO implements coachDAO_interface {
 	
 	public static void main(String[] args) throws IOException {
 		
-		coachJDBCDAO dao = new coachJDBCDAO();
+		CoachJDBCDAO dao = new CoachJDBCDAO();
 
 //	新增
-//		coachVO coachVO1 = new coachVO();
+//		CoachVO coachVO1 = new CoachVO();
 //		coachVO1.setUserID(2006);
 //		coachVO1.setCoachAccount("Gojo-Satoru@gmail.com");
 //		coachVO1.setCoachName("五條悟");
@@ -299,11 +299,11 @@ public class coachJDBCDAO implements coachDAO_interface {
 //		coachVO1.setCoachCertificate("無");
 //		coachVO1.setReportedTimes(3);
 //		dao.insert(coachVO1);
-//		System.out.println("新增成功\");
+//		System.out.println("新增成功");
 		
 //	更新
-//		coachVO coachVO2 = new coachVO();
-//		coachVO2.setUserID(2006);
+//		CoachVO coachVO2 = new CoachVO();
+//		coachVO2.setUserID(2001);
 //		coachVO2.setCoachAccount("Satoru@gmail.com");
 //		coachVO2.setCoachName("五條");
 //		coachVO2.setCoachPassword("Gojo12");
@@ -324,46 +324,46 @@ public class coachJDBCDAO implements coachDAO_interface {
 //		System.out.println("刪除成功");
 		
 //		用會員編號查詢
-		coachVO coachVO3 = dao.findByUserID(2001);
-		System.out.println(coachVO3.getUserID()+ ",");
-		System.out.println();
-		System.out.print(coachVO3.getCoachAccount() + ",");
-		System.out.println();
-		System.out.print(coachVO3.getCoachName() + ",");
-		System.out.println();
-		System.out.print(coachVO3.getCoachPassword() + ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachImg()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachSex()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachBirthday()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachDescription()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachRegisteredDate()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getCoachCertificate()+ ",");
-		System.out.println();
-		System.out.println(coachVO3.getReportedTimes());
-		System.out.println();
+//		CoachVO coachVO3 = dao.findByUserID(2001);
+//		System.out.println(coachVO3.getUserID()+ ",");
+//		System.out.println();
+//		System.out.print(coachVO3.getCoachAccount() + ",");
+//		System.out.println();
+//		System.out.print(coachVO3.getCoachName() + ",");
+//		System.out.println();
+//		System.out.print(coachVO3.getCoachPassword() + ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachImg()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachSex()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachBirthday()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachDescription()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachRegisteredDate()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getCoachCertificate()+ ",");
+//		System.out.println();
+//		System.out.println(coachVO3.getReportedTimes());
+//		System.out.println();
 		
 //		查詢全部
-//		List<coachVO>list = dao.findAll();
-//		for(coachVO coach:list) {
-//			System.out.println(coach.getUserID()+ ",");
-//			System.out.print(coach.getCoachAccount() + ",");
-//			System.out.print(coach.getCoachName() + ",");
-//			System.out.print(coach.getCoachPassword() + ",");
-//			System.out.println(coach.getCoachImg()+ ",");
-//			System.out.println(coach.getCoachSex()+ ",");
-//			System.out.println(coach.getCoachBirthday()+ ",");
-//			System.out.println(coach.getCoachDescription()+ ",");
-//			System.out.println(coach.getCoachRegisteredDate()+ ",");
-//			System.out.println(coach.getCoachCertificate()+ ",");
-//			System.out.println(coach.getReportedTimes());
-//			System.out.println();	
-//		}
+		List<CoachVO>list = dao.findAll();
+		for(CoachVO coach:list) {
+			System.out.println(coach.getUserID()+ ",");
+			System.out.print(coach.getCoachAccount() + ",");
+			System.out.print(coach.getCoachName() + ",");
+			System.out.print(coach.getCoachPassword() + ",");
+			System.out.println(coach.getCoachImg()+ ",");
+			System.out.println(coach.getCoachSex()+ ",");
+			System.out.println(coach.getCoachBirthday()+ ",");
+			System.out.println(coach.getCoachDescription()+ ",");
+			System.out.println(coach.getCoachRegisteredDate()+ ",");
+			System.out.println(coach.getCoachCertificate()+ ",");
+			System.out.println(coach.getReportedTimes());
+			System.out.println();	
+		}
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {

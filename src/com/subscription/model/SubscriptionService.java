@@ -3,6 +3,7 @@ package com.subscription.model;
 import java.util.List;
 
 public class SubscriptionService {
+	
 	private SubscriptionDAO_interface dao;
 	
 	public SubscriptionService() {
@@ -19,10 +20,7 @@ public class SubscriptionService {
 		
 		return subscriptionVO;
 	}
-	
-	public void addSubscription(SubscriptionVO subscriptionVO) {
-		dao.insert(subscriptionVO);
-	}
+
 	
 	public SubscriptionVO updateSubscription(Integer subNo,Integer subID,Integer userID) {
 		SubscriptionVO subscriptionVO = new SubscriptionVO();
@@ -36,9 +34,6 @@ public class SubscriptionService {
 		return subscriptionVO;
 	}
 	
-	public void updateSubscription(SubscriptionVO subscriptionVO) {
-		dao.update(subscriptionVO);
-	}
 	
 	public void deleteSubscription(Integer subNo) {
 		dao.delete(subNo);
