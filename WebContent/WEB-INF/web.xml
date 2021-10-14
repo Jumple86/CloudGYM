@@ -25,6 +25,7 @@
   <servlet-mapping>
   	<servlet-name>OrdersServlet</servlet-name>
   	<url-pattern>/orders/orders.do</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>AdminServlet</servlet-name>
     <servlet-class>com.admin.controller.AdminServlet</servlet-class>
