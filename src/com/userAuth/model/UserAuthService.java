@@ -11,11 +11,10 @@ public class UserAuthService {
 		dao = new UserAuthJDBCDAO();
 	}
 	
-	public UserAuthVO addUserAuth(Integer userAuthID,Integer userID,Integer banComment,Integer banShopping,
+	public UserAuthVO addUserAuth(Integer userID,Integer banComment,Integer banShopping,
 			Integer banVideo,Integer banUsers,Timestamp startTime) {
 		
 		UserAuthVO userAuthVO = new UserAuthVO();
-		userAuthVO.setUserAuthID(userAuthID);
 		userAuthVO.setUserID(userID);
 		userAuthVO.setBanComment(banComment);
 		userAuthVO.setBanShopping(banShopping);
@@ -26,22 +25,21 @@ public class UserAuthService {
 		return userAuthVO;
 	}
 	
-	public UserAuthVO updateUserAuth(Integer userAuthID,Integer userID,Integer banComment,Integer banShopping,
-			Integer banVideo,Integer banUsers,Timestamp startTime) {
+	public UserAuthVO updateUserAuth(UserAuthVO userAuthVO) {
 		
-		UserAuthVO userAuthVO = new UserAuthVO();
-		userAuthVO.setUserAuthID(userAuthID);
-		userAuthVO.setUserID(userID);
-		userAuthVO.setBanComment(banComment);
-		userAuthVO.setBanShopping(banShopping);
-		userAuthVO.setBanVideo(banVideo);
-		userAuthVO.setBanUsers(banUsers);
-		userAuthVO.setStartTime(startTime);
+//		UserAuthVO userAuthVO = new UserAuthVO();
+//		userAuthVO.setUserAuthID(userAuthID);
+//		userAuthVO.setUserID(userID);
+//		userAuthVO.setBanComment(banComment);
+//		userAuthVO.setBanShopping(banShopping);
+//		userAuthVO.setBanVideo(banVideo);
+//		userAuthVO.setBanUsers(banUsers);
+//		userAuthVO.setStartTime(startTime);
 		dao.update(userAuthVO);
 		return userAuthVO;
 	}
 	
-	public List<UserAuthVO> getUserID(Integer userID){
+	public UserAuthVO getUserID(Integer userID){
 		return dao.findbyuserID(userID);
 	}
 	
