@@ -10,6 +10,8 @@ public class CoachMenuVO implements Serializable {
 	private String menuName;
 	private Timestamp publishDate;
 	private Integer price;
+	private Boolean isPublic;
+	
 	
 	
 	public Integer getMenuID() {
@@ -41,5 +43,11 @@ public class CoachMenuVO implements Serializable {
 	}
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+	public Boolean getIsPublic() {
+		return isPublic;
+	}
+	public void setIsPublic(Boolean isPublic) {
+		this.isPublic = isPublic;
 	}
 }

@@ -48,6 +48,10 @@ public class VideoService {
 	public VideoVO findByPrimaryKey(Integer videoID) {
 		return dao.findByPrimaryKey(videoID);
 	}
+	
+	public List<VideoVO> getByUserID(Integer userID){
+		return dao.findByUserID(userID);
+	}
 
 	public List<VideoVO> getAll() {
 		return dao.getAll();

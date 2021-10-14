@@ -15,24 +15,25 @@ public class CoachMenuService {
 		dao = new CoachMenuJDBCDAO();
 	}
 	
-	public CoachMenuVO addCoachMenu(Integer menuID, Integer userID, String menuName, Integer price) {
+	public CoachMenuVO addCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic) {
 		CoachMenuVO coachMenuVO = new CoachMenuVO();
 		
-		coachMenuVO.setMenuID(menuID);
 		coachMenuVO.setUserID(userID);
 		coachMenuVO.setMenuName(menuName);
 		coachMenuVO.setPrice(price);
+		coachMenuVO.setIsPublic(isPublic);
 		dao.insert(coachMenuVO);
 		return coachMenuVO;
 	}
 	
-	public CoachMenuVO updateCoachMenu(Integer userID, String menuName, Integer price, Integer menuID){
+	public CoachMenuVO updateCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic, Integer menuID){
 		CoachMenuVO coachMenuVO = new CoachMenuVO();
 		
 		coachMenuVO.setUserID(userID);
 		coachMenuVO.setMenuName(menuName);
 		coachMenuVO.setPublishDate(ts);
 		coachMenuVO.setPrice(price);
+		coachMenuVO.setIsPublic(isPublic);
 		coachMenuVO.setMenuID(menuID);
 		dao.update(coachMenuVO);
 		return coachMenuVO;
