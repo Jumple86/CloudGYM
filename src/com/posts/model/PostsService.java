@@ -11,10 +11,9 @@ public class PostsService {
 		dao = new PostsJDBCDAO();
 	}
 
-	public PostsVO addPosts(Integer postsID, Integer userID, String postsTitle, String postsContent, byte[] postsImg,
+	public PostsVO addPosts(Integer userID, String postsTitle, String postsContent, byte[] postsImg,
 			Timestamp postsPublishDate, Integer tagID, boolean postsShow) {
 		PostsVO postsVO = new PostsVO();
-		postsVO.setPostsID(postsID);
 		postsVO.setUserID(userID);
 		postsVO.setPostsTitle(postsTitle);
 		postsVO.setPostsContent(postsContent);
@@ -47,6 +46,11 @@ public class PostsService {
 	public PostsVO getByPostsID(Integer postsID) {
 		return dao.findByPrimaryKey(postsID);
 	}
+	
+	public List<PostsVO>getTopPost() {
+		return dao.findByTopPost();
+	}
+	
 
 	public List<PostsVO> getAll() {
 		return dao.findAll();

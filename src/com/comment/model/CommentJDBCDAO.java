@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class CommentJDBCDAO implements CommentDAO_interface {
 
@@ -19,6 +20,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 	private static final String DELETE = "DELETE FROM COMMENT WHERE COMMENTID = ?";
 	private static final String FIND_PK = "SELECT * FROM COMMENT WHERE COMMENTID = ?";
 	private static final String FIND_ALL = "SELECT * FROM COMMENT";
+	private static final String FIND_COMMENT = "SELECT COUNT(*) FROM comment where postsid = ?";
 
 	static {
 		try {
@@ -180,6 +182,53 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 	}
 
 	@Override
+	public Integer countByComment(Integer postsID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer count = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_COMMENT);
+
+			pstmt.setInt(1, postsID);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt(1);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return count;
+	}
+
+	@Override
 	public List<CommentVO> findAll() {
 		List<CommentVO> list = new ArrayList<>();
 		Connection con = null;
@@ -264,6 +313,15 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 //		for(CommentVO all : list) {
 //			System.out.println(all);
 //		}
+
+//		文章留言數查詢
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("請輸入postID");
+//		Integer postsID = sc.nextInt();
+//		Integer count = dao.countByComment(postsID);
+//		System.out.println("postsID = " + postsID);
+//		System.out.println("回應總數 " + count);
+//		sc.close();
 
 	}
 

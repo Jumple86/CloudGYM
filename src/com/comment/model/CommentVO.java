@@ -3,7 +3,6 @@ package com.comment.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
 public class CommentVO implements Serializable {
 
 	private Integer commentID;
@@ -13,7 +12,6 @@ public class CommentVO implements Serializable {
 	private Timestamp commentPublishDate;
 	private boolean commentShow;
 
-	
 	public Integer getCommentID() {
 		return commentID;
 	}
@@ -67,6 +65,5 @@ public class CommentVO implements Serializable {
 		return "CommentVO [commentID=" + commentID + ", postsID=" + postsID + ", userID=" + userID + ", commentContent="
 				+ commentContent + ", commentPublishDate=" + commentPublishDate + ", commentShow=" + commentShow + "]";
 	}
-	
-	
+
 }

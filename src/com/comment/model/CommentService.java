@@ -42,6 +42,10 @@ public class CommentService {
 		return dao.findByPrimaryKey(commentID);
 	}
 
+	public Integer getCountComment(Integer postsID) {
+		return dao.countByComment(postsID);
+	}
+
 	public List<CommentVO> getAll() {
 		return dao.findAll();
 	}

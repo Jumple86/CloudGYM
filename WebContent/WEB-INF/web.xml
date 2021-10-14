@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+
+	<display-name>CloudGYM</display-name>
+
+	<servlet>
+		<servlet-name>TagServlet</servlet-name>
+		<servlet-class>com.tag.controller.TagServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TagServlet</servlet-name>
+		<url-pattern>/tag/tag.do</url-pattern>
+	</servlet-mapping>
+
+<!-- 	<servlet> -->
+<!-- 		<servlet-name>PostsServlet</servlet-name> -->
+<!-- 		<servlet-class>com.posts.controller.PostsServlet</servlet-class> -->
+<!-- 	</servlet> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>PostsServlet</servlet-name> -->
+<!-- 		<url-pattern>/posts/posts.do</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+
+	<servlet>
+		<servlet-name>PostsServlet</servlet-name>
+		<servlet-class>com.posts.controller.PostsServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostsServlet</servlet-name>
+		<url-pattern>/Forum/Article.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>Reader</servlet-name>
+		<servlet-class>com.posts.controller.Reader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Reader</servlet-name>
+		<url-pattern>/Reader</url-pattern>
+	</servlet-mapping>
+
+</web-app>
