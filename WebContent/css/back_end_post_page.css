@@ -1,0 +1,80 @@
+.main{
+    border: 1px solid white;
+    background-color: white;
+}
+
+
+p{
+    position: absolute;
+    padding-left: 250px;
+    padding-top: 20px;
+}
+
+
+.main_right{
+   display:inline-block;
+   float:right;
+   width: 452px;
+   height: 100%;
+   padding: 30px 0;
+}
+
+.main_right > span{
+    font-size: 18px;
+    margin-left: 15px;
+}
+
+.com_ul{
+    border: 2px solid lightgray;
+    margin: 10px 0 10px 15px;
+    padding: 10px 0px;
+    font-size: 14px;
+    width: 90%;
+    border-radius: 3px
+}
+
+.com_ul >li{
+    margin-left: 20px;
+}
+
+.com_ul > i{
+    float: right;
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+.post{
+    display: inline-block;
+    font-size: 22px;
+    margin: 30px 0px 20px 30px;
+}
+
+.post_text{
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+
+.post_text > i{
+    float: right;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    font-size: 20px;
+}
+
+#content{
+    margin-left: 30px;
+    height: 350px;
+    width: 500px;
+    resize: none;
+}
+
+.up_time , .up_name{
+    margin: 10px 0 10px 30px;
+}
+
+.comment{
+    height: 450px;
+    overflow: scroll;
+}
