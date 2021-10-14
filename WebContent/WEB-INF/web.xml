@@ -25,5 +25,30 @@
   <servlet-mapping>
   	<servlet-name>OrdersServlet</servlet-name>
   	<url-pattern>/orders/orders.do</url-pattern>
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <servlet-class>com.admin.controller.AdminServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/html/admin.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>UserAuthServlet</servlet-name>
+    <servlet-class>com.userAuth.controller.UserAuthServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAuthServlet</servlet-name>
+    <url-pattern>/html/UserAuth.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>CoachImageOutput</servlet-name>
+    <servlet-class>com.coach.image.CoachImageOutput</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CoachImageOutput</servlet-name>
+    <url-pattern>/html/CoachImageOutput</url-pattern>
   </servlet-mapping>
 </web-app>
