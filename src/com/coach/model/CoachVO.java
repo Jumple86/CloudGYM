@@ -14,6 +14,7 @@ public class CoachVO implements Serializable{
 	private String coachName;
 	private String coachPassword;
 	private byte[] coachImg;
+	private String userMobile;
 	private String coachSex;
 	private Date coachBirthday;
 	private String coachDescription;
@@ -55,6 +56,13 @@ public class CoachVO implements Serializable{
 	
 	public void setCoachImg(byte[] coachImg) {
 		this.coachImg = coachImg;
+	}
+	
+	public String getUserMobile() {
+		return userMobile;
+	}
+	public void setUserMobile(String userMobile) {
+		this.userMobile = userMobile;
 	}
 	
 	public String getCoachSex() {
