@@ -61,20 +61,5 @@
 		<res-auth>Container</res-auth>
 	</resource-ref>
 
-	<servlet>
-		<servlet-name>CoachMenuServlet</servlet-name>
-		<servlet-class>com.coachMenu.controller.CoachMenuServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>CoachMenuServlet</servlet-name>
-		<url-pattern>/coachMenu/coachMenu.do</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>OrdersServlet</servlet-name>
-		<servlet-class>com.orders.controller.OrdersServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>OrdersServlet</servlet-name>
-		<url-pattern>/orders/orders.do</url-pattern>
-	</servlet-mapping>
+	
 </web-app>
