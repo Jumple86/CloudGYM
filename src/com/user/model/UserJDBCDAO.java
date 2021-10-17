@@ -12,10 +12,11 @@ public class UserJDBCDAO implements UserDAO_interface {
 	private static final String USERID = "David";
 	private static final String PASSWORD = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO user(userID, userAccount, userName, userPassword, userMobile, userSex, userBirthday, userRegisterDate, userReportedTimes) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_STMT = "INSERT INTO user(userAccount, userName, userPassword, userMobile, userSex, userBirthday, userRegisterDate, userReportedTimes) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String UPDATE_STMT = "UPDATE user SET userAccount=?, userName=?, userPassword=?, userMobile=?, userSex=?, userBirthday=?, userReportedTimes=? WHERE userID=?";
 	private static final String DELETE_STMT = "DELETE FROM user WHERE userID=?";
 	private static final String FIND_BY_USERID = "SELECT * FROM user WHERE userID=?";
+	private static final String FIND_BY_USERACCOUNT = "SELECT * FROM user WHERE userAccount=?";
 	private static final String GET_ALL = "SELECT * FROM user";
 
 	static {
@@ -35,19 +36,21 @@ public class UserJDBCDAO implements UserDAO_interface {
 			con = DriverManager.getConnection(URL, USERID, PASSWORD);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setInt(1, userVO.getUserID());
-			pstmt.setString(2, userVO.getUserAccount());
-			pstmt.setString(3, userVO.getUserName());
-			pstmt.setString(4, userVO.getUserPassword());
-			pstmt.setString(5, userVO.getUserMobile());
-			pstmt.setString(6, userVO.getUserSex());
-			pstmt.setDate(7, userVO.getUserBirthday());
-			pstmt.setTimestamp(8, userVO.getUserRegisterDate());
-			pstmt.setInt(9, userVO.getUserReportedTimes());
+//			pstmt.setInt(1, userVO.getUserID());
+			pstmt.setString(1, userVO.getUserAccount());
+			pstmt.setString(2, userVO.getUserName());
+			pstmt.setString(3, userVO.getUserPassword());
+			pstmt.setString(4, userVO.getUserMobile());
+			pstmt.setString(5, userVO.getUserSex());
+			pstmt.setDate(6, userVO.getUserBirthday());
+			pstmt.setTimestamp(7, userVO.getUserRegisterDate());
+			pstmt.setInt(8, userVO.getUserReportedTimes());
 
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
-			se.printStackTrace();
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -86,7 +89,9 @@ public class UserJDBCDAO implements UserDAO_interface {
 			pstmt.setInt(8, userVO.getUserID());
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
-			se.printStackTrace();
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -118,7 +123,9 @@ public class UserJDBCDAO implements UserDAO_interface {
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -165,7 +172,59 @@ public class UserJDBCDAO implements UserDAO_interface {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+
+		return userVO;
+	}
+
+	@Override
+	public UserVO findByUserAccount(String userAccount) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		UserVO userVO = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USERID, PASSWORD);
+			pstmt = con.prepareStatement(FIND_BY_USERACCOUNT);
+			pstmt.setString(1, userAccount);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				userVO = new UserVO();
+				userVO.setUserID(rs.getInt("UserID"));
+				userVO.setUserAccount(rs.getString("UserAccount"));
+				userVO.setUserName(rs.getString("UserName"));
+				userVO.setUserPassword(rs.getString("UserPassword"));
+				userVO.setUserMobile(rs.getString("UserMobile"));
+				userVO.setUserSex(rs.getString("UserSex"));
+				userVO.setUserBirthday(rs.getDate("UserBirthday"));
+				userVO.setUserRegisterDate(rs.getTimestamp("UserRegisterDate"));
+				userVO.setUserReportedTimes(rs.getInt("UserReportedTimes"));
+			}
+
+		} catch (SQLException se) {
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -214,7 +273,9 @@ public class UserJDBCDAO implements UserDAO_interface {
 			}
 
 		} catch (SQLException se) {
-			se.printStackTrace();
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -243,18 +304,18 @@ public class UserJDBCDAO implements UserDAO_interface {
 		Timestamp ts = Timestamp.valueOf(str);
 
 		// INSERT 新增
-//		UserVO userVO1 = new UserVO();
+		UserVO userVO1 = new UserVO();
 //		userVO1.setUserID(1021);
-//		userVO1.setUserAccount("1021@cloudgym.com");
-//		userVO1.setUserName("吳一男");
-//		userVO1.setUserPassword("654321");
-//		userVO1.setUserMobile("0921123456");
-//		userVO1.setUserSex("男");
-//		userVO1.setUserBirthday(java.sql.Date.valueOf("1941-01-01"));
-//		userVO1.setUserRegisterDate(ts);
-//		userVO1.setUserReportedTimes(0);
-//		dao.insert(userVO1);
-//		System.out.println("新增成功");		
+		userVO1.setUserAccount("1021@cloudgym.com");
+		userVO1.setUserName("吳一男");
+		userVO1.setUserPassword("654321");
+		userVO1.setUserMobile("0921123456");
+		userVO1.setUserSex("男");
+		userVO1.setUserBirthday(java.sql.Date.valueOf("1941-01-01"));
+		userVO1.setUserRegisterDate(ts);
+		userVO1.setUserReportedTimes(0);
+		dao.insert(userVO1);
+		System.out.println("新增成功");		
 
 		// UPDATE 修改
 //		UserVO userVO2 = new UserVO();
@@ -274,18 +335,18 @@ public class UserJDBCDAO implements UserDAO_interface {
 //		System.out.println("刪除成功");
 
 		// FIND_BY_USERID 單筆查詢
-		UserVO userVO3 = dao.findByUserId(1021);
-		System.out.print(userVO3.getUserID() + ", ");
-		System.out.print(userVO3.getUserAccount() + ", ");
-		System.out.print(userVO3.getUserName() + ", ");
-		System.out.print(userVO3.getUserPassword() + ", ");
-		System.out.print(userVO3.getUserMobile() + ", ");
-		System.out.print(userVO3.getUserSex() + ", ");
-		System.out.print(userVO3.getUserBirthday() + ", ");
-		System.out.print(userVO3.getUserRegisterDate() + ", ");
-		System.out.print(userVO3.getUserReportedTimes());
-		System.out.println();
-		System.out.println("單筆查詢完成");
+//		UserVO userVO3 = dao.findByUserId(1001);
+//		System.out.print(userVO3.getUserID() + ", ");
+//		System.out.print(userVO3.getUserAccount() + ", ");
+//		System.out.print(userVO3.getUserName() + ", ");
+//		System.out.print(userVO3.getUserPassword() + ", ");
+//		System.out.print(userVO3.getUserMobile() + ", ");
+//		System.out.print(userVO3.getUserSex() + ", ");
+//		System.out.print(userVO3.getUserBirthday() + ", ");
+//		System.out.print(userVO3.getUserRegisterDate() + ", ");
+//		System.out.print(userVO3.getUserReportedTimes());
+//		System.out.println();
+//		System.out.println("單筆查詢完成");
 
 		// FIND_ALL 查詢全部
 //		List<UserVO> userList1 = dao.getAll();
@@ -302,6 +363,11 @@ public class UserJDBCDAO implements UserDAO_interface {
 //			System.out.println();
 //		}
 //		System.out.println("全部查詢完成");			
+		
+//		UserVO userVO = new UserVO();
+//		String userSex = userVO.getUserSex();
+//		System.out.println(userSex);
+		
 		
 	}
 
