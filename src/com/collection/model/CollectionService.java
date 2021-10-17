@@ -10,24 +10,23 @@ public class CollectionService {
 		dao = new CollectionJDBCDAO();
 	}
 
-	public CollectionVO addCollection(Integer userID, Integer menuID, Integer videoID) {
+	public CollectionVO addCollection(Integer userID, Integer itemID) {
 
 		CollectionVO collectionVO = new CollectionVO();
 
 		collectionVO.setUserID(userID);
-		collectionVO.setMenuID(menuID);
-		collectionVO.setVideoID(videoID);
+		collectionVO.setItemID(itemID);
 		dao.insert(collectionVO);
 
 		return collectionVO;
 	}
 
-	public CollectionVO updateCollection(Integer userID, Integer menuID, Integer videoID) {
+	public CollectionVO updateCollection(Integer userID, Integer itemID, Integer collectionNo) {
 		CollectionVO collectionVO = new CollectionVO();
 
 		collectionVO.setUserID(userID);
-		collectionVO.setMenuID(menuID);
-		collectionVO.setVideoID(videoID);
+		collectionVO.setItemID(itemID);
+		collectionVO.setCollectionNo(collectionNo);
 		dao.update(collectionVO);
 
 		return collectionVO;

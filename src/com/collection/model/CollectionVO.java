@@ -6,21 +6,7 @@ public class CollectionVO implements Serializable{
 	
 	private Integer collectionNo;
 	private Integer userID;
-	private Integer menuID;
-	private Integer videoID;
-		
-	public CollectionVO() {
-		super();
-	}
-		
-	public CollectionVO(Integer collectionNo, Integer userID, Integer menuID, Integer videoID) {
-		super();
-		this.collectionNo = collectionNo;
-		this.userID = userID;
-		this.menuID = menuID;
-		this.videoID = videoID;
-	}
-
+	private Integer itemID;
 	public Integer getCollectionNo() {
 		return collectionNo;
 	}
@@ -33,19 +19,10 @@ public class CollectionVO implements Serializable{
 	public void setUserID(Integer userID) {
 		this.userID = userID;
 	}
-	public Integer getMenuID() {
-		return menuID;
+	public Integer getItemID() {
+		return itemID;
 	}
-	public void setMenuID(Integer menuID) {
-		this.menuID = menuID;
+	public void setItemID(Integer itemID) {
+		this.itemID = itemID;
 	}
-	public Integer getVideoID() {
-		return videoID;
-	}
-	public void setVideoID(Integer videoID) {
-		this.videoID = videoID;
-	}
-	
-	
-
 }

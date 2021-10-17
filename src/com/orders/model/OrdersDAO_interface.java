@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public interface OrdersDAO_interface {
-	public void insert(OrdersVO ordersVO);
+	public Integer insert(OrdersVO ordersVO);
 	public void update(OrdersVO ordersVO);
 	public OrdersVO findByOrderNo(Integer orderNo);
 	public OrdersVO findByUserID(Integer userID);

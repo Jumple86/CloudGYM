@@ -10,60 +10,58 @@
 <%@ page import="com.video.model.*" %>
 
 <%
-	String username = (String) session.getAttribute("username");
+	response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+	response.setHeader("Pragma","no-cache");        //HTTP 1.0
+	response.setDateHeader ("Expires", 0);
+
+	String userID = (String) session.getAttribute("userID");
+	List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
 	
 	int price = 0;
 	Jedis jedis = new Jedis("localhost", 6379);
 	pageContext.setAttribute("jedis", jedis);
+	SubListService sublistSvc = new SubListService();
+	CoachMenuService menuSvc = new CoachMenuService();
+	VideoService videoSvc = new VideoService();
+	CoachService coachSvc = new CoachService();
+	
 	Set<String> vset = new HashSet<>();
 	Set<String> mset = new HashSet<>();
 	Set<String> sset = new HashSet<>();
+	Set<String> keys = null;
 	try{
-		Set<String> keys = jedis.hkeys(username);
+		keys = jedis.hkeys(userID);
 		for(String key : keys){
-			if(key.charAt(0) == '3'){
-				vset.add(key);
-			}
-			if(key.charAt(0) == '6'){
-				mset.add(key);
-			}
-			if(key.charAt(0) == '2'){
-				sset.add(key);
+			if(key.startsWith("2")){
+				Integer subID = Integer.parseInt(jedis.hget(userID, key));
+				SubListVO subListVO = sublistSvc.getBySubID(subID);
+				Integer subPrice = subListVO.getPrice();
+				price += subPrice;
+			} else {
+				price += Integer.parseInt(jedis.hget(userID, key));
 			}
 		}
 		
-		CoachMenuService menuSvc = new CoachMenuService();
+		
 		List<CoachMenuVO> menulist = new ArrayList<>();
 		for(String menuID : mset){
 			CoachMenuVO coachMenuVO = menuSvc.getByMenuID(Integer.parseInt(menuID));
-			price += coachMenuVO.getPrice();
 			menulist.add(coachMenuVO);
 		}
 		
-		VideoService videoSvc = new VideoService();
+		
 		List<VideoVO> videolist = new ArrayList<>();
 		for(String videoID : vset){
 			VideoVO videoVO = videoSvc.findByPrimaryKey(Integer.parseInt(videoID));
-			price += videoVO.getPrice();
 			videolist.add(videoVO);
 		}
-		
-// 		SubscriptionService subscriptionSvc = new SubscriptionService();
-// 		SubListService subListSvc = new SubListService();
-// 		List<SubListVO> sublist = new ArrayList<>();
-// 		for(String userID : sset){
-// 			SubListVO subListVO = subListSvc.getBySubID(Integer.parseInt(jedis.hget(username, userID)));
-// 			price += subListVO.getPrice();
-// 			sublist.add(subListVO);
-// 		}
-		
 		
 		pageContext.setAttribute("menulist", menulist);
 // 		pageContext.setAttribute("sublist", sublist);
 		pageContext.setAttribute("sset", sset);
 		pageContext.setAttribute("videolist", videolist);
 		
-		long cartCount = jedis.hlen(username);
+		long cartCount = jedis.hlen(userID);
 		pageContext.setAttribute("cartCount", cartCount);
 		
 		pageContext.setAttribute("price", price);
@@ -128,79 +126,76 @@
             </div>
             <div id="info">
                 <ul>
-                	<c:if test="${not empty error}"><li style="background-color:#EDE9F2">${error}</li></c:if>
-                	<c:if test="${not empty menulist}">
-                    <c:forEach var="menus" items="${menulist}">
-                    <li>
-                        <img src="../img/work_out_2.jpg" alt="">
-                        <div id="wrapper">
-                            <h3>${menus.menuName}</h3>
-                            <p>商品內容商品內容商品內容商品內容商品內容商品內容商品內容商品內容</p>
-                        </div>
-                        
-                        <div class="price">$ <span>${menus.price}</span></div>
-                        <form id="delete_from_cart" method="post">
-                        	<input type="hidden" name="action" value="deleteProduct"/>
-                        	<input type="hidden" name="menuID" value="${menus.menuID}"/>
-	                        <button class="del" type="button">
-	                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-	                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-	                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-	                              </svg>
-	                        </button>
-                        </form>
-                    </li>
-                    </c:forEach>
-                    </c:if>
-                    <c:if test="${not empty sset}">
-                    <c:forEach var="userID" items="${sset}">
-                    <li>
-                    	<img src="../img/work_out_2.jpg" alt="">
-                    	<div id="wrapper">
-                    		<h3>訂閱方案</h3>
-                    		<jsp:useBean id="sublist" scope="page" class="com.subList.model.SubListService"/>
-                    		<jsp:useBean id="coach" scope="page" class="com.coach.model.CoachService"/>
-                    		<p>${coach.getByUserID(Integer.parseInt(userID)).getCoachName()} - ${sublist.getBySubID(Integer.parseInt(jedis.hget(username, userID))).duration}</p>
-<%--                     		<p>${sublist.getBySubID(Integer.parseInt(jedis.hget(username, userID))).duration}</p> --%>
-                    	</div>
-                    	<div class="price">$ <span>${sublist.getBySubID(Integer.parseInt(jedis.hget(username, userID))).price}</span></div>
-                    	<span style="display: none">${price = price +  sublist.getBySubID(Integer.parseInt(jedis.hget(username, userID))).price}</span> 
-                    	<form id="delete_from_cart" method="post">
-                        	<input type="hidden" name="action" value="deleteProduct"/>
-                        	<input type="hidden" name="userID" value="${userID}"/>
-	                        <button class="del" type="button">
-	                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-	                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-	                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-	                              </svg>
-	                        </button>
-                        </form>
-                    </li>
-                    </c:forEach>
-                    </c:if>
-                    <c:if test="${not empty videolist}">
-                    <c:forEach var="videos" items="${videolist}">
-                    <li>
-                        <img src="../img/work_out_2.jpg" alt="">
-                        <div id="wrapper">
-                            <h3>${videos.title}</h3>
-                            <p>商品內容商品內容商品內容商品內容商品內容商品內容商品內容商品內容</p>
-                        </div>
-                        
-                        <div class="price">$ <span>${videos.price}</span></div>
-                        <form id="delete_from_cart" method="post">
-                        	<input type="hidden" name="action" value="deleteProduct"/>
-                        	<input type="hidden" name="videoID" value="${videos.videoID}"/>
-	                        <button class="del" type="button">
-	                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-	                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-	                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-	                              </svg>
-	                        </button>
-                        </form>
-                    </li>
-                    </c:forEach>
-                    </c:if>
+                	<%
+                	if(keys != null){
+                	for(String key : keys){
+                		if(key.startsWith("6")){ %>
+                			<li>
+		                        <img src="../img/work_out_2.jpg" alt="">
+		                        <div id="wrapper">
+		                            <h3><%=menuSvc.getByMenuID(new Integer(key)).getMenuName() %></h3>
+		                            <p>商品內容商品內容商品內容商品內容商品內容商品內容商品內容商品內容</p>
+		                        </div>
+		                        
+		                        <div class="price">$ <span><%=jedis.hget(userID, key) %></span></div>
+		                        <form id="delete_from_cart" method="post">
+		                        	<input type="hidden" name="action" value="deleteProduct"/>
+		                        	<input type="hidden" name="menuID" value="<%=key%>"/>
+			                        <button class="del" type="button">
+			                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+			                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+			                              </svg>
+			                        </button>
+		                        </form>
+		                    </li>
+                	<%	}
+                		if(key.startsWith("3")){ %>
+                			<li>
+		                        <img src="../img/work_out_2.jpg" alt="">
+		                        <div id="wrapper">
+		                            <h3><%=videoSvc.findByPrimaryKey(new Integer(key)).getTitle() %></h3>
+		                            <p>商品內容商品內容商品內容商品內容商品內容商品內容商品內容商品內容</p>
+		                        </div>
+		                        
+		                        <div class="price">$ <span><%=jedis.hget(userID, key) %></span></div>
+		                        <form id="delete_from_cart" method="post">
+		                        	<input type="hidden" name="action" value="deleteProduct"/>
+		                        	<input type="hidden" name="videoID" value="<%=key%>"/>
+			                        <button class="del" type="button">
+			                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+			                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+			                              </svg>
+			                        </button>
+		                        </form>
+		                    </li>
+                	<%	}
+                		if(key.startsWith("2")){ %>
+                			<li>
+		                        <img src="../img/work_out_2.jpg" alt="">
+		                        <div id="wrapper">
+		                            <h3>訂閱方案</h3>
+		                            <p><%=coachSvc.getByUserID(new Integer(key)).getCoachName()%> - <%=sublistSvc.getBySubID(new Integer(jedis.hget(userID, key))).getDuration() %></p>
+		                        </div>
+		                        
+		                        <div class="price">$ <span><%=sublistSvc.getBySubID(new Integer(jedis.hget(userID, key))).getPrice() %></span></div>
+		                        <form id="delete_from_cart" method="post">
+		                        	<input type="hidden" name="action" value="deleteProduct"/>
+		                        	<input type="hidden" name="coachID" value="<%=key%>"/>
+			                        <button class="del" type="button">
+			                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+			                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+			                              </svg>
+			                        </button>
+		                        </form>
+		                    </li>	
+                	<%	}
+                	}
+                	}else{%>
+                		<h4>${error}</h4>
+                	<%} %>
                 </ul>
             </div>
             <div id="foot">
@@ -213,21 +208,34 @@
             </div>
             <div id="card_info">
                 <h3>Credit Card Info</h3>
-                <form action="">
+                <form action="<%=request.getContextPath()%>/orders/orders.do" method="post">
                     <div class="col2">
                         <label>Card Number</label>
-                        <input class="number" type="text" maxlength="19"
+                        <%if(errorMsgs != null){if(errorMsgs.contains("卡號不得為空")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">卡號不得為空</span>
+                        <%}} %>
+                        <input class="number" type="text" maxlength="19" name="cardNumber"
                         onkeypress='return event.charCode >= 48 && event.charCode <= 57'/> 
                         <label>Cardholder name</label>
-                        <input class="inputname" type="text" placeholder="" />
+                        <%if(errorMsgs != null){if(errorMsgs.contains("請輸入持卡人姓名")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入持卡人姓名</span>
+                        <%}} %>
+                        <input class="inputname" name="cardName" type="text" placeholder="" />
                         <label>Expiry date</label>
-                        <input class="expire" type="text" placeholder="MM / YYYY" />
+                        <%if(errorMsgs != null){if(errorMsgs.contains("請輸入卡片有效期限")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入卡片有效期限</span>
+                        <%}} %>
+                        <input class="expire" name="expire" type="text" placeholder="MM / YYYY" />
                         <label>Security Number</label>
-                        <input class="ccv" type="text" placeholder="CVC" maxlength="3"
+                        <%if(errorMsgs != null){if(errorMsgs.contains("請輸入卡片安全碼")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入卡片安全碼</span>
+                        <%}} %>
+                        <input class="ccv" name="ccv" type="text" placeholder="CVC" maxlength="3"
                             onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
                     </div>
                     <div id="button">
-                        <button type="button" onclick="javascript:location.href='./thanks_page.html'">確定</button>
+                        <button type="submit">確定</button>
+                        <input type="hidden" name="action" value="pay">
                         <button type="button" onclick="javascript:location.href='./all_video_page.html'">取消</button>
                     </div>
                 </form>

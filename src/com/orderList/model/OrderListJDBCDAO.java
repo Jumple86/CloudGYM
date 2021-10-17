@@ -300,10 +300,10 @@ public class OrderListJDBCDAO implements OrderListDAO_interface {
 //		int itemID = sc.nextInt();
 
 		// 新增
-//		OrderListVO olvo1 = new OrderListVO();
-//		olvo1.setOrderNo(90005);
-//		olvo1.setItemID(60004);
-//		dao.insert(olvo1);
+		OrderListVO olvo1 = new OrderListVO();
+		olvo1.setOrderNo(90006);
+		olvo1.setItemID(30009);
+		dao.insert(olvo1);
 
 		// 修改
 //		OrderListVO olvo2 = new OrderListVO();
@@ -316,13 +316,13 @@ public class OrderListJDBCDAO implements OrderListDAO_interface {
 //		dao.delete(21);
 		
 		// 用訂單明細編號查詢
-		OrderListVO olvo3 = dao.findByOrderListNo(20);
-		System.out.print(olvo3.getOrderListNo() + ", ");
-		System.out.print(olvo3.getOrderNo() + ", ");
-		System.out.print(olvo3.getItemID());
-		System.out.println();
-		System.out.println("---------------------------");
-		
+//		OrderListVO olvo3 = dao.findByOrderListNo(20);
+//		System.out.print(olvo3.getOrderListNo() + ", ");
+//		System.out.print(olvo3.getOrderNo() + ", ");
+//		System.out.print(olvo3.getItemID());
+//		System.out.println();
+//		System.out.println("---------------------------");
+//		
 		// 用訂單編號查詢
 		List<OrderListVO> list = dao.findByOrderNo(90003);
 		for(OrderListVO orderListVO : list) {

@@ -17,13 +17,13 @@ public class OrdersService {
 		dao = new OrdersJDBCDAO();
 	}
 	
-	public OrdersVO addOrders(Integer orderNo, Integer userID, Integer totalPrice) {
+	public OrdersVO addOrders(Integer userID, Integer totalPrice) {
 		OrdersVO ordersVO = new OrdersVO();
 		
-		ordersVO.setOrderNo(orderNo);
 		ordersVO.setUserID(userID);
 		ordersVO.setTotalPrice(totalPrice);
-		dao.insert(ordersVO);
+		Integer orderNo = dao.insert(ordersVO);
+		ordersVO.setOrderNo(orderNo);
 		return ordersVO;
 	}
 	

@@ -10,8 +10,8 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 	private static final String USERID = "David";
 	private static final String PASSWORD = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO collection(userID, menuID, videoID) VALUES(?, ?, ?);";
-	private static final String UPDATE_STMT = "UPDATE collection SET userID=?, menuID=?, videoID=? WHERE collectionNo=?";
+	private static final String INSERT_STMT = "INSERT INTO collection(userID, itemID) VALUES(?, ?);";
+	private static final String UPDATE_STMT = "UPDATE collection SET userID=?, itemID=? WHERE collectionNo=?";
 	private static final String DELETE_STMT = "DELETE FROM collection WHERE collectionNo=?";
 	private static final String FIND_BY_COLLECTIONNO = "SELECT * FROM collection WHERE collectionNo=?";
 	private static final String GET_BY_USERID = "SELECT * FROM collection WHERE userID=?";
@@ -35,8 +35,8 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setInt(1, collectionVO.getUserID());
-			pstmt.setInt(2, collectionVO.getMenuID());
-			pstmt.setInt(3, collectionVO.getVideoID());
+			pstmt.setInt(2, collectionVO.getItemID());
+//			pstmt.setInt(3, collectionVO.getVideoID());
 
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
@@ -70,9 +70,9 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
 			pstmt.setInt(1, collectionVO.getUserID());
-			pstmt.setInt(2, collectionVO.getMenuID());
-			pstmt.setInt(3, collectionVO.getVideoID());
-			pstmt.setInt(4, collectionVO.getCollectionNo());
+			pstmt.setInt(2, collectionVO.getItemID());
+//			pstmt.setInt(3, collectionVO.getVideoID());
+			pstmt.setInt(3, collectionVO.getCollectionNo());
 
 			pstmt.executeUpdate();
 		} catch (SQLException se) {
@@ -143,9 +143,9 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 			while (rs.next()) {
 				collectionVO = new CollectionVO();
 				collectionVO.setCollectionNo(rs.getInt("CollectionNo"));
-				collectionVO.setUserID(rs.getInt("UserID"));
-				collectionVO.setMenuID(rs.getInt("MenuID"));
-				collectionVO.setVideoID(rs.getInt("VideoID"));
+				collectionVO.setUserID(rs.getInt("userID"));
+//				collectionVO.setMenuID(rs.getInt("MenuID"));
+				collectionVO.setItemID(rs.getInt("itemID"));
 
 			}
 
@@ -187,9 +187,9 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 			while (rs.next()) {
 				collectionVO = new CollectionVO();
 				collectionVO.setCollectionNo(rs.getInt("CollectionNo"));
-				collectionVO.setUserID(rs.getInt("UserID"));
-				collectionVO.setMenuID(rs.getInt("MenuID"));
-				collectionVO.setVideoID(rs.getInt("VideoID"));
+				collectionVO.setUserID(rs.getInt("userID"));
+//				collectionVO.setMenuID(rs.getInt("MenuID"));
+				collectionVO.setItemID(rs.getInt("itemID"));
 				list.add(collectionVO);
 			}
 
@@ -230,9 +230,9 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 			while (rs.next()) {
 				collectionVO = new CollectionVO();
 				collectionVO.setCollectionNo(rs.getInt("CollectionNo"));
-				collectionVO.setUserID(rs.getInt("UserID"));
-				collectionVO.setMenuID(rs.getInt("MenuID"));
-				collectionVO.setVideoID(rs.getInt("VideoID"));
+				collectionVO.setUserID(rs.getInt("userID"));
+//				collectionVO.setMenuID(rs.getInt("MenuID"));
+				collectionVO.setItemID(rs.getInt("itemID"));
 				list.add(collectionVO);
 			}
 
@@ -264,17 +264,16 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 		// INSERT 新增
 //		CollectionVO collectionVO1 = new CollectionVO();
 //		collectionVO1.setUserID(1020);
-//		collectionVO1.setMenuID(60010);
-//		collectionVO1.setVideoID(30010);
+//		collectionVO1.setItemID(60010);
 //		dao.insert(collectionVO1);
 //		System.out.println("新增成功");
 
 		// UPDATE 修改
 //		CollectionVO collectionVO2 = new CollectionVO();
 //		collectionVO2.setUserID(1020);
-//		collectionVO2.setMenuID(60009);
-//		collectionVO2.setVideoID(30011);
-//		collectionVO2.setCollectionNo(23);
+//		collectionVO2.setItemID(60009);
+////		collectionVO2.setVideoID(30011);
+//		collectionVO2.setCollectionNo(36);
 //		dao.update(collectionVO2);
 //		System.out.println("修改成功");
 
@@ -286,20 +285,20 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 //		CollectionVO collectionVO3 = dao.findByCollectionNo(1);
 //		System.out.print("CollectionNo:" + collectionVO3.getCollectionNo() + ", ");
 //		System.out.print("UserID:" + collectionVO3.getUserID() + ", ");
-//		System.out.print("MenuID:" + collectionVO3.getMenuID() + ", ");
-//		System.out.print("VideoID:" + collectionVO3.getVideoID());
+////		System.out.print("MenuID:" + collectionVO3.getMenuID() + ", ");
+//		System.out.print("VideoID:" + collectionVO3.getItemID());
 //		System.out.println();
 //		System.out.println("使用收藏編號查詢");
 
 		// GET_BY_USERID 使用會員編號查詢
-//		List<CollectionVO> list1 = dao.getByUserId(1001);
-//		for(CollectionVO cltvo1 : list1) {
-//			System.out.print("CollectionNo:" + cltvo1.getCollectionNo() + ", ");
-//			System.out.print("UserID:" + cltvo1.getUserID() + ", ");
+		List<CollectionVO> list1 = dao.getByUserId(1003);
+		for(CollectionVO cltvo1 : list1) {
+			System.out.print("CollectionNo:" + cltvo1.getCollectionNo() + ", ");
+			System.out.print("UserID:" + cltvo1.getUserID() + ", ");
 //			System.out.print("MenuID:" + cltvo1.getMenuID() +", ");
-//			System.out.print("VideoID:" + cltvo1.getVideoID());
-//			System.out.println();
-//		}
+			System.out.print("VideoID:" + cltvo1.getItemID());
+			System.out.println();
+		}
 //		System.out.println("使用會員編號查詢");	
 
 		// GET_ALL 全部查詢
@@ -307,8 +306,7 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 //		for(CollectionVO cltvo2 : list2) {
 //			System.out.print("CollectionNo:" + cltvo2.getCollectionNo() + ", ");
 //			System.out.print("UserID:" + cltvo2.getUserID() + ", ");
-//			System.out.print("MenuID:" + cltvo2.getMenuID() +", ");
-//			System.out.print("VideoID:" + cltvo2.getVideoID());
+//			System.out.print("ItemID:" + cltvo2.getItemID() +", ");
 //			System.out.println();
 //		}
 //		System.out.println("全部查詢");
