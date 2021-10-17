@@ -11,7 +11,7 @@ import java.util.List;
 public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 	
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://localhost:3306/project?serverTimezone=Asia/Taipei";
+	public static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	public static final String USER = "David";
 	public static final String PASSWRD = "123456";
 	
@@ -263,21 +263,21 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 //		dao.update(menu);
 		
 		//findone
-//		CustomMenuVO menu = dao.findByPrimaryKey(7);
-//		System.out.println(menu.getMenuID());
-//		System.out.println(menu.getUserID());
-//		System.out.println(menu.getContent());
-//		System.out.println(menu.getTitle());
-//		System.out.println(menu.getBuildTime());
+		CustomMenuVO menu = dao.findByPrimaryKey(9);
+		System.out.println(menu.getMenuID());
+		System.out.println(menu.getUserID());
+		System.out.println(menu.getContent());
+		System.out.println(menu.getTitle());
+		System.out.println(menu.getBuildTime());
 		
 		//findall
-		List<CustomMenuVO> list = dao.getAll(1003);
-		for(CustomMenuVO menu : list) {
-			System.out.println(menu.getMenuID());
-			System.out.println(menu.getUserID());
-			System.out.println(menu.getContent());
-			System.out.println(menu.getTitle());
-			System.out.println(menu.getBuildTime());
-		}
+//		List<CustomMenuVO> list = dao.getAll(1003);
+//		for(CustomMenuVO menu : list) {
+//			System.out.println(menu.getMenuID());
+//			System.out.println(menu.getUserID());
+//			System.out.println(menu.getContent());
+//			System.out.println(menu.getTitle());
+//			System.out.println(menu.getBuildTime());
+//		}
 	}
 }

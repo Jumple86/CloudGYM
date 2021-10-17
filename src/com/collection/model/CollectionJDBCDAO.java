@@ -311,7 +311,6 @@ public class CollectionJDBCDAO implements CollectionDAO_interface {
 //		CollectionVO collectionVO2 = new CollectionVO();
 //		collectionVO2.setUserID(1020);
 //		collectionVO2.setItemID(60009);
-//		collectionVO2.setCollectionNo(23);
 //		dao.update(collectionVO2);
 //		System.out.println("修改成功");
 

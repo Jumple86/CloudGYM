@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
+<%@ page import="com.collection.model.*" %>
+<%@ page import="com.video.model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:useBean id="menuSvc" scope="page" class="com.customMenu.model.CustomMenuService" />
@@ -8,6 +10,11 @@
 <jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService" />
 <jsp:useBean id="collectionSvc" scope="page" class="com.collection.model.CollectionService" />
 <jsp:useBean id="coachSvc" scope="page" class="com.coachMenu.model.CoachMenuService" />
+<jsp:useBean id="postsSvc" scope="page" class="com.posts.model.PostsService" />
+
+<%
+	List<CollectionVO> list = collectionSvc.getByUserId(1003);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -257,11 +264,27 @@ a {
 						items="${collectionSvc.getByUserId(1001)}">
 						<li class="list-group-item">${videoSvc.findByPrimaryKey(collectionVO.videoID).title}</li>
 					</c:forEach> --%>
-					<c:forEach var="coachMenuVO"
-						items="${collectionSvc.getByUserId(1003)}">
-						<li class="list-group-item">${coachSvc.getByMenuID(coachMenuVO.menuID).menuName}</li>
-						<li class="list-group-item">${videoSvc.findByPrimaryKey(coachMenuVO.videoID).title}</li>
-					</c:forEach>
+<%-- 					<c:forEach var="coachMenuVO" --%>
+<%-- 						items="${collectionSvc.getByUserId(1003)}"> --%>
+<%-- 						<li class="list-group-item">${coachSvc.getByMenuID(coachMenuVO.menuID).menuName}</li> --%>
+<%-- 						<li class="list-group-item">${videoSvc.findByPrimaryKey(coachMenuVO.videoID).title}</li> --%>
+<%-- 					</c:forEach> --%>
+					<%
+					for(CollectionVO collectionVO : list){
+						Integer itemID = collectionVO.getItemID();
+						String str = itemID.toString();
+						if(str.startsWith("3")){ %>
+							<li class="list-group-item"><%=videoSvc.findByPrimaryKey(itemID).getTitle() %></li>
+					<%	} %>
+					  <%if(str.startsWith("4")){ %>
+							<li class="list-group-item"><%=postsSvc.getByPostsID(itemID).getPostsTitle() %></li>
+					  <%} %>
+					  <%if(str.startsWith("6")){ %>
+					  		<li class="list-group-item"><%=coachSvc.getByMenuID(itemID).getMenuName() %></li>
+					  <%} %>
+					<%}
+					
+					%>
 				</ul>
 			</div>
 		</div>

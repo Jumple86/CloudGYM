@@ -4,19 +4,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 
 import com.coach.model.*;
 import com.coachMenu.model.*;
+import com.coachMenuList.model.*;
 import com.google.gson.Gson;
+import com.orderList.model.*;
+import com.orders.model.*;
 import com.subList.model.*;
+import com.userRights.model.*;
 import com.video.model.*;
 
+import others.CardInfo;
 import redis.clients.jedis.Jedis;
+import javax.naming.*;
 
 public class OrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -41,10 +45,10 @@ public class OrdersServlet extends HttpServlet {
 
 			try {
 				HttpSession session = req.getSession();
-				String username = (String) session.getAttribute("username");
+				String userID = (String) session.getAttribute("userID");
 				String uri = (String) session.getAttribute("uri");
 
-				if (username == null) { // 判斷是否有登入
+				if (userID == null) { // 判斷是否有登入
 					errorMsgs.add("請先登入會員");
 					res.sendRedirect(uri);
 					return;
@@ -52,30 +56,68 @@ public class OrdersServlet extends HttpServlet {
 
 				// 取得商品id和商品名稱並存到redis裡
 				String menuID = req.getParameter("menuID");
-				String menuName = req.getParameter("menuName");
+				String menuPrice = req.getParameter("menuPrice");
 				String subID = req.getParameter("subID");
-				String userID = req.getParameter("userID");
+				String coachID = req.getParameter("coachID");
 				String videoID = req.getParameter("videoID");
-				String title = req.getParameter("title");
+				String videoPrice = req.getParameter("videoPrice");
 
-				if (menuID != null && menuName != null) {
-					jedis.hset(username, menuID, menuName);
-//					System.out.println(jedis.hgetAll(username));
+				VideoService videoSvc = new VideoService();
+				CoachMenuService coachmenuSvc = new CoachMenuService();
+				Set<String> keys = jedis.hkeys(userID);
+				
+				if (menuID != null && menuPrice != null) {
+					jedis.hset(userID, menuID, menuPrice);
+					CoachMenuVO coachMenuVO = coachmenuSvc.getByMenuID(new Integer(menuID));
+					String id = coachMenuVO.getUserID().toString();
+					if(keys != null) {
+						for(String key : keys) {
+							if(id.equals(key)) {
+								jedis.hset(userID, menuID, "0");
+							}
+						}
+					}
 				}
 				
-				if (subID != null && userID != null) {
-					jedis.hset(username, userID, subID);
+				if (subID != null && coachID != null) {
+					jedis.hset(userID, coachID, subID);
+					for(String key : keys) {
+						if(key.charAt(0) == '3') {
+							VideoVO videoVO = videoSvc.findByPrimaryKey(Integer.parseInt(key));
+							String id = videoVO.getUserID().toString();
+							if(coachID.equals(id)) {
+								jedis.hset(userID, key, "0");
+							}
+						}
+						if(key.charAt(0) == '6') {
+							CoachMenuVO coachMenuVO = coachmenuSvc.getByMenuID(Integer.parseInt(key));
+							String id = coachMenuVO.getUserID().toString();
+							if(coachID.equals(id)) {
+								jedis.hset(userID, key, "0");
+							}
+						}
+					}
 				}
 
-				if (videoID != null && title != null) {
-					jedis.hset(username, videoID, title);
+				if (videoID != null && videoPrice != null) {
+					jedis.hset(userID, videoID, videoPrice);
+					VideoVO videoVO = videoSvc.findByPrimaryKey(new Integer(videoID));
+					String id = videoVO.getUserID().toString();
+					if(keys != null) {
+						for(String key : keys) {
+							if(id.equals(key)) {
+								jedis.hset(userID, videoID, "0");
+							}
+						}
+					}
 				}
-
+				
 				// 把要傳回ajax的資料用list包起來
 				List<Long> list = new ArrayList<>();
-				long hlen = jedis.hlen(username);
+				long hlen = jedis.hlen(userID);
 				list.add(hlen);
 				String json = new Gson().toJson(list);
+				System.out.println(json);
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
 				out.write(json);
@@ -101,48 +143,51 @@ public class OrdersServlet extends HttpServlet {
 			try {
 				// 取得當前登入的人
 				HttpSession session = req.getSession();
-				String username = (String) session.getAttribute("username");
+				String userID = (String) session.getAttribute("userID");
 				// 取得要刪除的menuID或userID
 				String menuID = req.getParameter("menuID");
-				String userID = req.getParameter("userID");
+				String coachID = req.getParameter("coachID");
 				String videoID = req.getParameter("videoID");
 				int deletedPrice = 0;
 
 				// 判斷要用menuID還是userID刪除資料
 				if (menuID != null) {
 					// 透過menuID取得價格
-					CoachMenuService coachMenuSvc = new CoachMenuService();
-					CoachMenuVO coachMenuVO = coachMenuSvc.getByMenuID(Integer.parseInt(menuID));
-					deletedPrice = coachMenuVO.getPrice();
-
+//					CoachMenuService coachMenuSvc = new CoachMenuService();
+//					CoachMenuVO coachMenuVO = coachMenuSvc.getByMenuID(Integer.parseInt(menuID));
+//					deletedPrice = coachMenuVO.getPrice();
+					deletedPrice = Integer.parseInt(jedis.hget(userID, menuID));
+					
+					
 					// 透過menuID去刪redis裡的資料 = 刪除購物車裡的東西
-					jedis.hdel(username, menuID);
+					jedis.hdel(userID, menuID);
 				}
 				
-				if (userID != null) {
+				if (coachID != null) {
 					// 透過redis取得subID再去取得價格
-					Integer subID = Integer.parseInt(jedis.hget(username, userID));
+					Integer subID = Integer.parseInt(jedis.hget(userID, coachID));
 					SubListService sublistSvc = new SubListService();
 					SubListVO sublistVO = sublistSvc.getBySubID(subID);
 					deletedPrice = sublistVO.getPrice();
 
 					// 刪除redis裡的資料
-					jedis.hdel(username, userID);
+					jedis.hdel(userID, coachID);
 				}
 
 				if (videoID != null) {
 					// 透過videoID取得價格
-					VideoService videoSvc = new VideoService();
-					VideoVO videoVO = videoSvc.findByPrimaryKey(Integer.parseInt(videoID));
-					deletedPrice = videoVO.getPrice();
+//					VideoService videoSvc = new VideoService();
+//					VideoVO videoVO = videoSvc.findByPrimaryKey(Integer.parseInt(videoID));
+//					deletedPrice = videoVO.getPrice();
+					deletedPrice = Integer.parseInt(jedis.hget(userID, videoID));
 
 					// 刪除redis裡的資料
-					jedis.hdel(username, videoID);
+					jedis.hdel(userID, videoID);
 				}
 
 				// 把要傳回ajax的資料用list包起來
 				List<Long> list = new ArrayList();
-				long hlen = jedis.hlen(username);
+				long hlen = jedis.hlen(userID);
 				list.add((long) deletedPrice);
 				list.add(hlen);
 
@@ -150,7 +195,7 @@ public class OrdersServlet extends HttpServlet {
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
 				out.write(json);
-				req.setAttribute("hlen", jedis.hlen(username));
+				req.setAttribute("hlen", jedis.hlen(userID));
 
 				
 
@@ -164,6 +209,143 @@ public class OrdersServlet extends HttpServlet {
 				}
 				if (out != null) {
 					out.close();
+				}
+			}
+		}
+		
+		if("pay".equals(action)) {
+			
+			List<String> errorMsgs = new LinkedList<>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			Jedis jedis = null;
+			
+			try {
+				/**************************1.錯誤處理*************************/
+//				String cardNumber = req.getParameter("cardNumber");
+//				if(cardNumber == null || cardNumber.trim().length() == 0) {
+//					errorMsgs.add("卡號不得為空");
+//				}
+//				
+//				String cardName = req.getParameter("cardName");
+//				if(cardName == null || cardName.trim().length() == 0) {
+//					errorMsgs.add("請輸入持卡人姓名");
+//				}
+//				
+//				String expire = req.getParameter("expire");
+//				if(expire == null || expire.trim().length() == 0) {
+//					errorMsgs.add("請輸入卡片有效期限");
+//				}
+//				
+//				String ccv = req.getParameter("ccv");
+//				if(ccv == null || ccv.trim().length() == 0) {
+//					errorMsgs.add("請輸入卡片安全碼");
+//				}
+//				
+//				CardInfo cardinfo = new CardInfo();
+//				cardinfo.setCardNumber(cardNumber);
+//				cardinfo.setCardName(cardName);
+//				cardinfo.setExpire(expire);
+//				cardinfo.setCcv(ccv);
+//				
+//				if(!errorMsgs.isEmpty()) {
+//					req.setAttribute("cardinfo", cardinfo);
+//					RequestDispatcher failureView = req.getRequestDispatcher("/html/pay_page.jsp");
+//					failureView.forward(req, res);
+//					return;
+//				}
+				
+				/**************************2.開始新增訂單*************************/
+				jedis = new Jedis("localhost", 6379);
+				HttpSession session = req.getSession();
+				String userID = (String) session.getAttribute("userID");
+				SubListService sublistSvc = new SubListService();
+				OrdersService ordersSvc = new OrdersService();
+				OrderListService orderlistSvc = new OrderListService();
+				
+				Integer totalPrice = 0;
+				List<Integer> items = new ArrayList<Integer>();
+				List<Integer> coachIDs = new ArrayList<Integer>();
+				List<Integer> subIDs = new ArrayList<Integer>();
+				
+				
+				Set<String> set = jedis.hkeys(userID);
+				for(String keys : set) {
+					if(keys.charAt(0) != '2') {
+						items.add(Integer.parseInt(keys));
+						Integer price = Integer.parseInt(jedis.hget(userID, keys));
+						totalPrice += price;
+					}else {
+						Integer coachID = Integer.parseInt(keys);
+						coachIDs.add(coachID);
+						
+						Integer subID = Integer.parseInt(jedis.hget(userID, keys));
+						subIDs.add(subID);
+						items.add(subID);
+
+						SubListVO sublist = sublistSvc.getBySubID(subID);
+						Integer price = sublist.getPrice();
+						totalPrice += price;
+					}
+				}
+				
+				OrdersVO ordersVO = ordersSvc.addOrders(Integer.parseInt(userID), totalPrice);
+				Integer orderNo = ordersVO.getOrderNo();
+				req.setAttribute("orderNo", orderNo);
+				req.setAttribute("coachIDs", coachIDs);
+				req.setAttribute("subIDs", subIDs);
+				
+				for(Integer itemID : items) {
+					orderlistSvc.addOrderList(orderNo, itemID);
+				}
+				
+//				jedis.del(userID);
+				
+				/*********************3.將訂單明細的東西加到使用者可觀看的資料庫裡*******************/
+				VideoService videoSvc = new VideoService();
+				CoachMenuListService coachmenulistSvc = new CoachMenuListService();
+				UserRightsService userrightsSvc = new UserRightsService();
+				for(String key : set) {
+					if(key.startsWith("2")) {
+						Integer duration = 0;
+						Integer subID = Integer.parseInt(jedis.hget(userID, key));
+						SubListVO sublistVO = sublistSvc.getBySubID(subID);
+						if(sublistVO.getDuration().startsWith("一")) {
+							duration = 30;
+						}
+						if(sublistVO.getDuration().startsWith("三")) {
+							duration = 90;
+						}
+						if(sublistVO.getDuration().startsWith("十")) {
+							duration = 365;
+						}
+						List<VideoVO> list = videoSvc.getByUserID(Integer.parseInt(key));
+						for(VideoVO videoVO : list) {
+							Integer videoID = videoVO.getVideoID();
+							userrightsSvc.add(Integer.parseInt(userID), videoID, duration);
+						}
+					}
+					if(key.startsWith("6")) {
+						List<CoachMenuListVO> list = coachmenulistSvc.getByMenuID(Integer.parseInt(key));
+						for(CoachMenuListVO coachMenuListVO : list) {
+							Integer videoID = coachMenuListVO.getVideoID();
+							userrightsSvc.add(Integer.parseInt(userID), videoID, 0);
+						}
+					}
+					if(key.startsWith("3")) {
+						userrightsSvc.add(Integer.parseInt(userID), Integer.parseInt(key), 0);
+					}
+				}
+				
+				
+				/************************4.新增訂單資料完成，轉交至成功頁面***********************/
+				
+				RequestDispatcher successView = req.getRequestDispatcher("/html/thanks_page.jsp");
+				successView.forward(req, res);
+			}catch(Exception e) {
+				
+			}finally {
+				if(jedis != null) {
+					jedis.close();
 				}
 			}
 		}
