@@ -9,15 +9,15 @@
 
 <%
 	CoachMenuService svc = new CoachMenuService();
-	List<CoachMenuVO> menuList = svc.getByUserID(2004);
+	List<CoachMenuVO> menuList = svc.getByUserID(2005);
 	pageContext.setAttribute("menuList", menuList);
 	
 	SubscriptionService subscriSvc = new SubscriptionService();
-	List<SubscriptionVO> subList = subscriSvc.getByUserID(2004);
+	List<SubscriptionVO> subList = subscriSvc.getByUserID(2005);
 	pageContext.setAttribute("subList", subList);
 	
 	VideoService videoSvc = new VideoService();
-	List<VideoVO> videoList = videoSvc.getByUserID(2004);
+	List<VideoVO> videoList = videoSvc.getByUserID(2005);
 	pageContext.setAttribute("videoList", videoList);
 	
 	String uri = request.getRequestURI();
