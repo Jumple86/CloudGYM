@@ -117,7 +117,6 @@ public class OrdersServlet extends HttpServlet {
 				long hlen = jedis.hlen(userID);
 				list.add(hlen);
 				String json = new Gson().toJson(list);
-				System.out.println(json);
 				res.setContentType("application/json");
 				res.setCharacterEncoding("UTF-8");
 				out.write(json);
@@ -298,7 +297,6 @@ public class OrdersServlet extends HttpServlet {
 					orderlistSvc.addOrderList(orderNo, itemID);
 				}
 				
-//				jedis.del(userID);
 				
 				/*********************3.將訂單明細的東西加到使用者可觀看的資料庫裡*******************/
 				VideoService videoSvc = new VideoService();
@@ -337,6 +335,7 @@ public class OrdersServlet extends HttpServlet {
 				}
 				
 				
+				jedis.del(userID);
 				/************************4.新增訂單資料完成，轉交至成功頁面***********************/
 				
 				RequestDispatcher successView = req.getRequestDispatcher("/html/thanks_page.jsp");

@@ -174,8 +174,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 	}
 
 	@Override
-	public OrdersVO findByUserID(Integer userID) {
-
+	public List<OrdersVO> findByUserID(Integer userID) {
+		List<OrdersVO> list = new ArrayList<OrdersVO>();
 		OrdersVO ordersVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -196,6 +196,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 				ordersVO.setUserID(rs.getInt("userID"));
 				ordersVO.setBuiltDate(rs.getTimestamp("builtDate"));
 				ordersVO.setTotalPrice(rs.getInt("totalPrice"));
+				list.add(ordersVO);
 			}
 		} catch (Exception se) {
 			// TODO Auto-generated catch block
@@ -224,7 +225,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			}
 		}
 
-		return ordersVO;
+		return list;
 	}
 
 	@Override
