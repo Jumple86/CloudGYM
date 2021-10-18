@@ -43,7 +43,7 @@ public class OrdersService {
 		return dao.findByOrderNo(orderNo);
 	}
 	
-	public OrdersVO getOrdersByUserID(Integer userID) {
+	public List<OrdersVO> getOrdersByUserID(Integer userID) {
 		return dao.findByUserID(userID);
 	}
 	

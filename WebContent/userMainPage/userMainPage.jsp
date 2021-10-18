@@ -3,6 +3,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.collection.model.*" %>
 <%@ page import="com.video.model.*" %>
+<%@ page import="com.orders.model.*" %>
+<%@ page import="com.orderList.model.*" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:useBean id="menuSvc" scope="page" class="com.customMenu.model.CustomMenuService" />
@@ -13,7 +15,16 @@
 <jsp:useBean id="postsSvc" scope="page" class="com.posts.model.PostsService" />
 
 <%
-	List<CollectionVO> list = collectionSvc.getByUserId(1003);
+	List<CollectionVO> collectionlist = collectionSvc.getByUserId(1003);
+	List<OrdersVO> order = new OrdersService().getOrdersByUserID(1003);
+	List<Integer> itemIDs = new ArrayList<>();
+	for(OrdersVO ordersVO : order){
+		List<OrderListVO> list = new OrderListService().getOrderListByOrderNo(ordersVO.getOrderNo());
+		for(OrderListVO orderlist : list){
+			Integer itemID = orderlist.getItemID();
+			itemIDs.add(itemID);
+		}
+	}
 %>
 
 <!DOCTYPE html>
@@ -197,7 +208,7 @@ a {
 				<h5>我的總覽</h5>
 				<p>菜單：10</p>
 				<p>運動歷程完成度:80%</p>
-				<p>收藏數：5</p>
+				<p>收藏數：<%=collectionlist.size() %></p>
 			</div>
 			<div class="col-8 info">
 				<ul>
@@ -242,11 +253,21 @@ a {
 			<div class="col menu">
 				<h5>已購買</h5>
 				<ul class="list-group">
-					<c:forEach var="userRightsVO" items="${rightsSvc.getAll(1003)}">
-						<!-- <li class="list-group-item">教練菜單1</li>
-					<li class="list-group-item">教練菜單2</li> -->
-						<li class="list-group-item">${videoSvc.findByPrimaryKey(userRightsVO.videoID).title}</li>
-					</c:forEach>
+<%-- 					<c:forEach var="userRightsVO" items="${rightsSvc.getAll(1003)}"> --%>
+<!-- 						<li class="list-group-item">教練菜單1</li>
+<!-- 					<li class="list-group-item">教練菜單2</li> -->
+<%-- 						<li class="list-group-item">${videoSvc.findByPrimaryKey(userRightsVO.videoID).title}</li> --%>
+<%-- 					</c:forEach> --%>
+					<%if(itemIDs != null){
+						for(Integer itemid : itemIDs){
+							if(itemid.toString().startsWith("3")){ %>
+								<li class="list-group-item"><%=videoSvc.findByPrimaryKey(itemid).getTitle() %></li>
+					<%		}
+							if(itemid.toString().startsWith("6")){ %>
+								<li class="list-group-item"><%=coachSvc.getByMenuID(itemid).getMenuName() %></li>
+					<%		}
+						}
+					}%>
 				</ul>
 			</div>
 			<div class="col menu">
@@ -270,7 +291,7 @@ a {
 <%-- 						<li class="list-group-item">${videoSvc.findByPrimaryKey(coachMenuVO.videoID).title}</li> --%>
 <%-- 					</c:forEach> --%>
 					<%
-					for(CollectionVO collectionVO : list){
+					for(CollectionVO collectionVO : collectionlist){
 						Integer itemID = collectionVO.getItemID();
 						String str = itemID.toString();
 						if(str.startsWith("3")){ %>
