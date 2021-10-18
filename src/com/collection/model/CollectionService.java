@@ -10,28 +10,27 @@ public class CollectionService {
 		dao = new CollectionJDBCDAO();
 	}
 
-	public CollectionVO addCollection(Integer userID, Integer menuID, Integer videoID) {
+	public CollectionVO addCollection(Integer userID, Integer itemID) {
 
 		CollectionVO collectionVO = new CollectionVO();
 
 		collectionVO.setUserID(userID);
-		collectionVO.setMenuID(menuID);
-		collectionVO.setVideoID(videoID);
+		collectionVO.setItemID(itemID);
 		dao.insert(collectionVO);
 
 		return collectionVO;
 	}
 
-	public CollectionVO updateCollection(Integer userID, Integer menuID, Integer videoID) {
-		CollectionVO collectionVO = new CollectionVO();
+//	public CollectionVO updateCollection(Integer userID, Integer itemID) {
+//		CollectionVO collectionVO = new CollectionVO();
+//
+//		collectionVO.setUserID(userID);
+//		collectionVO.setItemID(itemID);
+//		dao.update(collectionVO);
+//
+//		return collectionVO;
+//	}
 
-		collectionVO.setUserID(userID);
-		collectionVO.setMenuID(menuID);
-		collectionVO.setVideoID(videoID);
-		dao.update(collectionVO);
-
-		return collectionVO;
-	}
 
 	public void delete(Integer collectionNo) {
 		dao.delete(collectionNo);
@@ -43,6 +42,10 @@ public class CollectionService {
 
 	public List<CollectionVO> getByUserId(Integer userID) {
 		return dao.getByUserId(userID);
+	}
+
+	public List<CollectionVO> getByItemId(Integer itemID) {
+		return dao.getByItemId(itemID);
 	}
 
 	public List<CollectionVO> getAll() {

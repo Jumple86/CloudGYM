@@ -296,6 +296,13 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 		String str = sd.format(new Date(System.currentTimeMillis()));
 		Timestamp ts = Timestamp.valueOf(str);
 		
+		SimpleDateFormat sd2 = new SimpleDateFormat("yyyy-MM-dd");
+		Timestamp builtDate = dao.findByMenuID(60001).getPublishDate();
+		Date date = new Date(builtDate.getTime());
+		System.out.println(builtDate);
+		System.out.println(date);
+		
+		
 		// 新增
 //		CoachMenuVO coachMenuVO1 = new CoachMenuVO();
 //		coachMenuVO1.setMenuID(60012);
@@ -328,16 +335,16 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //		System.out.println();
 		
 		// 用會員編號查詢
-		List<CoachMenuVO> list = dao.findByUserID(2001);
-		for(CoachMenuVO menu : list) {
-			System.out.print(menu.getMenuID() + ", ");
-			System.out.print(menu.getUserID() + ", ");
-			System.out.print(menu.getMenuName() + ", ");
-			System.out.print(menu.getPublishDate() + ", ");
-			System.out.print(menu.getPrice() + ", ");
-			System.out.print(menu.getIsPublic());
-			System.out.println();
-		}
+//		List<CoachMenuVO> list = dao.findByUserID(2001);
+//		for(CoachMenuVO menu : list) {
+//			System.out.print(menu.getMenuID() + ", ");
+//			System.out.print(menu.getUserID() + ", ");
+//			System.out.print(menu.getMenuName() + ", ");
+//			System.out.print(menu.getPublishDate() + ", ");
+//			System.out.print(menu.getPrice() + ", ");
+//			System.out.print(menu.getIsPublic());
+//			System.out.println();
+//		}
 		
 		// 查詢全部
 //		List<CoachMenuVO> list2 = dao.findAll();

@@ -12,7 +12,7 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 	private static final String userid = "David";
 	private static final String passwd = "123456";
 
-	private static final String INSERT_STMT ="INSERT INTO subscription(subNo,subID,userID)VALUES(?,?,?)";
+	private static final String INSERT_STMT ="INSERT INTO subscription(subID,userID)VALUES(?,?)";
 	private static final String UPDATE_STMT ="UPDATE subscription SET subID=?,userID=? WHERE subNo=?";
 	private static final String DELETE_STMT = "DELETE FROM subscription WHERE subNo=?";
 	private static final String FIND_BY_SUBNO = "SELECT * FROM subscription WHERE subNo=?";
@@ -38,9 +38,8 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 			con = DriverManager.getConnection(url,userid,passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setInt(1, subscriptionVO.getSubNo());
-			pstmt.setInt(2, subscriptionVO.getSubID());
-			pstmt.setInt(3, subscriptionVO.getUserID());
+			pstmt.setInt(1, subscriptionVO.getSubID());
+			pstmt.setInt(2, subscriptionVO.getUserID());
 			
 			pstmt.executeUpdate();
 			
@@ -297,28 +296,27 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 		
 		
 		// 新增
-//		subscriptionVO sub = new subscriptionVO();
-//		sub.setSubNo(11);
-//		sub.setSubID(70011);
-//		sub.setUserID(2011);
+//		SubscriptionVO sub = new SubscriptionVO();
+//		sub.setSubID(70001);
+//		sub.setUserID(2001);
 //		dao.insert(sub);
 //		System.out.println("新增成功");
 		
 		// 修改
-//		subscriptionVO sub2 = new subscriptionVO();
+//		SubscriptionVO sub2 = new SubscriptionVO();
 //		sub2.setSubNo(11);
-//		sub2.setSubID(70012);
-//		sub2.setUserID(2013);
+//		sub2.setSubID(70002);
+//		sub2.setUserID(2002);
 //		dao.update(sub2);
 //		System.out.println("修改成功");
 		
 		
 		// 刪除
-//		dao.delete(11);
+//		dao.delete(16);
 //		System.out.println("刪除成功");
 		
 		// 用subNo查詢
-//		subscriptionVO sub = dao.findBySubNo(2);
+//		SubscriptionVO sub = dao.findBySubNo(15);
 //		System.out.print(sub.getSubNo() + ", ");
 //		System.out.print(sub.getSubID() + ", ");
 //		System.out.print(sub.getUserID());
@@ -334,12 +332,13 @@ public class SubscriptionJDBCDAO  implements SubscriptionDAO_interface{
 		}
 		
 		// 查詢全部
-		List<SubscriptionVO> list = dao.findAll();
-			for(SubscriptionVO subVo : list) {
-				System.out.print(subVo.getSubNo() + ", ");
-				System.out.print(subVo.getSubID() + ", ");
-				System.out.print(subVo.getUserID() );
-				System.out.println();
-			}
+
+				List<SubscriptionVO> list = dao.findAll();
+				for(SubscriptionVO subVo : list) {
+					System.out.print(subVo.getSubNo() + ", ");
+					System.out.print(subVo.getSubID() + ", ");
+					System.out.print(subVo.getUserID() );
+					System.out.println();
+				}
 	}
 }

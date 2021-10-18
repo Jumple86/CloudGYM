@@ -3,6 +3,7 @@ package com.subList.model;
 import java.util.List;
 
 public class SubListService {
+	
 	private SubListDAO_interface dao;
 	
 	public SubListService() {
@@ -21,9 +22,6 @@ public class SubListService {
 		return subListVO;
 	}
 	
-	public void addSubList(SubListVO subListVO) {
-		dao.insert(subListVO);
-	}
 	
 	public SubListVO updateSubList(Integer subID,String duration,String subName,Integer price) {
 		SubListVO subListVO = new SubListVO();
@@ -32,14 +30,9 @@ public class SubListService {
 		subListVO.setDuration(duration);
 		subListVO.setSubName(subName);
 		subListVO.setPrice(price);
-		
 		dao.update(subListVO);
 		
 		return subListVO;
-	}
-	
-	public void updateSubList(SubListVO subListVO) {
-		dao.update(subListVO);
 	}
 	
 	public void deleteSubList(Integer subID) {
