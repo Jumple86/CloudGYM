@@ -27,11 +27,6 @@ td{
     border: 1px solid black;
 }
 
-svg{
-    width: 35px;
-    height: 18px;
-    margin-top: 3px;
-}
 
 .td_comm{
     float: left;
@@ -41,6 +36,18 @@ svg{
     float: right;
 }
 
+button[type=submit]{
+/*     position: absolute; */
+/*     right: 40px; */
+/*     top: 123px; */
+    border: none;
+    background-color: white;
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
 
 .page{
     display: block;
@@ -49,13 +56,6 @@ svg{
     margin-top: 10px;
 }
 
-.td_video{
-    background-image: url('https://images.unsplash.com/photo-1486375680560-d2653bf9c829?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&s=4f2dcc9ba4133c23f906d19e10950976');
-    background-size:cover;
-    background-repeat:no-repeat;
-    width: 100px;
-    height: 100px;
-}
 
 .td_video_src{
     width: 500px;
@@ -65,4 +65,13 @@ svg{
     position:absolute;
     right: 100px;
     z-index:-1;
+}
+
+td a{
+    text-decoration: none;
+    color: black;
+}
+
+td a:hover{
+    color:blue;
 }
