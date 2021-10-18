@@ -64,6 +64,15 @@
 		<servlet-name>UserServlet</servlet-name>
 		<url-pattern>/html/user.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachImgServlet</servlet-name>
+		<servlet-class>com.coach.controller.CoachImgServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachImgServlet</servlet-name>
+		<url-pattern>/coachImg/coachImg.do</url-pattern>
+	</servlet-mapping>
 
 
 	<resource-ref>
