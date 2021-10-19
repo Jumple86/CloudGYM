@@ -9,25 +9,20 @@ public class CoachMenuListService {
 		dao = new CoachMenuListJDBCDAO();
 	}
 
-	public CoachMenuListVO addCoachMenuList(Integer menuID, Integer videoID, String exercise, Integer times) {
+	public CoachMenuListVO addCoachMenuList(Integer menuID, Integer videoID) {
 		CoachMenuListVO coachMenuListVO = new CoachMenuListVO();
 
 		coachMenuListVO.setMenuID(menuID);
 		coachMenuListVO.setVideoID(videoID);
-		coachMenuListVO.setExercise(exercise);
-		coachMenuListVO.setTimes(times);
 		dao.insert(coachMenuListVO);
 		return coachMenuListVO;
 	}
 
-	public CoachMenuListVO updateCoachMenuList(Integer menuID, Integer videoID, String exercise, Integer times,
-			Integer menuNo) {
+	public CoachMenuListVO updateCoachMenuList(Integer menuID, Integer videoID, Integer menuNo) {
 		CoachMenuListVO coachMenuListVO = new CoachMenuListVO();
 
 		coachMenuListVO.setMenuID(menuID);
 		coachMenuListVO.setVideoID(videoID);
-		coachMenuListVO.setExercise(exercise);
-		coachMenuListVO.setTimes(times);
 		coachMenuListVO.setMenuNo(menuNo);
 		dao.update(coachMenuListVO);
 		return coachMenuListVO;
