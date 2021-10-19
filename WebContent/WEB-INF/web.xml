@@ -73,6 +73,7 @@
 		<servlet-name>VideoOutput</servlet-name>
 		<url-pattern>/html/VideoOutput</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>com.user.controller.UserServlet</servlet-class>
