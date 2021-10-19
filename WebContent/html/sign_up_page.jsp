@@ -11,20 +11,11 @@
     <meta charset="BIG5">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup</title>
+    <title>sign_up_page</title>
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/sign_up_page.css">
 </head>
 <body>
-	<%-- 錯誤表列 --%>
-	<c:if test="${not empty errorMsgs}">
-		<font style="color: red">請修正以下錯誤:</font>
-		<ul>
-			<c:forEach var="message" items="${errorMsgs}">
-				<li style="color: red">${message}</li>
-			</c:forEach>
-		</ul>
-	</c:if>
 	
 	<div id="back">
         <img src="../img/sign_up.jpg" alt="">
@@ -44,6 +35,17 @@
                     <input type="password" placeholder="確認密碼" id="password" name="passwordConfirm"
                     value="<%=(userVO == null) ? "654321" : userVO.getUserPassword()%>"></p>
                 <hr>
+                
+				<div id="errormsg" >
+				<%-- 錯誤表列 --%>
+				<c:if test="${not empty errorMsgs}">
+					<font style="color: red">請修正以下錯誤:</font>
+					<c:forEach var="message" items="${errorMsgs}">
+						<li style="color: red">${message}</li>
+					</c:forEach>
+				</c:if>
+				</div>
+				
                 <input type="hidden" name="action" value="insert">
                 <button type="submit">建立帳戶</button>
                 <br>
@@ -87,8 +89,8 @@
 	       timepicker:false,       //timepicker:true,
 	       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
 	       format:'Y-m-d',         //format:'Y-m-d H:i:s',
-		   value: '<%=userBirthday%>
-	', // value:   new Date(),
+		   value: '<%=userBirthday%>',
+	    // value:   new Date(),
 		//disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
 		//startDate:	            '2017/07/10',  // 起始日
 		//minDate:               '-1970-01-01', // 去除今日(不含)之前

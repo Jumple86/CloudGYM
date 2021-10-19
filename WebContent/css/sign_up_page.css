@@ -25,8 +25,8 @@ img {
 #signup{
     width: 437px;
     height: 585px;
-    margin-left:  600px;
-    padding-top: 80px;
+    margin-left:  610px;
+    padding-top: 30px;
     box-sizing: border-box
 }
 
@@ -80,6 +80,10 @@ hr{
     padding-left: 5px;
 }
 
+#errormsg{
+	position: absolute; 
+	float: left;
+}
 
 button{
     font-size: 20px;
