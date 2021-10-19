@@ -57,7 +57,7 @@
         <div id="left">
                 <ul id="btn_fa">
                   <li>
-                    <a href="#">
+                    <a href="<%=request.getContextPath()%>/html/back_end_video.jsp">
                         <span class="li_btn">影片管理</span>
                     </a>
                 </li>
@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="<%=request.getContextPath()%>/html/back_end_sublist.jsp">
                         <span class="li_btn">訂閱管理</span>
                     </a>
                 </li>

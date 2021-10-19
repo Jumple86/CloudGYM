@@ -57,6 +57,22 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>PostsImageOutput</servlet-name>
+		<servlet-class>com.posts.image.PostsImageOutput</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostsImageOutput</servlet-name>
+		<url-pattern>/html/PostsImageOutput</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>VideoOutput</servlet-name>
+		<servlet-class>com.video.video.VideoOutput</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoOutput</servlet-name>
+		<url-pattern>/html/VideoOutput</url-pattern>
+	</servlet-mapping>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>com.user.controller.UserServlet</servlet-class>
 	</servlet>
