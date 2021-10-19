@@ -31,7 +31,6 @@ public class CollectionService {
 //		return collectionVO;
 //	}
 
-
 	public void delete(Integer collectionNo) {
 		dao.delete(collectionNo);
 	}
