@@ -3,21 +3,31 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.coachMenu.model.*"%>
+<%@ page import="com.coach.model.*"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
 <%@ page import="com.subscription.model.*" %>
 <%@ page import="com.video.model.*" %>
 
+
 <%
+	CoachVO coachVO = (CoachVO) request.getAttribute("coachVO");
+	Integer userID = coachVO.getUserID();
+	request.setAttribute("userID", userID);
+	
+	if(userID == null){
+		userID = 2004;
+	}
+
 	CoachMenuService svc = new CoachMenuService();
-	List<CoachMenuVO> menuList = svc.getByUserID(2005);
+	List<CoachMenuVO> menuList = svc.getByUserID(userID);
 	pageContext.setAttribute("menuList", menuList);
 	
 	SubscriptionService subscriSvc = new SubscriptionService();
-	List<SubscriptionVO> subList = subscriSvc.getByUserID(2005);
+	List<SubscriptionVO> subList = subscriSvc.getByUserID(userID);
 	pageContext.setAttribute("subList", subList);
 	
 	VideoService videoSvc = new VideoService();
-	List<VideoVO> videoList = videoSvc.getByUserID(2005);
+	List<VideoVO> videoList = videoSvc.getByUserID(userID);
 	pageContext.setAttribute("videoList", videoList);
 	
 	String uri = request.getRequestURI();
@@ -25,13 +35,13 @@
 	
 // 	String username = "peter";
 // 	session.setAttribute("username", username);
-	String userID = "1003";
+// 	String userID = "1003";
 	session.setAttribute("userID", userID);
 	
 	long cartCount = 0;
 	Jedis jedis = new Jedis("localhost", 6379);
 	try{
-		cartCount = jedis.hlen(userID);
+		cartCount = jedis.hlen(userID.toString());
 		pageContext.setAttribute("cartCount", cartCount);
 	}catch(Exception e){
 		cartCount = 0;
@@ -92,14 +102,18 @@ div.menu input:disabled{
     <div id="main">
         <div class="coach_info">
             <div class="photo">
-                <img src="../img/15Jc8sgK7ftvc2ToeQEraW.jpeg" alt="">
+                <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="">
             </div>
             <div class="info">
-                <h3 class="name">王大壯</h3>
+                <h3 class="name">${coachVO.coachName }</h3>
                 <span>自我介紹:</span>
-                <div class="intro">內容內容內容內容內容內容內容內容內容</div>
+                <div class="intro">${coachVO.coachDescription }</div>
                 <p class="licnese">證照一</p>
                 <p class="license">證照二</p>
+                <ul>
+                    <li><a href="">修改個人資料</a></li>
+                    <li><a href="<%=request.getContextPath()%>/html/coach_overview.jsp?userID=${coachVO.userID}">影片/菜單管理</a></li>
+                </ul>
             </div>
         </div>
         <div class="video">
