@@ -73,6 +73,7 @@
 		<servlet-name>VideoOutput</servlet-name>
 		<url-pattern>/html/VideoOutput</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>com.user.controller.UserServlet</servlet-class>
@@ -90,7 +91,14 @@
 		<servlet-name>CoachImgServlet</servlet-name>
 		<url-pattern>/coachImg/coachImg.do</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>CoachServlet</servlet-name>
+		<servlet-class>com.coach.controller.CoachServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachServlet</servlet-name>
+		<url-pattern>/coach/coach.do</url-pattern>
+	</servlet-mapping>
 
 	<resource-ref>
 		<description>DB Connection</description>
