@@ -57,5 +57,7 @@ public class VideoService {
 		return dao.getAll();
 	}
 	
-	
+	public List<VideoVO> getAll2(){
+		return dao.getAll2();
+	}
 }
