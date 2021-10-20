@@ -27,6 +27,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	private static final String GET_BY_USERID = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video where userID=?";
 	private static final String GET_ALL_STMT = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video";
 
+	
 	static {
 		try {
 			Class.forName(DRIVER);
