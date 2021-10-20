@@ -9,4 +9,5 @@ public interface VideoDAO_interface {
 	VideoVO findByPrimaryKey(Integer videoID);
 	List<VideoVO> findByUserID(Integer userID);
 	List<VideoVO> getAll();
+	List<VideoVO> getAll2(Integer videoID);
 }
