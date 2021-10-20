@@ -11,8 +11,8 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 	private static final String userid = "David";
 	private static final String passwd = "123456";
 	
-	private static final String INSERT_STMT = "INSERT INTO coachMenuList(menuID, videoID, exercise, times) VALUES(?, ?, ?, ?);";
-	private static final String UPDATE_STMT = "UPDATE coachMenuList SET menuID=?, videoID=?, exercise=?, times=? WHERE menuNo=?";
+	private static final String INSERT_STMT = "INSERT INTO coachMenuList(menuID, videoID) VALUES(?, ?);";
+	private static final String UPDATE_STMT = "UPDATE coachMenuList SET menuID=?, videoID=? WHERE menuNo=?";
 	private static final String DELETE_STMT = "DELETE FROM coachMenuList WHERE menuNo=?";
 	private static final String FIND_BY_MENUNO = "SELECT * FROM coachMenuList WHERE menuNo=?";
 	private static final String FIND_BY_MENUID = "SELECT * FROM coachMenuList WHERE menuID=?";
@@ -38,8 +38,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 			
 			pstmt.setInt(1, coachMenuListVO.getMenuID());
 			pstmt.setInt(2, coachMenuListVO.getVideoID());
-			pstmt.setString(3, coachMenuListVO.getExercise());
-			pstmt.setInt(4, coachMenuListVO.getTimes());
 			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -74,8 +72,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 			
 			pstmt.setInt(1, coachMenuListVO.getMenuID());
 			pstmt.setInt(2, coachMenuListVO.getVideoID());
-			pstmt.setString(3, coachMenuListVO.getExercise());
-			pstmt.setInt(4, coachMenuListVO.getTimes());
 			pstmt.setInt(5, coachMenuListVO.getMenuNo());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -148,8 +144,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 				coachMenuListVO.setMenuNo(rs.getInt("menuNo"));
 				coachMenuListVO.setMenuID(rs.getInt("menuID"));
 				coachMenuListVO.setVideoID(rs.getInt("videoID"));
-				coachMenuListVO.setExercise(rs.getString("exercise"));
-				coachMenuListVO.setTimes(rs.getInt("times"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -199,8 +193,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 				coachMenuListVO.setMenuNo(rs.getInt("menuNo"));
 				coachMenuListVO.setMenuID(rs.getInt("menuID"));
 				coachMenuListVO.setVideoID(rs.getInt("videoID"));
-				coachMenuListVO.setExercise(rs.getString("exercise"));
-				coachMenuListVO.setTimes(rs.getInt("times"));
 				list.add(coachMenuListVO);
 			}
 		} catch (SQLException e) {
@@ -250,8 +242,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 				coachMenuListVO.setMenuNo(rs.getInt("menuNo"));
 				coachMenuListVO.setMenuID(rs.getInt("menuID"));
 				coachMenuListVO.setVideoID(rs.getInt("videoID"));
-				coachMenuListVO.setExercise(rs.getString("exercise"));
-				coachMenuListVO.setTimes(rs.getInt("times"));
 				list.add(coachMenuListVO);
 			}
 		} catch (SQLException e) {
@@ -267,8 +257,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //		CoachMenuListVO cml = new CoachMenuListVO();
 //		cml.setMenuID(60001);
 //		cml.setVideoID(30005);
-//		cml.setExercise("����");
-//		cml.setTimes(30);
 //		dao.insert(cml);
 		
 		// 修改
@@ -276,8 +264,6 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //		cml2.setMenuNo(21);
 //		cml2.setMenuID(60002);
 //		cml2.setVideoID(30005);
-//		cml2.setExercise("����2");
-//		cml2.setTimes(50);
 //		dao.update(cml2);
 		
 		// 刪除
@@ -287,9 +273,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //		CoachMenuListVO cml = dao.findByMenuNo(01);
 //		System.out.print(cml.getMenuNo() + ", ");
 //		System.out.print(cml.getMenuID() + ", ");
-//		System.out.print(cml.getVideoID() + ", ");
-//		System.out.print(cml.getExercise() + ", ");
-//		System.out.print(cml.getTimes());
+//		System.out.print(cml.getVideoID());
 //		System.out.println();
 		
 		// 用菜單編號查詢
@@ -297,10 +281,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //		for(CoachMenuListVO cmlvo : list1) {
 //			System.out.print(cmlvo.getMenuNo() + ", ");
 //			System.out.print(cmlvo.getMenuID() + ", ");
-//			System.out.print(cmlvo.getVideoID() + ", ");
-//			System.out.print(cmlvo.getExercise() + ", ");
-//			System.out.print(cmlvo.getTimes());
-//			System.out.println();
+//			System.out.print(cmlvo.getVideoID());
 //		}
 		
 		// 查詢全部
@@ -308,9 +289,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 		for(CoachMenuListVO cmlvo2 : list2) {
 			System.out.print(cmlvo2.getMenuNo() + ", ");
 			System.out.print(cmlvo2.getMenuID() + ", ");
-			System.out.print(cmlvo2.getVideoID() + ", ");
-			System.out.print(cmlvo2.getExercise() + ", ");
-			System.out.print(cmlvo2.getTimes());
+			System.out.print(cmlvo2.getVideoID());
 			System.out.println();
 		}
 	}
