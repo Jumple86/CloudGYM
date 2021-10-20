@@ -11,12 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.IO;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.IO;
 import com.userRights.model.UserRightsVO;
 
 public class VideoJDBCDAO implements VideoDAO_interface{
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://localhost:3306/project?serverTimezone=Asia/Taipei";
+	public static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	public static final String USER = "David";
 	public static final String PASSWRD = "123456";
 	
@@ -228,6 +228,66 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+				videoVO.setImg(rs.getBytes("img"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				
+				list.add(videoVO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<VideoVO> findByUserID(Integer userID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<VideoVO> list = new ArrayList<VideoVO>();
+		VideoVO videoVO = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			pstmt.setInt(1, userID);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
