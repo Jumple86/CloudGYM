@@ -7,7 +7,7 @@ public interface VideoDAO_interface {
 	void update(VideoVO videoVO);
 	void delete(Integer videoID);
 	VideoVO findByPrimaryKey(Integer videoID);
-	List<VideoVO> findByUserID(Integer userID);
 	List<VideoVO> getAll();
 	List<VideoVO> getAll2(Integer videoID);
+	List<VideoVO> findByUserID(Integer userID);
 }
