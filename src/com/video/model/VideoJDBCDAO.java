@@ -25,7 +25,8 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 	private static final String UPDATE_STMT = "UPDATE video set title =?, price = ?, intro=?, img=?, content=?, level=?, listed = ?, reportedTimes=? where videoID =?";
 	private static final String GET_ONE_STMT = "SELECT * FROM video where videoID=?";
 	private static final String GET_ALL_STMT = "SELECT * FROM video";
-	private static final String GET_ALL_STMT_BY_VIDEOID = "SELECT * FROM video WHERE VIDEOID = ?";
+	private static final String GET_ALL_NOVIDEO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime FROM video";
+	private static final String GET_BY_USERID = "SELECT * FROM video WHERE userID = ?";
 	
 	static {
 		try {
@@ -238,7 +239,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setContent(rs.getBinaryStream("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
@@ -285,7 +286,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 		
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
-			pstmt = con.prepareStatement(GET_ALL_STMT);
+			pstmt = con.prepareStatement(GET_BY_USERID);
 			pstmt.setInt(1, userID);
 			rs = pstmt.executeQuery();
 			
@@ -337,7 +338,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 	
 	
 	@Override
-	public List<VideoVO> getAll2(Integer videoID) {
+	public List<VideoVO> getAll2() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -346,8 +347,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 		
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
-			pstmt = con.prepareStatement(GET_ALL_STMT);
-			pstmt.setInt(1, videoID);
+			pstmt = con.prepareStatement(GET_ALL_NOVIDEO);
 			
 			rs = pstmt.executeQuery();
 			
