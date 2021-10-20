@@ -8,4 +8,5 @@ public interface VideoDAO_interface {
 	void delete(Integer videoID);
 	VideoVO findByPrimaryKey(Integer videoID);
 	List<VideoVO> getAll();
+	List<VideoVO> getAll2(Integer videoID);
 }

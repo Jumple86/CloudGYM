@@ -22,9 +22,10 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 	
 	private static final String INSERT_STMT = "INSERT INTO video(userID, title, price, intro, img, content, level, duration, listed, reportedTimes, publishTime) VALUES(?,?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP)";
 	private static final String DELETE = "DELETE FROM video WHERE videoID=?";
-	private static final String UPDATE_STMT = "UPDATE video set title =?, price = ?, intro=?, img=?, content=?, level=? where videoID =?";
-	private static final String GET_ONE_STMT = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video where userID=?";
-	private static final String GET_ALL_STMT = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video";
+	private static final String UPDATE_STMT = "UPDATE video set title =?, price = ?, intro=?, img=?, content=?, level=?, listed = ?, reportedTimes=? where videoID =?";
+	private static final String GET_ONE_STMT = "SELECT * FROM video where videoID=?";
+	private static final String GET_ALL_STMT = "SELECT * FROM video";
+	private static final String GET_ALL_STMT_BY_VIDEOID = "SELECT * FROM video WHERE VIDEOID = ?";
 	
 	static {
 		try {
@@ -91,7 +92,9 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 			pstmt.setBytes(4, videoVO.getImg());
 			pstmt.setBinaryStream(5, videoVO.getContent());
 			pstmt.setString(6, videoVO.getLevel());
-			pstmt.setInt(7, videoVO.getVideoID());
+			pstmt.setBoolean(7, videoVO.getListed());
+			pstmt.setInt(8, videoVO.getReportedTimes());
+			pstmt.setInt(9, videoVO.getVideoID());
 			
 			pstmt.executeUpdate();
 			
@@ -150,7 +153,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 	}
 
 	@Override
-	public VideoVO findByPrimaryKey(Integer userID) {
+	public VideoVO findByPrimaryKey(Integer videoID) {
 		VideoVO videoVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -160,7 +163,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 			
-			pstmt.setInt(1, userID);
+			pstmt.setInt(1, videoID);
 			
 			rs = pstmt.executeQuery();
 			
@@ -173,10 +176,12 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-				videoVO.setContent(rs.getBinaryStream("content"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
 			}
 			
 			
@@ -234,10 +239,73 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-				videoVO.setContent(rs.getBinaryStream("content"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				
+				list.add(videoVO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<VideoVO> getAll2(Integer videoID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<VideoVO> list = new ArrayList<VideoVO>();
+		VideoVO videoVO = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			pstmt.setInt(1, videoID);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+				videoVO.setImg(rs.getBytes("img"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
 				
 				list.add(videoVO);
 			}
@@ -288,15 +356,15 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 		
 		//add listed, reportedtimes預設true, 0 之後再由管理員修改
 //		VideoVO video = new VideoVO();
-//		video.setUserID(2006);
-//		video.setTitle("30分鐘燃脂");
+//		video.setUserID(2005);
+//		video.setTitle("居家瘦身");
 //		video.setPrice(20);
-//		video.setIntro("一系列燃脂運動");
-//		byte[] pic = getPictureByteArray("items/example.jpg");
+//		video.setIntro("居家防疫期間，是否也讓你的瘦身、健身計劃泡湯了呢？別擔心，在家也能有完美的運動健身計畫！");
+//		byte[] pic = getPictureByteArray("items/example6.jpg");
 //		video.setImg(pic);
 //		InputStream is = getPictureStream("items/test.mp4");
 //		video.setContent(is);
-//		video.setLevel("強");
+//		video.setLevel("中");
 //		video.setDuration(20);
 //		video.setListed(true);
 //		video.setReportedTimes(0);
@@ -304,21 +372,21 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 //		is.close();
 		
 		//delete
-//		dao.delete(3016);
+//		dao.delete(3018);
 		
 		//update
-		VideoVO video = new VideoVO();
-		video.setTitle("基礎知識");
-		byte[] pic = getPictureByteArray("items/example6.jpg");
-		video.setImg(pic);
-		video.setPrice(50);
-		video.setIntro("講解關於健身的基礎知識，包括需要注意的事項以及設備介紹");
-		InputStream is = getPictureStream("items/test2.mp4");
-		video.setContent(is);
-		video.setLevel("弱");
-		video.setVideoID(3001);
-		dao.update(video);
-		is.close();
+//		VideoVO video = new VideoVO();
+//		video.setTitle("基礎知識");
+//		byte[] pic = getPictureByteArray("items/example6.jpg");
+//		video.setImg(pic);
+//		video.setPrice(50);
+//		video.setIntro("講解關於健身的基礎知識，包括需要注意的事項以及設備介紹");
+//		InputStream is = getPictureStream("items/test2.mp4");
+//		video.setContent(is);
+//		video.setLevel("弱");
+//		video.setVideoID(3001);
+//		dao.update(video);
+//		is.close();
 		
 		//findone
 //		VideoVO video = dao.findByPrimaryKey(2006);
@@ -350,5 +418,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 //			System.out.println(video1.getLevel());
 //		}
 	}
+
+	
 		
 }
