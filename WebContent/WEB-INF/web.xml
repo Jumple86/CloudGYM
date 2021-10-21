@@ -73,7 +73,7 @@
 		<servlet-name>VideoOutput</servlet-name>
 		<url-pattern>/html/VideoOutput</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>com.user.controller.UserServlet</servlet-class>
@@ -108,6 +108,15 @@
 		<servlet-name>SubListServlet</servlet-name>
 		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
+
+		<servlet-name>VideoServlet</servlet-name>
+		<servlet-class>com.video.controller.VideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoServlet</servlet-name>
+		<url-pattern>/html/video.do</url-pattern>
+	</servlet-mapping>
+
 
 	<resource-ref>
 		<description>DB Connection</description>

@@ -10,24 +10,28 @@
 
 
 <%
-	CoachVO coachVO = (CoachVO) request.getAttribute("coachVO");
-	Integer userID = coachVO.getUserID();
-	request.setAttribute("userID", userID);
-	
-	if(userID == null){
-		userID = 2004;
+	Integer coachID = null;
+	CoachVO coachVO = null;
+	try{
+		coachVO = (CoachVO) request.getAttribute("coachVO");
+		coachID = coachVO.getUserID();
+		request.setAttribute("userID", coachID);
+	}catch(Exception e){
+		coachVO = new CoachService().getByUserID(2004);
+		pageContext.setAttribute("coachVO", coachVO);
+		coachID = 2004;
 	}
 
 	CoachMenuService svc = new CoachMenuService();
-	List<CoachMenuVO> menuList = svc.getByUserID(userID);
+	List<CoachMenuVO> menuList = svc.getByUserID(coachID);
 	pageContext.setAttribute("menuList", menuList);
 	
 	SubscriptionService subscriSvc = new SubscriptionService();
-	List<SubscriptionVO> subList = subscriSvc.getByUserID(userID);
+	List<SubscriptionVO> subList = subscriSvc.getByUserID(coachID);
 	pageContext.setAttribute("subList", subList);
 	
 	VideoService videoSvc = new VideoService();
-	List<VideoVO> videoList = videoSvc.getByUserID(userID);
+	List<VideoVO> videoList = videoSvc.getByUserID(coachID);
 	pageContext.setAttribute("videoList", videoList);
 	
 	String uri = request.getRequestURI();
@@ -35,7 +39,7 @@
 	
 // 	String username = "peter";
 // 	session.setAttribute("username", username);
-// 	String userID = "1003";
+	String userID = "1003";
 	session.setAttribute("userID", userID);
 	
 	long cartCount = 0;
