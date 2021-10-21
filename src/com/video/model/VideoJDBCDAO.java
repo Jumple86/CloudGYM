@@ -176,7 +176,7 @@ public class VideoJDBCDAO implements VideoDAO_interface{
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setContent(rs.getBinaryStream("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
