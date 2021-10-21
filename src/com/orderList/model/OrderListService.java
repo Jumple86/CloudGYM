@@ -43,4 +43,9 @@ public class OrderListService {
 	 public List<OrderListVO> getAll(){
 		 return dao.findAll();
 	 }
+	 
+	 public static void main(String[] args) {
+		OrderListService svc = new OrderListService();
+		svc.addOrderList(90006, 30018);
+	}
 }

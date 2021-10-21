@@ -18,9 +18,9 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 	private static final String passwd = "123456";
 	
 	private static final String INSERT_STMT = 
-			"INSERT INTO coach(userID,coachAccount,coachName,coachPassword,coachImg,coachSex,coachBirthday,coachDescription,coachRegisteredDate,coachCertificate,reportedTimes) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			"INSERT INTO coach(userID,coachAccount,coachName,coachPassword,coachImg,userMobile,coachSex,coachBirthday,coachDescription,coachRegisteredDate,coachCertificate,reportedTimes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE coach SET coachAccount=?,coachName=?, coachPassword=?,coachImg=?, coachSex=?, coachBirthday=?, coachDescription=?, coachRegisteredDate=?,coachCertificate=?,reportedTimes=? WHERE userID=?";
+			"UPDATE coach SET coachAccount=?,coachName=?, coachPassword=?,coachImg=?, userMobile=?, coachSex=?, coachBirthday=?, coachDescription=?, coachRegisteredDate=?,coachCertificate=?,reportedTimes=? WHERE userID=?";
 	private static final String DELETE_STMT =
 			"DELETE FROM coach WHERE userID=?";
 	private static final String FIND_BY_USERID_STMT = 
@@ -52,12 +52,13 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			pstmt.setString(3, coachVO.getCoachName());
 			pstmt.setString(4, coachVO.getCoachPassword());
 			pstmt.setBytes(5, coachVO.getCoachImg());
-			pstmt.setString(6, coachVO.getCoachSex());
-			pstmt.setDate(7, coachVO.getCoachBirthday());
-			pstmt.setString(8, coachVO.getCoachDescription());
-			pstmt.setDate(9, coachVO.getCoachRegisteredDate());
-			pstmt.setString(10, coachVO.getCoachCertificate());
-			pstmt.setInt(11, coachVO.getReportedTimes());
+			pstmt.setString(6, coachVO.getUserMobile());
+			pstmt.setString(7, coachVO.getCoachSex());
+			pstmt.setDate(8, coachVO.getCoachBirthday());
+			pstmt.setString(9, coachVO.getCoachDescription());
+			pstmt.setDate(10, coachVO.getCoachRegisteredDate());
+			pstmt.setString(11, coachVO.getCoachCertificate());
+			pstmt.setInt(12, coachVO.getReportedTimes());
 			
 			pstmt.executeUpdate();
 
@@ -102,13 +103,14 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			pstmt.setString(2, coachVO.getCoachName());
 			pstmt.setString(3, coachVO.getCoachPassword());
 			pstmt.setBytes(4, coachVO.getCoachImg());
-			pstmt.setString(5, coachVO.getCoachSex());
-			pstmt.setDate(6, coachVO.getCoachBirthday());
-			pstmt.setString(7, coachVO.getCoachDescription());
-			pstmt.setDate(8, coachVO.getCoachRegisteredDate());
-			pstmt.setString(9, coachVO.getCoachCertificate());
-			pstmt.setInt(10, coachVO.getReportedTimes());
-			pstmt.setInt(11, coachVO.getUserID());
+			pstmt.setString(5, coachVO.getUserMobile());
+			pstmt.setString(6, coachVO.getCoachSex());
+			pstmt.setDate(7, coachVO.getCoachBirthday());
+			pstmt.setString(8, coachVO.getCoachDescription());
+			pstmt.setDate(9, coachVO.getCoachRegisteredDate());
+			pstmt.setString(10, coachVO.getCoachCertificate());
+			pstmt.setInt(11, coachVO.getReportedTimes());
+			pstmt.setInt(12, coachVO.getUserID());
 			
 			
 			pstmt.executeUpdate();
@@ -185,6 +187,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 				coachVO.setCoachName(rs.getString("coachName"));
 				coachVO.setCoachPassword(rs.getString("coachPassword"));
 				coachVO.setCoachImg(rs.getBytes("coachImg"));
+				coachVO.setUserMobile(rs.getString("userMobile"));
 				coachVO.setCoachSex(rs.getString("coachSex"));
 				coachVO.setCoachBirthday(rs.getDate("coachBirthday"));
 				coachVO.setCoachDescription(rs.getString("coachDescription"));
@@ -243,6 +246,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 				coachVO.setCoachName(rs.getString("coachName"));
 				coachVO.setCoachPassword(rs.getString("coachPassword"));
 				coachVO.setCoachImg(rs.getBytes("coachImg"));
+				coachVO.setUserMobile(rs.getString("userMobile"));
 				coachVO.setCoachSex(rs.getString("coachSex"));
 				coachVO.setCoachBirthday(rs.getDate("coachBirthday"));
 				coachVO.setCoachDescription(rs.getString("coachDescription"));
@@ -285,13 +289,14 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 		CoachJDBCDAO dao = new CoachJDBCDAO();
 
 //	新增
-//		coachVO coachVO1 = new coachVO();
+//		CoachVO coachVO1 = new CoachVO();
 //		coachVO1.setUserID(2006);
-//		coachVO1.setCoachAccount("Gojo-Satoru@gmail.com");
-//		coachVO1.setCoachName("五條悟");
-//		coachVO1.setCoachPassword("Gojo12345");
-//		byte[] pic = getPictureByteArray("items/Gojo.jpg");
+//		coachVO1.setCoachAccount("Marc93@gmail.com");
+//		coachVO1.setCoachName("Marc Marquez");
+//		coachVO1.setCoachPassword("Marc93");
+//		byte[] pic = getPictureByteArray("items/coach_6.gif");
 //		coachVO1.setCoachImg(pic);
+//		coachVO1.setUserMobile("0974621000");
 //		coachVO1.setCoachSex("男");
 //		coachVO1.setCoachBirthday(java.sql.Date.valueOf("1995-03-03"));
 //		coachVO1.setCoachDescription("嗨");
@@ -299,22 +304,23 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 //		coachVO1.setCoachCertificate("無");
 //		coachVO1.setReportedTimes(3);
 //		dao.insert(coachVO1);
-//		System.out.println("新增成功\");
+//		System.out.println("新增成功");
 		
 //	更新
-//		coachVO coachVO2 = new coachVO();
-//		coachVO2.setUserID(2006);
-//		coachVO2.setCoachAccount("Satoru@gmail.com");
-//		coachVO2.setCoachName("五條");
-//		coachVO2.setCoachPassword("Gojo12");
-//		coachVO2.setCoachSex("女");
-//		byte[] pic2 = getPictureByteArray("items/Grass-Wonder.jpg");
+//		CoachVO coachVO2 = new CoachVO();
+//		coachVO2.setUserID(2005);
+//		coachVO2.setCoachAccount("Tsumugi@gmail.com");
+//		coachVO2.setCoachName("纺木吏佐");
+//		coachVO2.setCoachPassword("TsumTsum");
+//		byte[] pic2 = getPictureByteArray("items/coach_5.jpg");
 //		coachVO2.setCoachImg(pic2);
-//		coachVO2.setCoachBirthday(java.sql.Date.valueOf("1995-03-03"));
-//		coachVO2.setCoachDescription("yo");
-//		coachVO2.setCoachRegisteredDate(java.sql.Date.valueOf("2005-01-01"));
-//		coachVO2.setCoachCertificate("NO");
-//		coachVO2.setReportedTimes(5);
+//		coachVO2.setUserMobile("0974621000");
+//		coachVO2.setCoachSex("女");
+//		coachVO2.setCoachBirthday(java.sql.Date.valueOf("1996-07-05"));
+//		coachVO2.setCoachDescription("What's happened?");
+//		coachVO2.setCoachRegisteredDate(java.sql.Date.valueOf("2020-01-01"));
+//		coachVO2.setCoachCertificate("很厲害證照");
+//		coachVO2.setReportedTimes(8);
 //		dao.update(coachVO2);
 //		System.out.println("更新成功");
 		
@@ -324,7 +330,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 //		System.out.println("刪除成功");
 		
 //		用會員編號查詢
-		CoachVO coachVO3 = dao.findByUserID(2001);
+		CoachVO coachVO3 = dao.findByUserID(2005);
 		System.out.println(coachVO3.getUserID()+ ",");
 		System.out.println();
 		System.out.print(coachVO3.getCoachAccount() + ",");
@@ -334,6 +340,8 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 		System.out.print(coachVO3.getCoachPassword() + ",");
 		System.out.println();
 		System.out.println(coachVO3.getCoachImg()+ ",");
+		System.out.println();
+		System.out.println(coachVO3.getUserMobile()+ ",");
 		System.out.println();
 		System.out.println(coachVO3.getCoachSex()+ ",");
 		System.out.println();
@@ -349,13 +357,14 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 		System.out.println();
 		
 //		查詢全部
-//		List<coachVO>list = dao.findAll();
-//		for(coachVO coach:list) {
+//		List<CoachVO>list = dao.findAll();
+//		for(CoachVO coach:list) {
 //			System.out.println(coach.getUserID()+ ",");
 //			System.out.print(coach.getCoachAccount() + ",");
 //			System.out.print(coach.getCoachName() + ",");
 //			System.out.print(coach.getCoachPassword() + ",");
 //			System.out.println(coach.getCoachImg()+ ",");
+//			System.out.print(coach.getUserMobile() + ",");
 //			System.out.println(coach.getCoachSex()+ ",");
 //			System.out.println(coach.getCoachBirthday()+ ",");
 //			System.out.println(coach.getCoachDescription()+ ",");

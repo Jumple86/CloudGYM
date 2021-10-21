@@ -3,33 +3,49 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.coachMenu.model.*"%>
+<%@ page import="com.coach.model.*"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
 <%@ page import="com.subscription.model.*" %>
 <%@ page import="com.video.model.*" %>
 
+
 <%
+	Integer coachID = null;
+	CoachVO coachVO = null;
+	try{
+		coachVO = (CoachVO) request.getAttribute("coachVO");
+		coachID = coachVO.getUserID();
+		request.setAttribute("userID", coachID);
+	}catch(Exception e){
+		coachVO = new CoachService().getByUserID(2004);
+		pageContext.setAttribute("coachVO", coachVO);
+		coachID = 2004;
+	}
+
 	CoachMenuService svc = new CoachMenuService();
-	List<CoachMenuVO> menuList = svc.getByUserID(2003);
+	List<CoachMenuVO> menuList = svc.getByUserID(coachID);
 	pageContext.setAttribute("menuList", menuList);
 	
 	SubscriptionService subscriSvc = new SubscriptionService();
-	List<SubscriptionVO> subList = subscriSvc.getByUserID(2003);
+	List<SubscriptionVO> subList = subscriSvc.getByUserID(coachID);
 	pageContext.setAttribute("subList", subList);
 	
 	VideoService videoSvc = new VideoService();
-	List<VideoVO> videoList = videoSvc.getByUserID(2003);
+	List<VideoVO> videoList = videoSvc.getByUserID(coachID);
 	pageContext.setAttribute("videoList", videoList);
 	
 	String uri = request.getRequestURI();
 	session.setAttribute("uri", uri);
 	
-	String username = "peter";
-	session.setAttribute("username", username);
+// 	String username = "peter";
+// 	session.setAttribute("username", username);
+	String userID = "1003";
+	session.setAttribute("userID", userID);
 	
 	long cartCount = 0;
 	Jedis jedis = new Jedis("localhost", 6379);
 	try{
-		cartCount = jedis.hlen(username);
+		cartCount = jedis.hlen(userID.toString());
 		pageContext.setAttribute("cartCount", cartCount);
 	}catch(Exception e){
 		cartCount = 0;
@@ -90,14 +106,18 @@ div.menu input:disabled{
     <div id="main">
         <div class="coach_info">
             <div class="photo">
-                <img src="../img/15Jc8sgK7ftvc2ToeQEraW.jpeg" alt="">
+                <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="">
             </div>
             <div class="info">
-                <h3 class="name">王大壯</h3>
+                <h3 class="name">${coachVO.coachName }</h3>
                 <span>自我介紹:</span>
-                <div class="intro">內容內容內容內容內容內容內容內容內容</div>
+                <div class="intro">${coachVO.coachDescription }</div>
                 <p class="licnese">證照一</p>
                 <p class="license">證照二</p>
+                <ul>
+                    <li><a href="">修改個人資料</a></li>
+                    <li><a href="<%=request.getContextPath()%>/html/coach_overview.jsp?userID=${coachVO.userID}">影片/菜單管理</a></li>
+                </ul>
             </div>
         </div>
         <div class="video">
@@ -112,7 +132,7 @@ div.menu input:disabled{
 							<c:if test="${video.price == 0}"><button type="button" value="加入購物車" disabled>加入購物車</button></c:if>
 							<c:if test="${video.price != 0}"><button type="button" value="加入購物車">加入購物車</button></c:if>
 	                        <input type="hidden" name="videoID" value="${video.videoID}">
-	                        <input type="hidden" name="title" value="${video.title}">
+	                        <input type="hidden" name="videoPrice" value="${video.price}">
 	                        <input type="hidden" name="action" value="addCart">
 	                    </form>
                 </li>
@@ -140,7 +160,7 @@ div.menu input:disabled{
 							<c:if test="${coachMenu.price == 0}"><button type="button" value="加入購物車" disabled>加入購物車</button></c:if>
 							<c:if test="${coachMenu.price != 0}"><button type="button" value="加入購物車">加入購物車</button></c:if>
 	                        <input type="hidden" name="menuID" value="${coachMenu.menuID}">
-	                        <input type="hidden" name="menuName" value="${coachMenu.menuName}">
+	                        <input type="hidden" name="menuPrice" value="${coachMenu.price}">
 	                        <input type="hidden" name="action" value="addCart">
 	                    </form>
 	                </li>
@@ -160,7 +180,7 @@ div.menu input:disabled{
 	                    <button class="btn_sub" type="button">訂閱</button>
 	                    <input type="hidden" name="action" value="addCart">
 	                    <input type="hidden" name="subID" value="${subscription.subID}">
-	                    <input type="hidden" name="userID" value="${subscription.userID}">
+	                    <input type="hidden" name="coachID" value="${subscription.userID}">
                     </form>
                 </li>
             </c:forEach>
@@ -219,6 +239,11 @@ div.menu input:disabled{
     <script>
     	$(function(){
     		var cartCount = ${cartCount};
+    		let menu_length = $("div.menu").find("li").length;
+    	    console.log(menu_length);
+    	    if(menu_length < 4){
+    	    	$("div.menu i.right").addClass("-on");
+    	    }
     		
     		$("div.video button").on("click", function(){
     			$.ajax({

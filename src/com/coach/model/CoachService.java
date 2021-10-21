@@ -12,7 +12,7 @@ public class CoachService {
 	}
 	
 	public CoachVO addCoach
-	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
+	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String userMobile,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
 		CoachVO coachVO = new CoachVO();
 		
 		coachVO.setUserID(userID);
@@ -20,6 +20,7 @@ public class CoachService {
 		coachVO.setCoachName(coachName);
 		coachVO.setCoachPassword(coachPassword);
 		coachVO.setCoachImg(coachImg);
+		coachVO.setUserMobile(userMobile);
 		coachVO.setCoachSex(coachSex);
 		coachVO.setCoachBirthday(coachBirthday);
 		coachVO.setCoachDescription(coachDescription);
@@ -32,12 +33,9 @@ public class CoachService {
 		return coachVO;
 	}
 	
-	public void addCoach(CoachVO coachVO) {
-		dao.insert(coachVO);
-	}
 	
 	public CoachVO updateCoach
-	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
+	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String userMobile,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
 		CoachVO coachVO = new CoachVO();
 		
 		coachVO.setUserID(userID);
@@ -45,6 +43,7 @@ public class CoachService {
 		coachVO.setCoachName(coachName);
 		coachVO.setCoachPassword(coachPassword);
 		coachVO.setCoachImg(coachImg);
+		coachVO.setUserMobile(userMobile);
 		coachVO.setCoachSex(coachSex);
 		coachVO.setCoachBirthday(coachBirthday);
 		coachVO.setCoachDescription(coachDescription);
@@ -55,10 +54,6 @@ public class CoachService {
 		dao.update(coachVO);
 		
 		return coachVO;
-	}
-	
-	public void updateCoach(CoachVO coachVO) {
-		dao.update(coachVO);
 	}
 	
 	public void deleteCoach(Integer userID) {

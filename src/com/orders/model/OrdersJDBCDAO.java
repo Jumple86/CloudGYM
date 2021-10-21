@@ -2,9 +2,11 @@ package com.orders.model;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.Date;
+
+import javax.sql.DataSource;
+import javax.naming.*;
 
 public class OrdersJDBCDAO implements OrdersDAO_interface {
 
@@ -12,8 +14,20 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 	String url = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	String userid = "David";
 	String passwd = "123456";
+	
+	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
+//		private static DataSource ds = null;
+//		static {
+//			try {
+//				Context ctx = new InitialContext();
+//				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB2");
+//			} catch (NamingException e) {
+//				e.printStackTrace();
+//			}
+//		}
+	
 
-	private static final String INSERT_STMT = "INSERT INTO orders(orderNo, userID, totalPrice) VALUES(?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO orders(userID, totalPrice) VALUES(?, ?)";
 	private static final String UPDATE_STMT = "UPDATE orders SET userID=?, builtDate=?, totalPrice=? WHERE orderNo=?";
 	private static final String FIND_BY_ORDERNO_STMT = "SELECT * FROM orders WHERE orderNo = ?";
 	private static final String FIND_BY_USERID_STMT = "SELECT * FROM orders WHERE userID = ?";
@@ -21,26 +35,34 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 	private static final String FIND_ALL = "SELECT * FROM orders"; 
 
 	@Override
-	public void insert(OrdersVO ordersVO) {
+	public Integer insert(OrdersVO ordersVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer primaryKey = null;
 
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, 1);
 
-			pstmt.setInt(1, ordersVO.getOrderNo());
-			pstmt.setInt(2, ordersVO.getUserID());
+//			pstmt.setInt(1, ordersVO.getOrderNo());
+			pstmt.setInt(1, ordersVO.getUserID());
 //			pstmt.setTimestamp(3, ordersVO.getBuiltDate());
-			pstmt.setInt(3, ordersVO.getTotalPrice());
+			pstmt.setInt(2, ordersVO.getTotalPrice());
 
 			pstmt.executeUpdate();
+			
+			// 取得自增主鍵
+			rs = pstmt.getGeneratedKeys();
+			if(rs.next()) {
+				primaryKey = rs.getInt(1);
+			}
+			return primaryKey;
+			
 
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-		} catch (SQLException se) {
+		}  catch (Exception se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
@@ -79,10 +101,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			pstmt.executeUpdate();
 			
 			
-		}catch(SQLException se) {
+		}catch(Exception se) {
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}finally {
 			if(pstmt != null) {
 				try {
@@ -124,13 +144,10 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 				ordersVO.setBuiltDate(rs.getTimestamp("builtDate"));
 				ordersVO.setTotalPrice(rs.getInt("totalPrice"));
 			}
-		} catch (SQLException se) {
+		} catch (Exception se) {
 			// TODO Auto-generated catch block
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
+		}  finally {
 			if (rs != null) {
 				try {
 					rs.close();
@@ -157,8 +174,8 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 	}
 
 	@Override
-	public OrdersVO findByUserID(Integer userID) {
-
+	public List<OrdersVO> findByUserID(Integer userID) {
+		List<OrdersVO> list = new ArrayList<OrdersVO>();
 		OrdersVO ordersVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -179,13 +196,11 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 				ordersVO.setUserID(rs.getInt("userID"));
 				ordersVO.setBuiltDate(rs.getTimestamp("builtDate"));
 				ordersVO.setTotalPrice(rs.getInt("totalPrice"));
+				list.add(ordersVO);
 			}
-		} catch (SQLException se) {
+		} catch (Exception se) {
 			// TODO Auto-generated catch block
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} finally {
 			if (rs != null) {
 				try {
@@ -210,7 +225,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			}
 		}
 
-		return ordersVO;
+		return list;
 	}
 
 	@Override
@@ -240,11 +255,9 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 			}
 		
 		
-		}catch(SQLException se) {
+		}catch(Exception se) {
 			se.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}finally {
+		} finally {
 			if(rs != null) {
 				try {
 					rs.close();
@@ -296,11 +309,9 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 				list.add(ordersVO);
 			}
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}finally {
+		} finally {
 			if(rs != null) {
 				try {
 					rs.close();
@@ -334,7 +345,7 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		String str = sd.format(new Date(System.currentTimeMillis()));
 		Timestamp ts = Timestamp.valueOf(str);
 		
-		Scanner sc = new Scanner(System.in);
+//		Scanner sc = new Scanner(System.in);
 //		int orderNo = sc.nextInt();
 //		int userID = sc.nextInt();
 //		int totalPrice = sc.nextInt();
@@ -342,13 +353,12 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 
 		
 		// 新增
-//		OrdersVO ordersVO1 = new OrdersVO();
-//		ordersVO1.setOrderNo(orderNo);
-//		ordersVO1.setUserID(userID);
-//		ordersVO1.setBuiltDate(ts);
-//		ordersVO1.setTotalPrice(totalPrice);
-//		
-//		dao.insert(ordersVO1);
+		OrdersVO ordersVO1 = new OrdersVO();
+		ordersVO1.setUserID(1002);
+		ordersVO1.setBuiltDate(ts);
+		ordersVO1.setTotalPrice(500);
+		
+		dao.insert(ordersVO1);
 		
 		
 		// 修改
@@ -360,12 +370,12 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 //		dao.update(ordersVO2);
 //		
 		// 用訂單編號查詢
-		OrdersVO ordersVO3 = dao.findByOrderNo(90001);
-		System.out.print(ordersVO3.getOrderNo() + ",");
-		System.out.print(ordersVO3.getUserID() + ",");
-		System.out.print(ordersVO3.getBuiltDate() + ",");
-		System.out.print(ordersVO3.getTotalPrice());
-		System.out.println();
+//		OrdersVO ordersVO3 = dao.findByOrderNo(90001);
+//		System.out.print(ordersVO3.getOrderNo() + ",");
+//		System.out.print(ordersVO3.getUserID() + ",");
+//		System.out.print(ordersVO3.getBuiltDate() + ",");
+//		System.out.print(ordersVO3.getTotalPrice());
+//		System.out.println();
 
 		// 用會員編號查詢
 //		OrdersVO ordersVO3 = dao.findByUserID(userID);
@@ -388,14 +398,17 @@ public class OrdersJDBCDAO implements OrdersDAO_interface {
 		
 		
 		// 查詢全部
-		List<OrdersVO> list2 = dao.findAll();
-		for(OrdersVO orders : list2) {
-			System.out.print(orders.getOrderNo() + ",");
-			System.out.print(orders.getUserID() + ",");
-			System.out.print(orders.getBuiltDate() + ",");
-			System.out.print(orders.getTotalPrice());
-			System.out.println();
-		}
+//		List<OrdersVO> list2 = dao.findAll();
+//		for(OrdersVO orders : list2) {
+//			System.out.print(orders.getOrderNo() + ",");
+//			System.out.print(orders.getUserID() + ",");
+//			System.out.print(orders.getBuiltDate() + ",");
+//			System.out.print(orders.getTotalPrice());
+//			System.out.println();
+//		}
+		
+//		System.out.println(ds);
+		
 	}
 
 	

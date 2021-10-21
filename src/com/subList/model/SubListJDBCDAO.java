@@ -12,7 +12,7 @@ public class SubListJDBCDAO implements SubListDAO_interface {
 	private static final String userid = "David";
 	private static final String passwd = "123456";
 	
-	private static final String INSERT_STMT ="INSERT INTO subList(subID,duration,subName,price) VALUES(?,?,?,?)";
+	private static final String INSERT_STMT ="INSERT INTO subList(duration,subName,price) VALUES(?,?,?)";
 	private static final String UPDATE_STMT ="UPDATE subList SET duration=?,subName=?,price=? WHERE subID=?";
 	private static final String DELETE_STMT = "DELETE FROM subList WHERE subID=?";
 	private static final String FIND_BY_SUBID_STMT ="SELECT * FROM subList WHERE subID = ?";
@@ -37,10 +37,9 @@ public class SubListJDBCDAO implements SubListDAO_interface {
 			con = DriverManager.getConnection(url,userid,passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setInt(1, subListVO.getSubID());
-			pstmt.setString(2, subListVO.getDuration());
-			pstmt.setString(3, subListVO.getSubName());
-			pstmt.setInt(4, subListVO.getPrice());
+			pstmt.setString(1, subListVO.getDuration());
+			pstmt.setString(2, subListVO.getSubName());
+			pstmt.setInt(3, subListVO.getPrice());
 			
 			pstmt.executeUpdate();
 			
@@ -250,32 +249,31 @@ public class SubListJDBCDAO implements SubListDAO_interface {
 	public static void main(String[] args) {
 		SubListJDBCDAO dao = new SubListJDBCDAO();
 		
-		//更新
-//		subListVO sbl = new subListVO();
-//		sbl.setSubID(70011);
-//		sbl.setDuration("三個月");
-//		sbl.setSubName("季方案");
-//		sbl.setPrice(400);
+		//新增
+//		SubListVO sbl = new SubListVO();
+//		sbl.setDuration("一個月");
+//		sbl.setSubName("月方案");
+//		sbl.setPrice(120);
 //		dao.insert(sbl);
-//		System.out.println("更新成功");
+//		System.out.println("新增成功");
 		
 		
 		
 		//更新
-//		subListVO sbl2 = new subListVO();
+//		SubListVO sbl2 = new SubListVO();
 //		sbl2.setDuration("十二個月");
 //		sbl2.setSubName("年方案");
 //		sbl2.setPrice(1000);
-//		sbl2.setSubID(70011);
+//		sbl2.setSubID(7004);
 //		dao.update(sbl2);
 //		System.out.println("更新成功");
 		
 		// 刪除
-//		dao.delete(70011);
+//		dao.delete(70004);
 //		System.out.println("刪除成功");
 		
 		//用subID搜尋
-//		subListVO sbl3 = dao.findBySubID(subID);
+//		SubListVO sbl3 = dao.findBySubID(70001);
 //		System.out.println(sbl3.getSubID()+",");
 //		System.out.println(sbl3.getDuration()+",");
 //		System.out.println(sbl3.getSubName()+",");

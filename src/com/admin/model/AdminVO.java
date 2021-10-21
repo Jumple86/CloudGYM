@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class AdminVO implements Serializable{
 	private Integer adminID;
 	private String adminName;
+	private String adminPW;
 	private Integer commentAuth;
 	private Integer videoAuth;
 	private Integer subAuth;
@@ -39,6 +40,12 @@ public class AdminVO implements Serializable{
 	}
 	public Integer getSubAuth() {
 		return subAuth;
+	}
+	public String getAdminPW() {
+		return adminPW;
+	}
+	public void setAdminPW(String adminPW) {
+		this.adminPW = adminPW;
 	}
 	public void setSubAuth(Integer subAuth) {
 		this.subAuth = subAuth;

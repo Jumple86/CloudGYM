@@ -11,6 +11,8 @@ $(function(){
         $("div.video i.right").addClass("-on");
         $("div.video li").eq(3).addClass("last");
     }
+    
+    
 
 
 
