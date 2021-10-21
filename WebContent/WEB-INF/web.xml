@@ -28,23 +28,83 @@
 		<servlet-name>OrdersServlet</servlet-name>
 		<url-pattern>/orders/orders.do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>AdminServlet</servlet-name>
+		<servlet-class>com.admin.controller.AdminServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminServlet</servlet-name>
+		<url-pattern>/html/admin.do</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>PostsServlet</servlet-name>
-		<servlet-class>com.posts.controller.PostsServlet</servlet-class>
+		<servlet-name>UserAuthServlet</servlet-name>
+		<servlet-class>com.userAuth.controller.UserAuthServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>PostsServlet</servlet-name>
-		<url-pattern>/Forum/Article.do</url-pattern>
+		<servlet-name>UserAuthServlet</servlet-name>
+		<url-pattern>/html/UserAuth.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CoachImageOutput</servlet-name>
+		<servlet-class>com.coach.image.CoachImageOutput</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachImageOutput</servlet-name>
+		<url-pattern>/html/CoachImageOutput</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PostsImageOutput</servlet-name>
+		<servlet-class>com.posts.image.PostsImageOutput</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostsImageOutput</servlet-name>
+		<url-pattern>/html/PostsImageOutput</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>VideoOutput</servlet-name>
+		<servlet-class>com.video.video.VideoOutput</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoOutput</servlet-name>
+		<url-pattern>/html/VideoOutput</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>com.user.controller.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/html/user.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachImgServlet</servlet-name>
+		<servlet-class>com.coach.controller.CoachImgServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachImgServlet</servlet-name>
+		<url-pattern>/coachImg/coachImg.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>Reader</servlet-name>
-		<servlet-class>com.posts.controller.Reader</servlet-class>
+		<servlet-name>CoachServlet</servlet-name>
+		<servlet-class>com.coach.controller.CoachServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Reader</servlet-name>
-		<url-pattern>/Reader</url-pattern>
+		<servlet-name>CoachServlet</servlet-name>
+		<url-pattern>/coach/coach.do</url-pattern>
 	</servlet-mapping>
+
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/TestDB2</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 
 
 </web-app>
