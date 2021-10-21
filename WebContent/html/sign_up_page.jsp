@@ -21,7 +21,7 @@
         <img src="../img/sign_up.jpg" alt="">
         <form method="post" ACTION="user.do" name="form1">
             <div id="signup">
-                <h2>Signup</h2>
+                <h2>Sign Up</h2>
                 <p>註冊信箱
                     <input type="text" placeholder="請輸入信箱" id="email" name="userAccount" 
                     value="<%=(userVO == null) ? "1021@cloudgym.com" : userVO.getUserAccount()%>">
