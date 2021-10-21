@@ -16,12 +16,12 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	private static final String USER = "David";
 	private static final String PASSWORD = "123456";
-	private static final String INSERT = "INSERT INTO POSTS(userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID, postsShow) VALUES(?, ?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE POSTS SET postsTitle=?, postsContent=?, postsImg=?, postsPublishDate=?, tagID=?, postsShow=? WHERE postsID=?";
-	private static final String DELETE = "DELETE FROM POSTS WHERE POSTSID = ?";
-	private static final String FIND_PK = "SELECT * FROM POSTS WHERE POSTSID = ?";
-	private static final String FIND_TOP = "select * from posts order by postsLikes desc";
-	private static final String FIND_ALL = "select * from posts order by postsPublishDate desc";
+	private static final String INSERT = "insert into posts(userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID) values(?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE = "update posts set postsTitle=?, postsContent=?, postsImg=?, postsPublishDate=?, tagID=? where postsID=?";
+	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?"; // 更改狀態
+	private static final String FIND_PK = "select * from posts where postsid = ?";
+	private static final String FIND_TOP = "select * from posts where postsshow = 1 order by postsLikes desc";
+	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
 
 	static {
 		try {
@@ -46,7 +46,6 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			pstmt.setBytes(4, postsVO.getPostsImg());
 			pstmt.setTimestamp(5, postsVO.getPostsPublishDate());
 			pstmt.setInt(6, postsVO.getTagID());
-			pstmt.setBoolean(7, postsVO.isPostsShow());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -83,8 +82,7 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			pstmt.setBytes(3, postsVO.getPostsImg());
 			pstmt.setTimestamp(4, postsVO.getPostsPublishDate());
 			pstmt.setInt(5, postsVO.getTagID());
-			pstmt.setBoolean(6, postsVO.isPostsShow());
-			pstmt.setInt(7, postsVO.getPostsID());
+			pstmt.setInt(6, postsVO.getPostsID());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -245,7 +243,6 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 		}
 		return top;
 	}
-		
 
 	@Override
 	public List<PostsVO> findAll() {

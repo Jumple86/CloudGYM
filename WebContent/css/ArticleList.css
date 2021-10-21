@@ -49,6 +49,11 @@ body{
 
 
 /* main */
+
+#addarticle div{
+	background-color: #31105E;
+}
+
 .container{
     background-color: #ECE9F2;
     margin: 30px auto 0;

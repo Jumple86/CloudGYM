@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.posts.model.*"%>
 
@@ -10,6 +9,26 @@
 	response.setHeader("Pragma", "no-cache");
 	response.setDateHeader("Expires", 0);
 %>
+	
+<%--
+<%	 
+ 	if(session.getAttribute("UserVO")==null){            //教練VO
+%>
+		<script>
+ 		if (window.confirm('是否要登入會員?')){
+ 			window.location.replace("XXX.jsp");
+         }else{
+         	alert('非會員無法發文，僅能瀏覽');
+         	document.location.href="http://localhost:8081/CloudGYM/Forum/ArticleList.jsp";
+         }
+ 		</script>
+<% 
+ 	}
+ %> 
+--%>
+
+
+<jsp:useBean id="tagSvc" scope="page" class="com.tag.model.TagService" />
 
 <!DOCTYPE html>
 <html lang="ZH-TW">
@@ -17,8 +36,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CloudGYM討論區</title>
-<link rel="stylesheet" href="./css/reset.css">
+<title>新增文章</title>
+<link rel="stylesheet" href="../css/reset.css">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -28,7 +47,7 @@
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
 	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
 	crossorigin="anonymous" />
-<link rel="stylesheet" href="./css/AddArticle.css">
+<link rel="stylesheet" href="../css/AddArticle.css">
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
@@ -60,8 +79,9 @@
 
 
 				<div class="mb-3">
-					<label class="form-label">文章標題</label>
-					<input type="text" class="form-control" name="poststitle" value="<%=(postsVO == null) ? "" : postsVO.getPostsTitle()%>" />
+					<label class="form-label">文章標題</label> <input type="text"
+						class="form-control" name="poststitle"
+						value="<%=(postsVO == null) ? "" : postsVO.getPostsTitle()%>" />
 					<div class="form-text">文章標題請勿空白，字數限50字以內。</div>
 				</div>
 
@@ -91,11 +111,10 @@
 				<!-- 				</div> -->
 
 
-				<jsp:useBean id="tagSvc" scope="page" class="com.tag.model.TagService" />
-
 				<div class="mb-3">
-					<label class="form-label">文章類型</label> <br> 
-					<select class="form-select" aria-label="Default select example" name="tagid">
+					<label class="form-label">文章類型</label> <br> <select
+						class="form-select" aria-label="Default select example"
+						name="tagid">
 						<c:forEach var="tagVO" items="${tagSvc.all}">
 							<option value="${tagVO.tagID}"
 								${(postsVO.tagID==tagVO.tagID)? 'selected':'' }>
@@ -104,28 +123,27 @@
 					</select>
 				</div>
 
-				<div class="mb-3">
-					<label class="form-label">文章狀態</label> <br> 
-					<select class="form-select" aria-label="Default select example">
-						<option value="1" selected>公開</option>
-						<option value="0">隱藏</option>
-					</select>
-				</div>
+<!-- 				<div class="mb-3"> -->
+<!-- 					<label class="form-label">文章狀態</label> <br> <select -->
+<!-- 						class="form-select" aria-label="Default select example"> -->
+<!-- 						<option value="1" selected>公開</option> -->
+<!-- 						<option value="0">隱藏</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
 
 			</div>
-			
+
 
 			<div class="sub">
 				<button type="submit" class="btn btn-outline-primary" name="action" value="insert">確認</button>
-				<button type="button" class="btn btn-outline-danger">取消編輯</button>
+				<button id="cancel" type="button" class="btn btn-outline-danger">取消</button>
 			</div>
 
 		</form>
 
 	</div>
 
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 	<script>
 		//         ClassicEditor
@@ -145,8 +163,20 @@
 				$('#output').attr('src', dataURL).show(); //將img的src設定為dataURL並顯示
 			};
 		}
+		
+        $("#cancel").click(function(){
+            console.log("cancel");
+     
+            var yes = confirm('你確定要取消新增文章嗎?');
+            if (yes) {
+            	console.log("yse");
+                alert(history.back());
+            } else {
+            	console.log("no");
+            }
+        });
+		
 	</script>
-
 
 </body>
 

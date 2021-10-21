@@ -89,7 +89,7 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("postsVO", postsVO);
-				String url = "/posts/updatePostsInput.jsp";
+				String url = "/html/UpdateArticle.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -100,6 +100,7 @@ public class PostsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
+		
 
 		if ("update".equals(action)) {
 
@@ -130,17 +131,19 @@ public class PostsServlet extends HttpServlet {
 					errorMsgs.add("請上傳圖片");
 				}
 
-				java.sql.Timestamp postspublishdate = null;
-				try {
-					postspublishdate = java.sql.Timestamp.valueOf(req.getParameter("postspublishdate").trim());
-				} catch (IllegalArgumentException e) {
-					postspublishdate = new java.sql.Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入日期!");
-				}
+//				java.sql.Timestamp postspublishdate = null;
+//				try {
+//					postspublishdate = java.sql.Timestamp.valueOf(req.getParameter("postspublishdate").trim());
+//				} catch (IllegalArgumentException e) {
+//					postspublishdate = new java.sql.Timestamp(System.currentTimeMillis());
+//					errorMsgs.add("請輸入日期!");
+//				}
+				
+				Timestamp postspublishdate = new Timestamp(System.currentTimeMillis());
 
 				Integer tagid = new Integer(req.getParameter("tagid").trim());
 
-				boolean postsshow = Boolean.parseBoolean(req.getParameter("postsshow"));
+//				boolean postsshow = Boolean.parseBoolean(req.getParameter("postsshow"));
 
 				PostsVO postsVO = new PostsVO();
 				postsVO.setPostsID(postsid);
@@ -149,30 +152,28 @@ public class PostsServlet extends HttpServlet {
 				postsVO.setPostsImg(postsimg);
 				postsVO.setPostsPublishDate(postspublishdate);
 				postsVO.setTagID(tagid);
-				postsVO.setPostsShow(postsshow);
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postsVO", postsVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/posts/updatePostsInput.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/Forum/UpdateArticle.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				PostsService postsSvc = new PostsService();
-				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, postspublishdate, tagid, postsshow,
-						postsid);
+				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, postspublishdate, tagid, postsid);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("postsVO", postsVO);
-				String url = "/posts/listOnePosts.jsp";
+				String url = "/Forum/ArticleList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/posts/updatePostsInput.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/UpdateArticle.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -220,12 +221,12 @@ public class PostsServlet extends HttpServlet {
 					errorMsgs.add("請選擇文章類型");
 				}
 
-				Boolean postsshow = null;
-				try {
-					postsshow = new Boolean(req.getParameter("postsshow"));
-				} catch (IllegalArgumentException e) {
-					errorMsgs.add("請選擇文章狀態");
-				}
+//				Boolean postsshow = null;
+//				try {
+//					postsshow = new Boolean(req.getParameter("postsshow"));
+//				} catch (IllegalArgumentException e) {
+//					errorMsgs.add("請選擇文章狀態");
+//				}
 
 				PostsVO postsVO = new PostsVO();
 				postsVO.setUserID(userid);
@@ -234,7 +235,6 @@ public class PostsServlet extends HttpServlet {
 				postsVO.setPostsImg(postsimg);
 				postsVO.setPostsPublishDate(postspublishdate);
 				postsVO.setTagID(tagid);
-				postsVO.setPostsShow(postsshow);
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postsVO", postsVO);
@@ -245,11 +245,10 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				PostsService postsSvc = new PostsService();
-				postsVO = postsSvc.addPosts(userid, poststitle, postscontent, postsimg, postspublishdate, tagid,
-						postsshow);
+				postsVO = postsSvc.addPosts(userid, poststitle, postscontent, postsimg, postspublishdate, tagid);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/Forum/ArticleList.jsp";
+				String url = "/html/ArticleList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -275,14 +274,14 @@ public class PostsServlet extends HttpServlet {
 				postsSvc.deletePosts(postsid);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/posts/listAllPosts.jsp";
+				String url = "/Forum/ArticleList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/posts/listAllPosts.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
 				failureView.forward(req, res);
 			}
 		}

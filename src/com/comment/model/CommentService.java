@@ -11,14 +11,12 @@ public class CommentService {
 		dao = new CommentJDBCDAO();
 	}
 
-	public CommentVO addComment(Integer postsID, Integer userID, String commentContent, Timestamp commentPublishDate,
-			boolean commentShow) {
+	public CommentVO addComment(Integer postsID, Integer userID, String commentContent, Timestamp commentPublishDate) {
 		CommentVO commentVO = new CommentVO();
 		commentVO.setPostsID(postsID);
 		commentVO.setUserID(userID);
 		commentVO.setCommentContent(commentContent);
 		commentVO.setCommentPublishDate(commentPublishDate);
-		commentVO.setCommentShow(commentShow);
 		dao.insert(commentVO);
 		return commentVO;
 	}
@@ -30,6 +28,11 @@ public class CommentService {
 		commentVO.setCommentPublishDate(commentPublishDate);
 		commentVO.setCommentShow(commentShow);
 		commentVO.setCommentID(commentID);
+		dao.update(commentVO);
+		return commentVO;
+	}
+
+	public CommentVO updateComment(CommentVO commentVO) {
 		dao.update(commentVO);
 		return commentVO;
 	}
