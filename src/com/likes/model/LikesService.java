@@ -26,6 +26,10 @@ public class LikesService {
 		return dao.findByPrimaryKey(likesID);
 	}
 
+	public Integer getCountLike(Integer postsID) {
+		return dao.countByLike(postsID);
+	}
+
 	public List<LikesVO> getAll() {
 		return dao.findAll();
 	}

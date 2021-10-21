@@ -1,0 +1,122 @@
+body{
+    font-family: arial 敺株�迤暺��;
+    background-color: #31105E;
+}
+
+/* header */
+.bar{
+    height: 40px;
+    background-color: #5C37A1;
+}
+
+.navimg{
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+}
+
+.navimg img{
+    width: 100%;
+    height: 100%;
+}
+
+.menu-wrapper{
+    background-color:rgb(118, 113, 124);
+    line-height: 60px;
+}
+
+.menu-wrapper ul{
+    text-align:center;
+}
+
+.menu-wrapper ul li{
+    display:inline;
+    margin: 0 30px;
+}
+
+.menu-wrapper li a{
+    color:white;
+    font-weight:bold;
+    text-decoration:none;
+    font-size: 20px;
+}
+
+.col-md-4{
+    width: 280px;
+    height: 210px;
+}
+
+
+
+/* main */
+
+#addarticle div{
+	background-color: #31105E;
+}
+
+.container{
+    background-color: #ECE9F2;
+    margin: 30px auto 0;
+    border-radius: 25px;
+    padding-top: 20px;
+}
+
+.card-body i{
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.card-body i span{
+    margin-left: 10px;
+}
+
+.col-md-4 img{
+    width: 100%;
+    height: 100%;
+}
+
+.card-title{
+    overflow: hidden; 
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    font-weight:bold;
+}
+
+.card-text{
+    display: -webkit-box; /*值必須為-webkit-box或者-webkit-inline-box*/
+    -webkit-box-orient: vertical; /*值必須為vertical*/
+    -webkit-line-clamp: 3; /*值為數字，表示一共顯示幾行*/
+    overflow: hidden;
+}
+
+.cb{
+    position: absolute;
+    bottom: 15px;
+}
+
+.cb a{
+    width: 90px;
+    font-size: 14px;
+    margin-right: 290px;
+}
+
+
+/* right */
+.card-header{
+    background-color: rgb(118, 113, 124);
+    color: white;
+}
+
+.recent-posts{
+    width: 400px;
+}
+
+.recent-posts li{
+    margin: 20px;
+}
+
+.recent-posts li a{
+    text-decoration:none;
+    color: black;
+}
+

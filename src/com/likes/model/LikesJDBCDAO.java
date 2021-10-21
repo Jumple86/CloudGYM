@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import com.posts.model.PostsVO;
 
 public class LikesJDBCDAO implements LikesDAO_interface {
 
@@ -14,11 +17,12 @@ public class LikesJDBCDAO implements LikesDAO_interface {
 	private static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	private static final String USER = "David";
 	private static final String PASSWORD = "123456";
+
 	private static final String INSERT = "INSERT INTO LIKES(postsID, userID) VALUES(?, ?)";
 	private static final String DELETE = "DELETE FROM LIKES WHERE LIKESID = ?";
 	private static final String FIND_PK = "SELECT * FROM LIKES WHERE LIKESID = ?";
-	private static final String FIND_UID = "SELECT USERID FROM LIKES WHERE LIKESID = ?";
 	private static final String FIND_ALL = "SELECT * FROM LIKES";
+	private static final String FIND_LIKE = "SELECT COUNT(*) FROM LIKES where postsid = ?";
 
 	static {
 		try {
@@ -139,6 +143,53 @@ public class LikesJDBCDAO implements LikesDAO_interface {
 	}
 
 	@Override
+	public Integer countByLike(Integer postsID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer count = 0;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_LIKE);
+
+			pstmt.setInt(1, postsID);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt(1);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return count;
+	}
+
+	@Override
 	public List<LikesVO> findAll() {
 		List<LikesVO> list = new ArrayList<>();
 		Connection con = null;
@@ -209,6 +260,14 @@ public class LikesJDBCDAO implements LikesDAO_interface {
 //			System.out.println(all);
 //		}
 
+//		文章按讚數查詢
+//		Scanner sc = new Scanner(System.in);
+//		System.out.println("請輸入postID");
+//		Integer postsID = sc.nextInt();
+//		Integer count = dao.countByLike(postsID);
+//		System.out.println("postsID = " + postsID);
+//		System.out.println("回應總數 " + count);
+//		sc.close();
 	}
 
 }

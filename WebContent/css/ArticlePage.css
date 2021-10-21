@@ -1,0 +1,84 @@
+body{
+    font-family: arial 敺株�迤暺��;
+    background-color: #31105E;
+}
+
+/* header */
+#bar{
+    height: 40px;
+    background-color: #5C37A1;
+}
+
+
+/* main */
+#updatearticle div{
+	background-color: #31105E;
+}
+
+#updatearticle div form{
+	background-color: #31105E;
+}
+
+.row{
+    background-color: #ECE9F2;
+    border-radius: 25px;
+    padding-top: 30px;
+}
+
+.icon{
+    font-size: 25px;
+    margin-left: 30px;
+}
+
+.icon form{
+	display:inline-block;
+}
+
+
+#aa{
+	margin-right: 40px;
+	border: none;
+	background-color: #ECE9F2;
+}
+#bb{
+	margin-right: 40px;
+	border: none;
+	background-color: #ECE9F2;
+}
+#cc{
+	margin-right: 40px;
+	border: none;
+	background-color: #ECE9F2;
+}
+#dd{
+    margin-left: 500px;
+    font-size: 15px;
+}
+
+
+/* right */
+
+/* 標籤 */
+.feed{
+    height: 140px;
+    text-align: center;
+}
+
+.feed a{
+    margin: 0 10px;
+}
+
+.feed button{
+    margin-top: 20px;
+}
+
+/* 留言 */
+#newcomment{
+    font-size: 10px;
+    margin: 10px 0px 0px 730px;
+}
+
+.fw-bold input{
+    margin-left: 550px;
+}
+
