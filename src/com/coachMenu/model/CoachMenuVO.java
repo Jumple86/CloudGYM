@@ -11,6 +11,7 @@ public class CoachMenuVO implements Serializable {
 	private Timestamp publishDate;
 	private Integer price;
 	private Boolean isPublic;
+	private Integer positionNo;
 	
 	
 	
@@ -49,5 +50,11 @@ public class CoachMenuVO implements Serializable {
 	}
 	public void setIsPublic(Boolean isPublic) {
 		this.isPublic = isPublic;
+	}
+	public Integer getPositionNo() {
+		return positionNo;
+	}
+	public void setPositionNo(Integer positionNo) {
+		this.positionNo = positionNo;
 	}
 }

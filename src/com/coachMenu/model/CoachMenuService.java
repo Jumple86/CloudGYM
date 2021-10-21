@@ -15,18 +15,20 @@ public class CoachMenuService {
 		dao = new CoachMenuJDBCDAO();
 	}
 	
-	public CoachMenuVO addCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic) {
+	public CoachMenuVO addCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic, Integer positionNo) {
 		CoachMenuVO coachMenuVO = new CoachMenuVO();
 		
 		coachMenuVO.setUserID(userID);
 		coachMenuVO.setMenuName(menuName);
 		coachMenuVO.setPrice(price);
 		coachMenuVO.setIsPublic(isPublic);
-		dao.insert(coachMenuVO);
+		coachMenuVO.setPositionNo(positionNo);
+		Integer menuID = dao.insert(coachMenuVO);
+		coachMenuVO.setMenuID(menuID);
 		return coachMenuVO;
 	}
 	
-	public CoachMenuVO updateCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic, Integer menuID){
+	public CoachMenuVO updateCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic, Integer positionNo, Integer menuID){
 		CoachMenuVO coachMenuVO = new CoachMenuVO();
 		
 		coachMenuVO.setUserID(userID);
@@ -34,6 +36,7 @@ public class CoachMenuService {
 		coachMenuVO.setPublishDate(ts);
 		coachMenuVO.setPrice(price);
 		coachMenuVO.setIsPublic(isPublic);
+		coachMenuVO.setPositionNo(positionNo);
 		coachMenuVO.setMenuID(menuID);
 		dao.update(coachMenuVO);
 		return coachMenuVO;
