@@ -57,5 +57,8 @@ public class PostsService {
 	public List<PostsVO> getAll() {
 		return dao.findAll();
 	}
-
+	
+	public List<PostsVO> getAll2() {
+		return dao.findAll2();
+	}
 }

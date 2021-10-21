@@ -22,6 +22,7 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String FIND_PK = "select * from posts where postsid = ?";
 	private static final String FIND_TOP = "select * from posts where postsshow = 1 order by postsLikes desc";
 	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
+	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
 
 	static {
 		try {
@@ -297,6 +298,62 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<PostsVO> findAll2() {
+
+		List<PostsVO> list2 = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_ALL2);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				PostsVO postsVO = new PostsVO();
+				postsVO.setPostsID(rs.getInt("postsid"));
+				postsVO.setUserID(rs.getInt("userid"));
+				postsVO.setPostsTitle(rs.getString("poststitle"));
+				postsVO.setPostsContent(rs.getString("postscontent"));
+				postsVO.setPostsImg(rs.getBytes("postsimg"));
+				postsVO.setPostsPublishDate(rs.getTimestamp("postspublishdate"));
+				postsVO.setTagID(rs.getInt("tagid"));
+				postsVO.setPostsLikes(rs.getInt("postslikes"));
+				postsVO.setPostsReportedTimes(rs.getInt("postsreportedtimes"));
+				postsVO.setPostsShow(rs.getBoolean("postsshow"));
+				list2.add(postsVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return list2;
 	}
 
 	public static void main(String[] args) throws IOException {
