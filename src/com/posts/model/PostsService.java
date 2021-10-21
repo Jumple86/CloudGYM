@@ -11,31 +11,33 @@ public class PostsService {
 		dao = new PostsJDBCDAO();
 	}
 
-	public PostsVO addPosts(Integer postsID, Integer userID, String postsTitle, String postsContent, byte[] postsImg,
-			Timestamp postsPublishDate, Integer tagID, boolean postsShow) {
+	public PostsVO addPosts(Integer userID, String postsTitle, String postsContent, byte[] postsImg,
+			Timestamp postsPublishDate, Integer tagID) {
 		PostsVO postsVO = new PostsVO();
-		postsVO.setPostsID(postsID);
 		postsVO.setUserID(userID);
 		postsVO.setPostsTitle(postsTitle);
 		postsVO.setPostsContent(postsContent);
 		postsVO.setPostsImg(postsImg);
 		postsVO.setPostsPublishDate(postsPublishDate);
 		postsVO.setTagID(tagID);
-		postsVO.setPostsShow(postsShow);
 		dao.insert(postsVO);
 		return postsVO;
 	}
 
 	public PostsVO updatePosts(String postsTitle, String postsContent, byte[] postsImg, Timestamp postsPublishDate,
-			Integer tagID, boolean postsShow, Integer postsID) {
+			Integer tagID, Integer postsID) {
 		PostsVO postsVO = new PostsVO();
 		postsVO.setPostsTitle(postsTitle);
 		postsVO.setPostsContent(postsContent);
 		postsVO.setPostsImg(postsImg);
 		postsVO.setPostsPublishDate(postsPublishDate);
 		postsVO.setTagID(tagID);
-		postsVO.setPostsShow(postsShow);
 		postsVO.setPostsID(postsID);
+		dao.update(postsVO);
+		return postsVO;
+	}
+
+	public PostsVO updatePosts(PostsVO postsVO) {
 		dao.update(postsVO);
 		return postsVO;
 	}
@@ -48,8 +50,15 @@ public class PostsService {
 		return dao.findByPrimaryKey(postsID);
 	}
 
+	public List<PostsVO> getTopPost() {
+		return dao.findByTopPost();
+	}
+
 	public List<PostsVO> getAll() {
 		return dao.findAll();
 	}
-
+	
+	public List<PostsVO> getAll2() {
+		return dao.findAll2();
+	}
 }
