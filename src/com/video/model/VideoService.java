@@ -40,6 +40,11 @@ public class VideoService {
 		dao.update(videoVO);
 		return videoVO;
 	}
+	
+	public VideoVO update(VideoVO videoVO) {
+		dao.update(videoVO);
+		return videoVO;
+	}
 
 	public void delete(Integer videoID) {
 		dao.delete(videoID);
