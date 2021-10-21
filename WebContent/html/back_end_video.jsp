@@ -6,8 +6,14 @@
 <jsp:useBean id="coachSvc" scope="page"
 	class="com.coach.model.CoachService" />
 <%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
+
+<%
 	VideoService videoSvc = new VideoService();
-	List<VideoVO> list = videoSvc.getAll();
+	List<VideoVO> list = videoSvc.getAll2();
 	pageContext.setAttribute("list", list);
 %>
 <!DOCTYPE html>
@@ -132,9 +138,9 @@
 						%>
 						<%
 							int number = pageIndex + 1;
+				       		session.setAttribute("whichPage",whichPage);
 						%>
-						<c:forEach var="videoVO" items="${list}" begin="<%=pageIndex%>"
-							end="<%=pageIndex+rowsPerPage-1%>">
+						<c:forEach var="videoVO" items="${list}" begin="<%=pageIndex%>"	end="<%=pageIndex+rowsPerPage-1%>">
 							<tr>
 								<th scope="row"><%=number++%></th>
 								<td>${videoVO.videoID}</td>
@@ -150,14 +156,16 @@
 									<%--                             <source src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoVO.videoID}" type="video/mp4"> --%>
 									<!--                            <source src="https://giant.gfycat.com/VerifiableTerrificHind.webm" type="video/webm">  -->
 									<!--                         </video> --></td>
-								<td><input type="radio" name="videoshow" value="open"
-									${videoVO.listed == true ? "checked='true'" : ""}>公開 <input
-									type="radio" name="videoshow" value="close"
+								<td>
+								<input type="radio" name="videoshow${videoVO.videoID}"
+									${videoVO.listed == true ? "checked='true'" : ""}>公開
+								<input type="radio" name="videoshow${videoVO.videoID}"
 									${videoVO.listed == false ? "checked='true'" : ""}>不公開
 								</td>
 								<td>
-									<form method="post" action="xxx">
-										<button type="submit">
+									<form method="post" action="video.do">
+									<input type="hidden" name="videoID" value="${videoVO.videoID}">
+										<button type="submit" name="action" value="updatelist">
 											<i class="bi bi-check-all"></i>
 										</button>
 									</form>
@@ -170,7 +178,7 @@
 					<%
 						for (int i = 0; i < pageIndexArray.length; i++) {
 					%>
-					<a href="<%request.getRequestURI();%>?whichPage=<%=i + 1%>"><%=i + 1%></a>
+					<a href="<%=request.getContextPath()%>/html/back_end_video.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
 					<%
 						}
 					%>
