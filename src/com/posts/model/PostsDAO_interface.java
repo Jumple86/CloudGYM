@@ -9,4 +9,5 @@ public interface PostsDAO_interface {
 	public PostsVO findByPrimaryKey(Integer postsID);
 	public List<PostsVO> findByTopPost();
 	public List<PostsVO> findAll();
+	public List<PostsVO> findAll2();
 }
