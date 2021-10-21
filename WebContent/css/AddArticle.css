@@ -1,0 +1,38 @@
+body{
+    font-family: arial 微軟正黑體;
+    background-color: #31105E;
+}
+
+/* header */
+#bar{
+    height: 40px;
+    background-color: #5C37A1;
+}
+
+/* main */
+.container{
+    background-color: #ECE9F2;
+    border-radius: 25px;
+    margin: 100px auto 0;
+}
+
+.container h1{
+    padding-top: 30px;
+    margin-left: 30px;
+}
+
+
+.sub{
+    text-align: center;
+}
+
+.sub button{
+    width: 150px;
+    margin: 30px;
+}
+
+.form-label{
+    font-size: 20px;
+    font-weight:bold;
+}
+

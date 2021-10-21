@@ -7,5 +7,6 @@ public interface CommentDAO_interface {
 	public void update(CommentVO commentVO);
 	public void delete(Integer commentID);
 	public CommentVO findByPrimaryKey(Integer commentID);
+	public Integer countByComment(Integer postsID);
 	public List<CommentVO> findAll();
 }
