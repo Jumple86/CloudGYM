@@ -16,7 +16,7 @@
 			       <h3> 保護的頁面 - protected_test_coach.jsp      </h3> 
 				     <h3> coachAccount:<font color=red> ${coachAccount} </font>您好 </h3>
 				     <h3> coachName:<font color=red> ${coachName} </font>您好 </h3>
-				     <h3> coachID:<font color=red> ${coachID} </font>您好 </h3>
+				     <h3> coachID:<font color=red> ${userID} </font>您好 </h3>
 			 </td>
 		</tr>
 	</table>
