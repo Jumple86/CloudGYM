@@ -64,6 +64,10 @@ public class CoachService {
 		return dao.findByUserID(userID);
 	}
 	
+	public CoachVO findByCoachAccount(String coachAccount) {
+		return dao.findByCoachAccount(coachAccount);
+	}
+
 	public List<CoachVO> getAll() {
 		return dao.findAll();
 	}

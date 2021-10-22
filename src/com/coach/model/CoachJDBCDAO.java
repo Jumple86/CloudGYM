@@ -1,6 +1,9 @@
 package com.coach.model;
 
 import java.util.*;
+
+import com.user.model.UserVO;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -25,6 +28,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			"DELETE FROM coach WHERE userID=?";
 	private static final String FIND_BY_USERID_STMT = 
 			"SELECT * FROM coach WHERE userID = ?";
+	private static final String FIND_BY_COACHACCOUNT = "SELECT * FROM coach WHERE coachAccount=?";
 	private static final String FIND_ALL = 
 			"SELECT * FROM coach";
 	
@@ -225,6 +229,59 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 		return coachVO;
 	}
 
+	@Override
+	public CoachVO findByCoachAccount(String coachAccount) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CoachVO coachVO = null;
+
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(FIND_BY_COACHACCOUNT);
+			pstmt.setString(1, coachAccount);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				coachVO = new CoachVO();
+				coachVO.setUserID(rs.getInt("userID"));
+				coachVO.setCoachAccount(rs.getString("coachAccount"));
+				coachVO.setCoachName(rs.getString("coachName"));
+				coachVO.setCoachPassword(rs.getString("coachPassword"));
+				coachVO.setCoachImg(rs.getBytes("coachImg"));
+				coachVO.setUserMobile(rs.getString("userMobile"));
+				coachVO.setCoachSex(rs.getString("coachSex"));
+				coachVO.setCoachBirthday(rs.getDate("coachBirthday"));
+				coachVO.setCoachDescription(rs.getString("coachDescription"));
+				coachVO.setCoachRegisteredDate(rs.getDate("coachRegisteredDate"));
+				coachVO.setCoachCertificate(rs.getString("coachCertificate"));
+				coachVO.setReportedTimes(rs.getInt("reportedTimes"));
+			}
+
+		} catch (SQLException se) {
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+
+		return coachVO;
+	}
+	
 	@Override
 	public List<CoachVO> findAll() {
 
