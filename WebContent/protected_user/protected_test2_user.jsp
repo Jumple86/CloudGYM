@@ -17,7 +17,6 @@
 				     <h3> account:<font color=red> ${account} </font>您好 </h3>
 				     <h3> name:<font color=red> ${name} </font>您好 </h3>
 				     <h3> id:<font color=red> ${id} </font>您好 </h3>
-				     <a href="/Web/servlet/logouthandler">登出</a>
 			 </td>
 		</tr>
 	</table>
