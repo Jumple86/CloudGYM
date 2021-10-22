@@ -129,12 +129,29 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>VideoServlet</servlet-name>
+		<servlet-class>com.video.controller.VideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoServlet</servlet-name>
+		<url-pattern>/html/video.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Reader</servlet-name>
 		<servlet-class>com.posts.controller.Reader</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Reader</servlet-name>
 		<url-pattern>/Reader</url-pattern>
+	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>SubListServlet</servlet-name>
+		<servlet-class>com.subList.controller.SubListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubListServlet</servlet-name>
+		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
 
 	<resource-ref>
