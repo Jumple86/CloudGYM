@@ -11,7 +11,7 @@
 <meta charset="BIG5">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>sign_in_page</title>
+<title>login_user</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/login_user.css">
 </head>
@@ -19,7 +19,7 @@
 
 	<div id="login">
 		<form method="post" action="loginhandler">
-			<h2>登入</h2>
+			<h2>會員登入</h2>
 			<input type="text" name="account" placeholder="請輸入帳號" id="email"
 			value="<%=(userVO == null) ? "1001@cloudgym.com" : userVO.getUserAccount()%>"> 
 			<br> 
@@ -30,7 +30,7 @@
 			<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
 					<c:forEach var="message" items="${errorMsgs}">
-						<a id="test">${message}</a>
+						<a id="errormsg">${message}</a>
 					</c:forEach>
 				</c:if>
 			
