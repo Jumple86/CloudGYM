@@ -13,15 +13,23 @@
 	<table border='1' cellpadding='5' cellspacing='0' width='400'>
 		<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 			 <td>   
-			       <h3> 保護的頁面 - protected_test_user.jsp      </h3> 
+			         <h3> 保護的頁面 - protected_test_user.jsp      </h3> 
 				     <h3> account:<font color=red> ${account} </font>您好 </h3>
 				     <h3> name:<font color=red> ${name} </font>您好 </h3>
 				     <h3> id:<font color=red> ${id} </font>您好 </h3>
+				     <a href="/Web/servlet/logouthandler">登出</a>
 			 </td>
 		</tr>
 	</table>
 	<b> <br>
 	<br>                以下留空....
+	
+	
+	<form action='LogoutHandler'  method="post">
+		<input name="button" type="submit" id="button" value="Logout">
+	</form>
+	
+	
 	</b>
 	
 </body>
