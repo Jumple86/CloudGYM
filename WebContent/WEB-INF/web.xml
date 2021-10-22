@@ -153,6 +153,34 @@
 		<url-pattern>/Reader</url-pattern>
 	</servlet-mapping>
 
+	<filter>
+		<filter-name>loginFilterUser</filter-name>
+		<filter-class>filters.LoginFilterUser</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterUser</filter-name>
+		<url-pattern>/html/protected_user/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>loginFilterCoach</filter-name>
+		<filter-class>filters.LoginFilterCoach</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterCoach</filter-name>
+		<url-pattern>/html/protected_coach/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+
 	<resource-ref>
 		<description>DB Connection</description>
 		<res-ref-name>jdbc/TestDB2</res-ref-name>
