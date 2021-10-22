@@ -1,0 +1,159 @@
+body{
+    font-family: 微軟正黑體;
+}
+
+#bar{
+    height: 40px;
+    background-color: #5C37A1;
+    overflow: hidden;
+    position:fixed;
+    width: 100%;
+    z-index: 10;
+}
+ 
+#title{
+    float: left;
+    margin-left: 20px;
+    overflow: hidden;
+}
+ 
+img{
+    width: 35px;
+    margin-top: 3px;
+}
+ 
+.bar_li{
+    float: left;
+}
+ 
+a{
+    color: #fff;
+    text-decoration: none;
+    line-height: 40px;
+    margin-left: 10px;
+}
+ 
+#option{
+    float: right;
+    overflow: hidden;
+}
+ 
+.option{
+    float: left;
+    color: white;
+    line-height: 40px;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.bi{
+    margin-top: 7px;
+}
+
+#main_img{
+    width: 100%;
+    margin-top: 0;
+}
+
+#top{
+    padding-top: 40px;
+}
+
+#center{
+    border:1px solid black;
+    height: 600px;
+    background-color: #31105E;
+}
+
+#text1{
+    overflow: hidden;
+    width: 1000px;
+    margin: 50px auto 20px;
+}
+
+#hot_video{
+    float: left;
+    color: #fff;
+}
+
+#more{
+    float: right;
+    color: #fff;
+}
+
+#video_pic_div{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.video_pic{
+    width: 250px;
+    margin-right: 120px;
+}
+
+.video_pic3{
+    margin-right: 0;
+}
+
+.video_name{
+    display: inline-block;
+    margin-right: 155px;
+    color: #fff;
+    margin-top: 5px;
+}
+
+.name3{
+    margin-right: 0;
+}
+
+.coach{
+    margin-left: 120px;
+    color: #fff;
+}
+
+#coach_rank{
+    width: 1000px;
+    margin: 50px auto 20px;
+    color: #fff;
+}
+
+#coach_pic_div{
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.coach_pic{
+    width: 250px;
+    margin-right: 120px;
+}
+
+.pic3{
+    margin-right: 0;
+}
+
+.coach_list{
+    display: inline-block;
+    margin-right: 340px;
+    margin-top: 10px;
+}
+
+.list3{
+    margin-right: 0;
+}
+
+#bottom{
+    height: 250px;
+    background-color: #5C37A1;
+    padding-top: 80px;
+}
+
+p{
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+}
+
+#address{
+    margin-top: 70px;
+}
