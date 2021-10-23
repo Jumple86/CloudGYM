@@ -18,6 +18,7 @@ public class UserJDBCDAO implements UserDAO_interface {
 	private static final String FIND_BY_USERID = "SELECT * FROM user WHERE userID=?";
 	private static final String FIND_BY_USERACCOUNT = "SELECT * FROM user WHERE userAccount=?";
 	private static final String GET_ALL = "SELECT * FROM user";
+	private static final String CHANGEPASSWORD = "UPDATE user SET userPassword=? WHERE userID=?";
 
 	static {
 		try {
@@ -293,6 +294,44 @@ public class UserJDBCDAO implements UserDAO_interface {
 			}
 		}
 		return userList;
+	}
+	
+	@Override
+	public void changePassword(UserVO userVO) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USERID, PASSWORD);
+			pstmt = con.prepareStatement(CHANGEPASSWORD);
+			
+			pstmt.setString(1, userVO.getUserPassword());
+			pstmt.setInt(2, userVO.getUserID());
+			
+			pstmt.executeUpdate();
+
+
+		} catch (SQLException se) {
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {
