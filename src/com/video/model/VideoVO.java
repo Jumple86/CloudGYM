@@ -19,7 +19,7 @@ public class VideoVO implements Serializable{
 	private Boolean listed;
 	private String level;
 	private byte[] img;
-	private InputStream content;
+	private byte[] content;
 	
 	public VideoVO() {
 		
@@ -121,11 +121,11 @@ public class VideoVO implements Serializable{
 		this.img = img;
 	}
 
-	public InputStream getContent() {
+	public byte[] getContent() {
 		return content;
 	}
 
-	public void setContent(InputStream content2) {
+	public void setContent(byte[] content2) {
 		this.content = content2;
 	}
 

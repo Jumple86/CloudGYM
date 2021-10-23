@@ -11,24 +11,25 @@ public class VideoService {
 		dao = new VideoJDBCDAO();
 	}
 
-	public VideoVO add(Integer userID, String title, Integer price, String intro, byte[] img, InputStream content, String level, Integer duration, Boolean listed, Integer reportedTimes, Timestamp publishTime) {
+	public VideoVO add(Integer userID, String title, Integer price, String intro, byte[] content, String level) {
 		VideoVO videoVO = new VideoVO();
 		videoVO.setUserID(userID);
 		videoVO.setTitle(title);
 		videoVO.setPrice(price);
 		videoVO.setIntro(intro);
-		videoVO.setImg(img);
+//		videoVO.setImg(img);
 		videoVO.setContent(content);
 		videoVO.setLevel(level);
-		videoVO.setDuration(duration);
-		videoVO.setListed(listed);
-		videoVO.setReportedTimes(reportedTimes);
-		videoVO.setPublishTime(publishTime);
-		dao.add(videoVO);
+//		videoVO.setDuration(duration);
+//		videoVO.setListed(listed);
+//		videoVO.setReportedTimes(reportedTimes);
+//		videoVO.setPublishTime(publishTime);
+		Integer videoID = dao.add(videoVO);
+		videoVO.setVideoID(videoID);
 		return videoVO;
 	}
 
-	public VideoVO update(String title, Integer price, String intro, byte[] img, InputStream content, String level , Integer videoID) {
+	public VideoVO update(String title, Integer price, String intro, byte[] img, byte[] content, String level , Integer videoID) {
 		VideoVO videoVO = new VideoVO();
 		videoVO.setTitle(title);
 		videoVO.setPrice(price);
