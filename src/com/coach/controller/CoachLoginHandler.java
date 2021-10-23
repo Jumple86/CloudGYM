@@ -93,7 +93,7 @@ public class CoachLoginHandler extends HttpServlet {
 				HttpSession session = req.getSession();
 				session.setAttribute("coachAccount", account); // *工作1: 才在session內做已經登入過的標識
 				session.setAttribute("coachName", name);
-				session.setAttribute("coachID", id);
+				session.setAttribute("userID", id);
 	
 				try {
 					String location = (String) session.getAttribute("location");

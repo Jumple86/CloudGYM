@@ -34,7 +34,7 @@
 					</c:forEach>
 				</c:if>
 			
-			<a id="forget" href="#">忘記密碼了?笑你</a>
+			<a id="forget" href="./forget_password.jsp">忘記密碼了?笑你</a>
 			
 			
 			
