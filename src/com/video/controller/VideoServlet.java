@@ -2,8 +2,7 @@ package com.video.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.video.model.VideoService;
-import com.video.model.VideoVO;
+import com.video.model.*;
+import com.videoAction.model.*;
 
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 100 * 1024 * 1024, maxRequestSize = 500 * 1024 * 1024)
@@ -76,23 +75,158 @@ public class VideoServlet extends HttpServlet {
 			req.setAttribute("errorMsgs", errorMsgs);
 			
 			try {
-//				String 
-				String[] actionnames = req.getParameterValues("actionname");
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				Integer userID = Integer.parseInt(req.getParameter("userID"));
+				
+				String title = req.getParameter("title");
+				if(title.trim().length() == 0) {
+					errorMsgs.add("請輸入影片標題");
+				}
+				
+				String priceStr = req.getParameter("price");
+				Integer price = null;
+				if (priceStr.trim().length() == 0) {
+					errorMsgs.add("請輸入菜單價格");
+				}else {
+					try {
+						price = Integer.parseInt(priceStr);
+					} catch (NumberFormatException ne) {
+						errorMsgs.add("價格格式錯誤");
+					}
+				}
+				
+				String intro = req.getParameter("intro");
+				if(intro.trim().length() == 0) {
+					errorMsgs.add("請輸入影片介紹");
+				}
+				
+				String level = req.getParameter("level");
+				
+				String actionname1 = req.getParameter("actionname1");
+				String times1 = req.getParameter("times1");
+				String set1 = req.getParameter("set1");
+				String actionname2 = req.getParameter("actionname2");
+				String times2 = req.getParameter("times2");
+				String set2 = req.getParameter("set2");
+				String actionname3 = req.getParameter("actionname3");
+				String times3 = req.getParameter("times3");
+				String set3 = req.getParameter("set3");
+				String[] action1 = {actionname1, times1, set1};
+				String[] action2 = {actionname2, times2, set2};
+				String[] action3 = {actionname3, times3, set3};
+				
+				if(action1[0].trim().equals("") && action1[1].trim().equals("") && action1[2].trim().equals("")) {
+					action1 = null;
+				}
+				if(action2[0].trim().equals("") && action2[1].trim().equals("") && action2[2].trim().equals("")) {
+					action2 = null;
+				}
+				if(action3[0].trim().equals("") && action3[1].trim().equals("") && action3[2].trim().equals("")) {
+					action3 = null;
+				}
+				if(action1 != null && action2 != null) {
+					if(action2[0].trim().equals(action1[0])) {
+						action2 = null;
+					}
+				}
+				if(action1 != null && action2 != null && action3!= null) {
+					if(action3[0].trim().equals(action1[0]) || action3[0].trim().equals(action2[0])) {
+						action3 = null;
+					}
+				}
+				
+				if(action1 != null) {
+					for(int i = 0; i < action1.length; i++) {
+						if(action1[i].trim().equals("")) {
+							errorMsgs.add("請輸入動作名稱與相應的次數與組數");
+							break;
+						}
+					}
+				}
+				if(action2 != null) {
+					for(int i = 0; i < action2.length; i++) {
+						if(action2[i].trim().equals("")) {
+							errorMsgs.add("請輸入動作名稱與相應的次數與組數");
+							break;
+						}
+					}
+				}
+				if(action3 != null) {
+					for(int i = 0; i < action3.length; i++) {
+						if(action3[i].trim().equals("")) {
+							errorMsgs.add("請輸入動作名稱與相應的次數與組數");
+							break;
+						}
+					}
+				}
+				if(action1 == null && action2 == null && action3 == null) {
+					errorMsgs.add("請至少輸入一組動作名稱和次數");
+				}
+				
 				
 				Part part = req.getPart("video");
-				System.out.println(part.getSize());
+//				System.out.println(part.getSize());
 				String filename = part.getSubmittedFileName();
-				if(filename.equals("")) {
-					System.out.println("true");
-				}
-				System.out.println(filename);
-				byte[] buf = null;
+//				if(filename.equals("")) {
+//					System.out.println("true");
+//				}
+//				System.out.println("filename = " + filename);
+				byte[] content = null;
 				if(filename.length() != 0 && part.getSize() != 0) {
 					InputStream in = part.getInputStream();
-					buf = new byte[in.available()];
-					in.read(buf);
+					content = new byte[in.available()];
+					in.read(content);
 					in.close();
+				}else {
+					errorMsgs.add("請上傳影片");
 				}
+				
+				VideoVO videoVO = new VideoVO();
+				videoVO.setUserID(userID);
+				videoVO.setTitle(title);
+				videoVO.setPrice(price);
+				videoVO.setIntro(intro);
+				videoVO.setContent(content);
+				videoVO.setLevel(level);
+				
+				if(!errorMsgs.isEmpty()) {
+					for(String message : errorMsgs) {
+						System.out.println(message);
+					}
+					req.setAttribute("videoVO", videoVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/buildVideo.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				System.out.println(userID);
+				/***************************2.開始新增資料*****************************************/
+				VideoService videoSvc = new VideoService();
+				VideoVO video = videoSvc.add(userID, title, price, intro, content, level);
+				Integer videoID = video.getVideoID();
+				
+				VideoActionService videoactionSvc = new VideoActionService();
+				if(action1 != null) {
+					Integer times = Integer.parseInt(action1[1]);
+					Integer set = Integer.parseInt(action1[2]);
+					videoactionSvc.addVideoAction(videoID, actionname1, times, set);
+				}
+				if(action2 != null) {
+					Integer times = Integer.parseInt(action2[1]);
+					Integer set = Integer.parseInt(action2[2]);
+					videoactionSvc.addVideoAction(videoID, actionname2, times, set);
+				}
+				if(action3 != null) {
+					Integer times = Integer.parseInt(action3[1]);
+					Integer set = Integer.parseInt(action3[2]);
+					videoactionSvc.addVideoAction(videoID, actionname3, times, set);
+				}
+				
+				/***************************3.新增完成,準備轉交(Send the Success view)*************/
+				
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				successView.forward(req, res);
+				
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
