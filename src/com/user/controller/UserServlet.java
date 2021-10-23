@@ -70,8 +70,8 @@ public class UserServlet extends HttpServlet {
 					errorMsgs.add("帳號: 請勿空白!");
 				}else if (!userAccount.trim().matches(accountReg)) {
 					errorMsgs.add("email格式錯誤");
-				}else if(userAccount != null && userSvc.findByUserAccount(userAccount) == null){ 
-					errorMsgs.add("帳號: 該用戶尚未註冊!");
+				}else if(userAccount != null && userSvc.findByUserAccount(userAccount) != null){ 
+					errorMsgs.add("帳號: 該用戶已註冊!");
 				}
 
 				String userPassword = req.getParameter("userPassword").trim();
