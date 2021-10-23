@@ -24,9 +24,11 @@
 	<br>                ¥H¤U¯dªÅ....
 	</b>
 	
-	<form action='CoachLogoutHandler'  method="post">
-		<input name="button" type="submit" id="button" value="Logout">
-	</form>
+<!-- 	<form action='CoachLogoutHandler'  method="post"> -->
+<!-- 		<input name="button" type="submit" id="button" value="Logout"> -->
+<!-- 	</form> -->
+	
+	<%@include file="../logout_test.file"%>
 	
 </body>
 </html>

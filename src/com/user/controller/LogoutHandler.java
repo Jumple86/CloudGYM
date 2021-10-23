@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebServlet("/protected_user/LogoutHandler")
+@WebServlet("/LogoutHandler")
 public class LogoutHandler extends HttpServlet {
 
 	/**
@@ -32,10 +32,18 @@ public class LogoutHandler extends HttpServlet {
 			return;
 		}
 		
+		/****一般會員的session****/
 		session.removeAttribute("account");
 		session.removeAttribute("name");
 		session.removeAttribute("id");
-		res.sendRedirect(req.getContextPath() + "/html/login_user.jsp");
+		
+		/****一般會員的session****/
+		session.removeAttribute("account");
+		session.removeAttribute("name");
+		session.removeAttribute("id");
+		
+		
+		res.sendRedirect(req.getContextPath() + "/html/main_page.jsp");
 
 	}
 
