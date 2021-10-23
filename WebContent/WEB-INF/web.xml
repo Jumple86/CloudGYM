@@ -138,6 +138,22 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>SubListServlet</servlet-name>
+		<servlet-class>com.subList.controller.SubListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubListServlet</servlet-name>
+		<url-pattern>/html/sublist.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>VideoServlet</servlet-name>
+		<servlet-class>com.video.controller.VideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoServlet</servlet-name>
+		<url-pattern>/html/video.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Reader</servlet-name>
 		<servlet-class>com.posts.controller.Reader</servlet-class>
 	</servlet>
@@ -145,6 +161,34 @@
 		<servlet-name>Reader</servlet-name>
 		<url-pattern>/Reader</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>loginFilterUser</filter-name>
+		<filter-class>filters.LoginFilterUser</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterUser</filter-name>
+		<url-pattern>/protected_user/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>loginFilterCoach</filter-name>
+		<filter-class>filters.LoginFilterCoach</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterCoach</filter-name>
+		<url-pattern>/protected_coach/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
 
 	<resource-ref>
 		<description>DB Connection</description>

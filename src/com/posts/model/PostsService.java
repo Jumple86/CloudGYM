@@ -2,7 +2,7 @@ package com.posts.model;
 
 import java.sql.Timestamp;
 import java.util.List;
-
+ 
 public class PostsService {
 
 	private PostsDAO_interface dao;

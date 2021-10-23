@@ -44,10 +44,20 @@
 
             <div id="right">
             <div class="main">
+            <%-- 錯誤表列 --%>
+				<c:if test="${not empty errorMsgs}">
+					<font style="color: red">請修正以下錯誤:</font>
+					<ul>
+						<c:forEach var="message" items="${errorMsgs}">
+							<li style="color: red">${message}</li>
+						</c:forEach>
+					</ul>
+				</c:if>
                 <div class="main-out">
                     <div class="name">訂閱方案修改</div>               
-
+                    <form method="post" action="sublist.do">
                         <ul class="name-ul">
+                        	<input type="hidden" name="subName" value="${sublistVO.subName}">
                             <li class="name-li">方案名稱 <span>${sublistVO.subName}</span>
                             </li>
                             <li class="name-li"><span>方案時長</span>
@@ -58,12 +68,14 @@
                             </li>                            
                             
                             <div>
+                            	<input type="hidden" name="subID" value="${sublistVO.subID}">
                                 <button class="confirm" type="submit" name="action" value="update">確認</button>
                                 <a href="<%=request.getContextPath()%>/html/back_end_sublist.jsp">
                                 <button class="cancel" type="button">取消</button>
                             	</a>
                             </div>
                         </ul>
+                      </form>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 package com.posts.model;
-
+ 
 import java.util.List;
 
 public interface PostsDAO_interface {
