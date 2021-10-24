@@ -146,11 +146,11 @@
 		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>VideoServlet</servlet-name>
+		<servlet-name>VideoServleta</servlet-name>
 		<servlet-class>com.video.controller.VideoServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>VideoServlet</servlet-name>
+		<servlet-name>VideoServleta</servlet-name>
 		<url-pattern>/html/video.do</url-pattern>
 	</servlet-mapping>
 	<servlet>
