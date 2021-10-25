@@ -40,8 +40,34 @@
 
 <body>
 
-	<!-- Navbar -->
-	<div id="bar"></div>
+	<!-- header -->
+	<div id="bar">
+        <div id="title">
+            <ul>
+                <li class="bar_li">
+                    <img src="../img/logo.png" alt="" for="#CloudGYM">
+                </li>
+                <li class="bar_li">
+                    <a href="#" id="CloudGYM">CloudGYM</a>
+                </li>
+            </ul>
+        </div>
+        <div id="option">
+            <ul>
+                <li class="option">運動類型</li>
+                <li class="option">教練</li>
+                <li class="option">個人專區</li>
+                <li class="option">討論區</li>
+                <li class="option">註冊/登入</li>
+                <li class="option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- header_end -->
 
 	<!-- main -->
 	<div class="container">
@@ -117,12 +143,9 @@
 		}
 		
         $("#cancel").click(function(){
-            console.log("cancel");
-     
-            var yes = confirm('你確定要取消新增文章嗎?');
+            var yes = confirm('你確定要取消編輯文章嗎?');
             if (yes) {
-            	console.log("yse");
-                alert(history.back());
+                history.back();
             } else {
             	console.log("no");
             }
