@@ -20,7 +20,7 @@ public class PostsServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
+							
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -162,7 +162,7 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料 *****************************************/
 				PostsService postsSvc = new PostsService();
-				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, postspublishdate, tagid, postsid);
+//				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, postspublishdate, tagid, postsid);
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("postsVO", postsVO);
@@ -267,21 +267,21 @@ public class PostsServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
-				Integer postsid = new Integer(req.getParameter("postsid"));
+				Integer postID= new Integer(req.getParameter("postsid"));
 
 				/*************************** 2.開始刪除資料 ***************************************/
 				PostsService postsSvc = new PostsService();
-				postsSvc.deletePosts(postsid);
+				postsSvc.deletePosts(postID);
 
 				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/Forum/ArticleList.jsp";
+				String url = "/html/back_end_post_page.jsp?postID="+postID;
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_post.jsp");
 				failureView.forward(req, res);
 			}
 		}
