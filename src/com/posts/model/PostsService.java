@@ -24,13 +24,11 @@ public class PostsService {
 		return postsVO;
 	}
 
-	public PostsVO updatePosts(String postsTitle, String postsContent, byte[] postsImg, Timestamp postsPublishDate,
-			Integer tagID, Integer postsID) {
+	public PostsVO updatePosts(String postsTitle, String postsContent, byte[] postsImg,	Integer tagID, Integer postsID) {
 		PostsVO postsVO = new PostsVO();
 		postsVO.setPostsTitle(postsTitle);
 		postsVO.setPostsContent(postsContent);
 		postsVO.setPostsImg(postsImg);
-		postsVO.setPostsPublishDate(postsPublishDate);
 		postsVO.setTagID(tagID);
 		postsVO.setPostsID(postsID);
 		dao.update(postsVO);

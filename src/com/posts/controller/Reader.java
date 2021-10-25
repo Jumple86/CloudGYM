@@ -41,7 +41,7 @@ public class Reader extends HttpServlet {
 	public void init() throws ServletException {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei", "root", "password");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei", "David", "123456");
 		} catch (ClassNotFoundException e) {
 			throw new UnavailableException("Couldn't load JdbcOdbcDriver");
 		} catch (SQLException e) {

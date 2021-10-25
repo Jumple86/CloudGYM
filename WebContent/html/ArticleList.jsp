@@ -3,15 +3,16 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.posts.model.*"%>
 
-<jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
+<jsp:useBean id="postsSvc" scope="page" class="com.posts.model.PostsService" />
 <jsp:useBean id="likesSvc" scope="page" class="com.likes.model.LikesService" />
 <jsp:useBean id="commentSvc" scope="page" class="com.comment.model.CommentService" />
+<jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
+<jsp:useBean id="coachSvc" scope="page" class="com.coach.model.CoachService" />
 
 <%
-	PostsService postssvc = new PostsService();
-	List<PostsVO> list = postssvc.getAll();
+	List<PostsVO> list = postsSvc.getAll();
 	pageContext.setAttribute("list", list);
-	List<PostsVO> top = postssvc.getTopPost();
+	List<PostsVO> top = postsSvc.getTopPost();
 	pageContext.setAttribute("top", top);
 
 	response.setHeader("Cache-Control", "no-store");
@@ -41,12 +42,38 @@
 <body>
 
 	<!-- header -->
-	<div class="bar"></div>
-
+	<div id="bar">
+        <div id="title">
+            <ul>
+                <li class="bar_li">
+                    <img src="../img/logo.png" alt="" for="#CloudGYM">
+                </li>
+                <li class="bar_li">
+                    <a href="#" id="CloudGYM">CloudGYM</a>
+                </li>
+            </ul>
+        </div>
+        <div id="option">
+            <ul>
+                <li class="option">運動類型</li>
+                <li class="option">教練</li>
+                <li class="option">個人專區</li>
+                <li class="option">討論區</li>
+                <li class="option">註冊/登入</li>
+                <li class="option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
 	<div class="navimg">
 		<img src="../img/forum_navimg.png">
 	</div>
-
+	<!-- header_end -->
+	<!-- tag -->
 	<div class="menu-wrapper">
 		<nav class="main-nav grid-container grid-parent">
 			<ul class="menu">
@@ -59,14 +86,15 @@
 			</ul>
 		</nav>
 	</div>
-
+	<!-- tag_end -->
+	
 	<!-- main -->
 	<div id="addarticle">
 		<div class="container">
 			<div class="row">
 				<div class="col">
 					<a href="AddArticle.jsp">
-						<button type="button" class="btn btn-outline-light">
+						<button class="btn btn-outline-light">
 							<i class="far fa-edit me-2"></i>新增文章
 						</button>
 					</a>
@@ -74,17 +102,14 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="container">
 		<div class="row">
 
 			<div class="col-8">
 
 				<%@ include file="page1.file"%>
-
 				<c:forEach var="PostsVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
-					<%-- 					<c:if test="${PostsVO.postsShow == true}"> --%>
-					<%-- 					<c:forEach var="PostsVO" items="${list}"> --%>
 					<div class="card mb-3">
 						<div class="row g-0">
 							<div class="col-md-4">
@@ -93,7 +118,11 @@
 							<div class="col-md-8">
 								<div class="card-body ms-3">
 									<h5 class="card-title">${PostsVO.postsTitle}</h5>
-									<small class="text-muted">作者：${userSvc.findByUserId(PostsVO.userID).userName}</small>
+									<small class="text-muted">
+									作者：
+									${userSvc.findByUserId(PostsVO.userID).userName}
+									${coachSvc.getByUserID(PostsVO.userID).coachName}
+									</small>
 									<p class="card-text">${PostsVO.postsContent}</p>
 									<div class="cb">
 										<a class="btn btn-outline-primary"
@@ -106,7 +135,6 @@
 						</div>
 					</div>
 					<hr>
-					<%-- 		</c:if> --%>
 				</c:forEach>
 
 
@@ -174,7 +202,7 @@
 
 					</ul>
 				</nav>
-				<!-- 分頁end-->
+				<!-- 分頁_end-->
 
 			</div>
 
