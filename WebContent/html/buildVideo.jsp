@@ -116,6 +116,16 @@
 						</h3>
 						<br>
 						<h3>
+							部位:
+							<jsp:useBean id="position" scope="page" class="com.thePosition.model.ThePositionService"/>
+							<select name="thePosition">
+							<c:forEach var="thePosition" items="${position.all}">
+								<option value="${thePosition.positionNo}">${thePosition.positionName}</option>
+							</c:forEach>
+							</select>
+						</h3>
+						<br>
+						<h3>
 							<input type="file" id="file-uploader" name="video">
 						</h3>
 					</div>

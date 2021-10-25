@@ -102,6 +102,8 @@ public class VideoServlet extends HttpServlet {
 				
 				String level = req.getParameter("level");
 				
+				Integer thePosition = Integer.parseInt(req.getParameter("thePosition"));
+				
 				String actionname1 = req.getParameter("actionname1");
 				String times1 = req.getParameter("times1");
 				String set1 = req.getParameter("set1");
@@ -202,7 +204,7 @@ public class VideoServlet extends HttpServlet {
 				System.out.println(userID);
 				/***************************2.開始新增資料*****************************************/
 				VideoService videoSvc = new VideoService();
-				VideoVO video = videoSvc.add(userID, title, price, intro, content, level);
+				VideoVO video = videoSvc.add(userID, title, price, intro, content, level, thePosition);
 				Integer videoID = video.getVideoID();
 				
 				VideoActionService videoactionSvc = new VideoActionService();
