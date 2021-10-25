@@ -11,7 +11,7 @@ public class VideoService {
 		dao = new VideoJDBCDAO();
 	}
 
-	public VideoVO add(Integer userID, String title, Integer price, String intro, byte[] content, String level) {
+	public VideoVO add(Integer userID, String title, Integer price, String intro, byte[] content, String level, Integer thePosition) {
 		VideoVO videoVO = new VideoVO();
 		videoVO.setUserID(userID);
 		videoVO.setTitle(title);
@@ -20,6 +20,7 @@ public class VideoService {
 //		videoVO.setImg(img);
 		videoVO.setContent(content);
 		videoVO.setLevel(level);
+		videoVO.setThePosition(thePosition);
 //		videoVO.setDuration(duration);
 //		videoVO.setListed(listed);
 //		videoVO.setReportedTimes(reportedTimes);
@@ -29,7 +30,7 @@ public class VideoService {
 		return videoVO;
 	}
 
-	public VideoVO update(String title, Integer price, String intro, byte[] img, byte[] content, String level , Integer videoID) {
+	public VideoVO update(String title, Integer price, String intro, byte[] img, byte[] content, String level , Integer videoID, Integer thePosition) {
 		VideoVO videoVO = new VideoVO();
 		videoVO.setTitle(title);
 		videoVO.setPrice(price);
@@ -38,6 +39,7 @@ public class VideoService {
 		videoVO.setContent(content);
 		videoVO.setLevel(level);
 		videoVO.setVideoID(videoID);
+		videoVO.setThePosition(thePosition);
 		dao.update(videoVO);
 		return videoVO;
 	}
@@ -65,5 +67,9 @@ public class VideoService {
 	
 	public List<VideoVO> getAll2(){
 		return dao.getAll2();
+	}
+	
+	public List<VideoVO> getByPositionNo(Integer positionNo){
+		return dao.findByPositionNo(positionNo);
 	}
 }
