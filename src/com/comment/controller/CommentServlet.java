@@ -68,33 +68,39 @@ public class CommentServlet extends HttpServlet {
 			out.close();
 
 		}
+		
+		
+		if ("delete".equals(action)) {
 
-//		if ("delete".equals(action)) {
-//
-//			List<String> errorMsgs = new LinkedList<String>();
-//			req.setAttribute("errorMsgs", errorMsgs);
-//
-//			try {
-//				/*************************** 1.接收請求參數 ***************************************/
-//				Integer commentid = new Integer(req.getParameter("commentid"));
-//
-//				/*************************** 2.開始刪除資料 ***************************************/
-//				CommentService commentSvc = new CommentService();
-//				commentSvc.deleteComment(commentid);
-//
-//				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 ***************************************/
+				Integer commentid = new Integer(req.getParameter("commentid"));
+
+				/*************************** 2.開始刪除資料 ***************************************/
+				CommentService commentSvc = new CommentService();
+				Integer postID = commentSvc.getByCommtntID(commentid).getPostsID();
+				
+				commentSvc.deleteComment(commentid);
+
+				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
 //				String url = "/Forum/ArticleList.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
-//
-//				/*************************** 其他可能的錯誤處理 **********************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
-//				failureView.forward(req, res);
-//			}
-//		}
+				String url = "/html/back_end_post_page.jsp?postID="+postID;
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
 
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add("刪除資料失敗:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_post.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
 	}
 
 }

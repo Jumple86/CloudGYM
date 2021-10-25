@@ -18,10 +18,10 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 	private static final String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO videoAction(videoID, action, times, sets) VALUES(?, ?, ?, ?)";
-	private static final String UPDATE_STMT = "UPDATE videoAction SET videoID=?, action=?, times=?, sets=? WHERE actionNo=?";
-	private static final String DELETE_STMT = "DELETE FROM videoAction WHERE actionNo=?";
+	private static final String UPDATE_STMT = "UPDATE videoAction SET videoID=?, action=?, times=?, sets=? WHERE actNo=?";
+	private static final String DELETE_STMT = "DELETE FROM videoAction WHERE actNo=?";
 	private static final String DELETE_BY_VIDEOID = "DELETE FROM videoAction WHERE videoID=?";
-	private static final String FIND_BY_ACTIONNO = "SELECT * FROM videoAction WHERE actionNo=?";
+	private static final String FIND_BY_ACTIONNO = "SELECT * FROM videoAction WHERE actNo=?";
 	private static final String FIND_BY_VIDEOID = "SELECT * FROM videoAction WHERE videoID=?";
 	private static final String GET_ALL = "SELECT * FROM videoAction";
 
@@ -80,7 +80,7 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 			pstmt.setString(2, videoActionVO.getAction());
 			pstmt.setInt(3, videoActionVO.getTimes());
 			pstmt.setInt(4, videoActionVO.getSets());
-			pstmt.setInt(5, videoActionVO.getActionNo());
+			pstmt.setInt(5, videoActionVO.getActNo());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,7 +177,7 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				videoActionVO = new VideoActionVO();
-				videoActionVO.setActionNo(rs.getInt("actionNo"));
+				videoActionVO.setActNo(rs.getInt("actNo"));
 				videoActionVO.setVideoID(rs.getInt("videoID"));
 				videoActionVO.setAction(rs.getString("action"));
 				videoActionVO.setTimes(rs.getInt("times"));
@@ -228,7 +228,7 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 
 			while (rs.next()) {
 				videoActionVO = new VideoActionVO();
-				videoActionVO.setActionNo(rs.getInt("actionNo"));
+				videoActionVO.setActNo(rs.getInt("actNo"));
 				videoActionVO.setVideoID(rs.getInt("videoID"));
 				videoActionVO.setAction(rs.getString("action"));
 				videoActionVO.setTimes(rs.getInt("times"));
@@ -278,7 +278,7 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 
 			while (rs.next()) {
 				videoActionVO = new VideoActionVO();
-				videoActionVO.setActionNo(rs.getInt("actionNo"));
+				videoActionVO.setActNo(rs.getInt("actNo"));
 				videoActionVO.setVideoID(rs.getInt("videoID"));
 				videoActionVO.setAction(rs.getString("action"));
 				videoActionVO.setTimes(rs.getInt("times"));
@@ -317,12 +317,12 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 		VideoActionJDBCDAO dao  = new VideoActionJDBCDAO();
 		
 		// insert
-//		VideoActionVO videoActionVO = new VideoActionVO();
-//		videoActionVO.setVideoID(30010);
-//		videoActionVO.setAction("xxxxxxxx");
-//		videoActionVO.setTimes(30);
-//		videoActionVO.setSets(10);
-//		dao.insert(videoActionVO);
+		VideoActionVO videoActionVO = new VideoActionVO();
+		videoActionVO.setVideoID(30010);
+		videoActionVO.setAction("動作二十");
+		videoActionVO.setTimes(30);
+		videoActionVO.setSets(10);
+		dao.insert(videoActionVO);
 		
 		// update
 //		VideoActionVO videoActionVO = new VideoActionVO();
@@ -362,7 +362,7 @@ public class VideoActionJDBCDAO implements VideoActionDAO_interface {
 		// get all
 		List<VideoActionVO> list = dao.getAll();
 		for(VideoActionVO vo : list) {
-			System.out.print(vo.getActionNo() + ", ");
+			System.out.print(vo.getActNo() + ", ");
 			System.out.print(vo.getVideoID() + ", ");
 			System.out.print(vo.getAction() + ", ");
 			System.out.print(vo.getTimes() + ", ");

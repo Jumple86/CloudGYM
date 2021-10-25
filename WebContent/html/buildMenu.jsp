@@ -98,7 +98,7 @@
 	                    <select name="positionNo">
 	                        <option selected disabled>
                                                         <% if(coachMenuVO == null){ %> 請選擇部位 <% }
-	                        							 else if(coachMenuVO.getPositionNo() == null){ %> 請選擇部位 <%}
+	                        						     else if(coachMenuVO.getPositionNo() == null){ %> 請選擇部位 <%}
 	                        							 else{positionSvc.getOnePosition(coachMenuVO.getPositionNo()).getPostionName();}%>
                                                         </option>
 	                        <c:forEach var="positionVO" items="${positionSvc.all}">

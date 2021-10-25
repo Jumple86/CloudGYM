@@ -68,9 +68,9 @@
 		</div>
 		<p>訂閱管理</p>
 		<div id="right">
-		<a href="<%=request.getContextPath()%>/html/back_end_sublist_add.jsp">
-				<button id="bat_btn" type="submit">新增方案</button>
-		</a>
+<%-- 		<a href="<%=request.getContextPath()%>/html/back_end_sublist_add.jsp"> --%>
+<!-- 				<button id="bat_btn" type="submit">新增方案</button> -->
+<!-- 		</a> -->
 			<div class="main">
 				<table class="table">
 					<thead>

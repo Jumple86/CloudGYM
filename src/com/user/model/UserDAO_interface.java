@@ -3,10 +3,11 @@ package com.user.model;
 import java.util.List;
 
 public interface UserDAO_interface {
-	void insert(UserVO userVO);
-	void update(UserVO userVO);
-	void delete(Integer userID);
-	UserVO findByUserId(Integer userID);
-	UserVO findByUserAccount(String userAccount);
-	List<UserVO> getAll();
+	public void insert(UserVO userVO);
+	public void update(UserVO userVO);
+	public void delete(Integer userID);
+	public UserVO findByUserId(Integer userID);
+	public UserVO findByUserAccount(String userAccount);
+	public List<UserVO> getAll();
+	public void changePassword(UserVO userVO);
 }

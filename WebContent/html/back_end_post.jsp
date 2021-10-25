@@ -3,13 +3,14 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.posts.model.*"%>
 
-<jsp:useBean id="userSvc" scope="page"
-	class="com.user.model.UserService" />
+<jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
 <%
 	PostsService postSvc = new PostsService();
 	List<PostsVO> list = postSvc.getAll();
 	pageContext.setAttribute("list", list);
+	session.getAttribute("adminNo");
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

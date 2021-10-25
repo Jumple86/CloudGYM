@@ -3,16 +3,17 @@ package com.videoAction.model;
 import java.io.Serializable;
 
 public class VideoActionVO implements Serializable {
-	private Integer actionNo;
+	private Integer actNo;
+	
 	private Integer videoID;
 	private String action;
 	private Integer times;
 	private Integer sets;
-	public Integer getActionNo() {
-		return actionNo;
+	public Integer getActNo() {
+		return actNo;
 	}
-	public void setActionNo(Integer actionNo) {
-		this.actionNo = actionNo;
+	public void setActNo(Integer actNo) {
+		this.actNo = actNo;
 	}
 	public Integer getVideoID() {
 		return videoID;

@@ -23,7 +23,7 @@ public class VideoActionService {
 	public VideoActionVO updateVideoAction(Integer actionNo, Integer videoID, String action, Integer times, Integer sets) {
 		VideoActionVO videoActionVO = new VideoActionVO();
 
-		videoActionVO.setActionNo(actionNo);
+		videoActionVO.setActNo(actionNo);
 		videoActionVO.setVideoID(videoID);
 		videoActionVO.setAction(action);
 		videoActionVO.setTimes(times);
