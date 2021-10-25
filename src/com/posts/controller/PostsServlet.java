@@ -152,15 +152,8 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料 *****************************************/
 				PostsService postsSvc = new PostsService();
-<<<<<<< HEAD
-<<<<<<< HEAD
-//				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, postspublishdate, tagid, postsid);
-=======
 				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, tagid, postsid);
->>>>>>> 6f7b5121b41893ff512df0fae43d1dd15b851c57
-=======
-				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, tagid, postsid);
->>>>>>> c0ca62cd8e30cb97a4e11c787258a7f6eff59e05
+
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("postsVO", postsVO);
@@ -244,7 +237,11 @@ public class PostsServlet extends HttpServlet {
 		}
 
 		if ("delete".equals(action)) {
+				List<String> errorMsgs = new LinkedList<String>();
+				req.setAttribute("errorMsgs", errorMsgs);
+		
 				/*************************** 1.接收請求參數 ***************************************/
+				try {
 				Integer postID= new Integer(req.getParameter("postsid"));
 
 				/*************************** 2.開始刪除資料 ***************************************/
@@ -262,7 +259,7 @@ public class PostsServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_post.jsp");
 				failureView.forward(req, res);
 			}
-
+		}
 	}
 
 }
