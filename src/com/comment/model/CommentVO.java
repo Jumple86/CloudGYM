@@ -11,6 +11,7 @@ public class CommentVO implements Serializable {
 	private String commentContent;
 	private Timestamp commentPublishDate;
 	private boolean commentShow;
+	private Integer commentReportedTimes;
 
 	public Integer getCommentID() {
 		return commentID;
@@ -60,10 +61,19 @@ public class CommentVO implements Serializable {
 		this.commentShow = commentShow;
 	}
 
+	public Integer getCommentReportedTimes() {
+		return commentReportedTimes;
+	}
+
+	public void setCommentReportedTimes(Integer commentReportedTimes) {
+		this.commentReportedTimes = commentReportedTimes;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentVO [commentID=" + commentID + ", postsID=" + postsID + ", userID=" + userID + ", commentContent="
-				+ commentContent + ", commentPublishDate=" + commentPublishDate + ", commentShow=" + commentShow + "]";
+				+ commentContent + ", commentPublishDate=" + commentPublishDate + ", commentShow=" + commentShow
+				+ ", commentReportedTimes=" + commentReportedTimes + "]";
 	}
 
 }

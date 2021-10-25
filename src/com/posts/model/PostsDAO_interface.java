@@ -10,4 +10,5 @@ public interface PostsDAO_interface {
 	public List<PostsVO> findByTopPost();
 	public List<PostsVO> findAll();
 	public List<PostsVO> findAll2();
+	public List<PostsVO> findKeyword(String str);
 }

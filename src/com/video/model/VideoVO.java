@@ -20,7 +20,10 @@ public class VideoVO implements Serializable{
 	private String level;
 	private byte[] img;
 	private byte[] content;
+	private Integer thePosition;
 	
+	
+
 	public VideoVO() {
 		
 	}
@@ -129,12 +132,11 @@ public class VideoVO implements Serializable{
 		this.content = content2;
 	}
 
-	
+	public Integer getThePosition() {
+		return thePosition;
+	}
 
-	
-	
-
-
-	
-	
+	public void setThePosition(Integer thePosition) {
+		this.thePosition = thePosition;
+	}
 }

@@ -1,13 +1,64 @@
 body{
-    font-family: arial 敺株�迤暺��;
+    font-family: arial ��嚙踐�縣��嚙踝蕭;
     background-color: #31105E;
 }
 
 /* header */
-.bar{
+
+/* .bar{ */
+/*     height: 40px; */
+/*     background-color: #5C37A1; */
+/* } */
+
+#bar{
     height: 40px;
     background-color: #5C37A1;
+    overflow: hidden;
+    position:fixed;
+    width: 100%;
+    z-index: 10;
 }
+ 
+#title{
+    float: left;
+    margin-left: 20px;
+    overflow: hidden;
+}
+ 
+img{
+    width: 35px;
+    margin-top: 3px;
+}
+ 
+.bar_li{
+    float: left;
+}
+ 
+.bar_li a{
+    color: #fff;
+    text-decoration: none;
+    line-height: 40px;
+    margin-left: 10px;
+}
+ 
+#option{
+    float: right;
+    overflow: hidden;
+}
+ 
+.option{
+    float: left;
+    color: white;
+    line-height: 40px;
+    margin: 0 10px;
+    font-size: 14px;
+}
+ 
+.bi{
+    margin-top: 7px;
+}
+
+/* header_end */
 
 .navimg{
     width: 100%;
@@ -83,9 +134,9 @@ body{
 }
 
 .card-text{
-    display: -webkit-box; /*值必須為-webkit-box或者-webkit-inline-box*/
-    -webkit-box-orient: vertical; /*值必須為vertical*/
-    -webkit-line-clamp: 3; /*值為數字，表示一共顯示幾行*/
+    display: -webkit-box; /*�澆��-webkit-box����-webkit-inline-box*/
+    -webkit-box-orient: vertical; /*�澆��vertical*/
+    -webkit-line-clamp: 3; /*�潛�摮�”蝷箔��憿舐內撟曇��*/
     overflow: hidden;
 }
 
