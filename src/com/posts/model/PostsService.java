@@ -59,4 +59,8 @@ public class PostsService {
 	public List<PostsVO> getAll2() {
 		return dao.findAll2();
 	}
+	
+	public List<PostsVO> search(String str){
+		return dao.findKeyword(str);
+	}
 }
