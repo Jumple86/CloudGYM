@@ -5,6 +5,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="com.video.model.*" %>
+<%@ page import="com.report.model.*" %>
+<%@ page import="com.reportRecord.model.*" %>
 <jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService"/>
 <%
 	Integer videoID = Integer.parseInt(request.getParameter("videoID"));
@@ -24,6 +26,14 @@
 	
 	Integer userID = 1003;
 	session.setAttribute("userID", userID);
+	
+	ReportService reportSvc = new ReportService();
+	List<ReportVO> reports = reportSvc.getByUser(userID);
+	List<Integer> items = new ArrayList<Integer>();
+	for(ReportVO reportVO : reports){
+		items.add(reportVO.getItemID());
+	}
+	request.setAttribute("items", items);
 %>
 
 
@@ -74,25 +84,35 @@
   					<source src="http://techslides.com/demos/sample-videos/small.ogv" type="video/ogg">
                 </video>
                 <div id="video_info">
-                	<form action="" style="display:inline-block;">
+                	<form style="display:inline-block;">
                 		<button>
                 			<i class="bi bi-heart-fill"></i>
                     		<span>收藏</span>
                 		</button>
                 	</form>
-                	<form action="" style="display:inline-block;">
+                	<form style="display:inline-block;">
                 		<button>
                 			 <i class="bi bi-plus-circle"></i>
 		                     <span>加入菜單</span>
                 		</button>
                 	</form>
-                	<form action="" style="display:inline-block;">
-                		<button type="button" class="report_btn">
-                			<i class="bi bi-exclamation-circle-fill"></i>
+                	<form style="display:inline-block;">
+                	<i class="bi bi-exclamation-circle-fill"></i>
+                	<%if(!items.contains(videoID)){%>
+                		<button type="button" class="report_btn" style="padding-left:0;">
+<!--                 			<i class="bi bi-exclamation-circle-fill"></i> -->
 	                        <span>檢舉</span>
                 		</button>
+                		<input class="videoAction" type="hidden" name="action" value="addreport">
+                	<%}%>
+                	<%if(items.contains(videoID)){%>
+                		<button type="button" class="report_btn" style="padding-left:0;">
+<!--                 			<i class="bi bi-exclamation-circle-fill"></i> -->
+	                        <span>已檢舉</span>
+                		</button>
+                		<input class="videoAction" type="hidden" name="action" value="deleteReport">
+                	<%}%>
                 		<input type="hidden" name="videoID" value="${videoID}">
-                		<input type="hidden" name="action" value="addreport">
                 	</form>
                     <span class="date">上傳於 ${publishTime}</span>
                 </div>
@@ -150,7 +170,19 @@
     				success: function(data){
     					console.log("success");
     					console.log(data);
-    					alert("檢舉成功");
+    					if(data[0] == "cancelSuccess"){
+    						alert("已取消檢舉");
+    						$("button.report_btn").html("檢舉");
+    						$("button.report_btn").attr("style", "color:white; padding-left:0;");
+    						$("input.videoAction").val("addreport");
+    					}
+    					if(data[0] == "reportSuccess"){
+    						alert("檢舉成功");
+    						$("button.report_btn").html("已檢舉");
+    						$("button.report_btn").attr("style", "color:white; padding-left:0;");
+    						$("input.videoAction").val("deleteReport");
+    					}
+    					
     				},
     				error: function(xhr){
     					console.log("fail");
