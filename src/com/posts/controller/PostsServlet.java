@@ -20,7 +20,7 @@ public class PostsServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-
+							
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -153,6 +153,7 @@ public class PostsServlet extends HttpServlet {
 				PostsService postsSvc = new PostsService();
 				postsVO = postsSvc.updatePosts(poststitle, postscontent, postsimg, tagid, postsid);
 
+
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("postsVO", postsVO);
 				String url = "/html/ArticleList.jsp";
@@ -272,6 +273,9 @@ public class PostsServlet extends HttpServlet {
 			successView.forward(req, res);
 		}
 
-	}
+				/*************************** 其他可能的錯誤處理 **********************************/
+			
+		}
+	
 
 }

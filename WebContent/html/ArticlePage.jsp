@@ -26,6 +26,7 @@
 	CoachVO coachVO = coachSvc1.getByUserID(postsVO.getUserID());
 
 	Integer userid = 1005;
+	session.setAttribute("userID", userid);
 	UserVO userVO1 = userSvc.findByUserId(userid);
 	String username = userVO1.getUserName();
 %>
@@ -144,7 +145,9 @@
 						<button id="cc" class="fas fa-share-alt" data-clipboard-text="http://localhost:8081<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=<%=postsVO.getPostsID()%>"></button>
 					<!-- 檢舉按鈕 -->	
 					<form>
-						<button id="dd" type="button" class="btn btn-outline-danger">檢舉</button>
+						<button id="dd" type="button" class="btn btn-outline-dark">檢舉</button>
+						<input type="hidden" name="postsID" value="<%=postsVO.getPostsID()%>"> 
+						<input type="hidden" name="action" value="addreport">
 					</form>
 				</div>
 				<hr>
@@ -272,8 +275,26 @@
 						console.log("4 非同步呼叫返回失敗,errorThrown:" + errorThrown);
 					}
 			});
+		});
+		
+		
+		$("button#dd").on("click", function(){
+			console.log("here");
+			$.ajax({
+				url: "<%=request.getContextPath()%>/report/report.do",
+				type: "post",
+				data: $(this).closest("form").serialize(),
+				dataType: "json",
+				success: function(data){
+					console.log("success");
+				},
+				error: function(xhr){
+					console.log("fail");
+				}
+			})
 		})
-	})
+		
+	});
 	
 	//按讚AJAX
 	$("#aa").on("click",function(){

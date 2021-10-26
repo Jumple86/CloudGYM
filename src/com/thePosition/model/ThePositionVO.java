@@ -11,10 +11,10 @@ public class ThePositionVO implements Serializable{
 	public void setPositionNo(Integer positionNo) {
 		this.positionNo = positionNo;
 	}
-	public String getPostionName() {
+	public String getPositionName() {
 		return positionName;
 	}
-	public void setPostionName(String postionName) {
-		this.positionName = postionName;
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
 	}
 }

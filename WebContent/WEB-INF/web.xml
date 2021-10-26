@@ -145,6 +145,7 @@
 		<servlet-name>SubListServlet</servlet-name>
 		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>VideoServleta</servlet-name>
 		<servlet-class>com.video.controller.VideoServlet</servlet-class>
@@ -170,6 +171,15 @@
 	<servlet-mapping>
 		<servlet-name>Reader</servlet-name>
 		<url-pattern>/Reader</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>com.report.controller.ReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/report/report.do</url-pattern>
 	</servlet-mapping>
 
 	<filter>

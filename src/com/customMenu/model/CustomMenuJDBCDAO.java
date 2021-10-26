@@ -61,7 +61,6 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 				}
 			}
 		}
-		
 	}
 
 	@Override
