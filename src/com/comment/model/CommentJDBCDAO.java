@@ -151,6 +151,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 				commentVO.setCommentContent(rs.getString("commentcontent"));
 				commentVO.setCommentPublishDate(rs.getTimestamp("commentpublishdate"));
 				commentVO.setCommentShow(rs.getBoolean("commentshow"));
+				commentVO.setCommentReportedTimes(rs.getInt("commentReportedTimes"));
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -247,6 +248,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 				commentVO.setCommentContent(rs.getString("commentcontent"));
 				commentVO.setCommentPublishDate(rs.getTimestamp("commentpublishdate"));
 				commentVO.setCommentShow(rs.getBoolean("commentshow"));
+				commentVO.setCommentReportedTimes(rs.getInt("commentreportedtimes"));
 				list.add(commentVO);
 			}
 		} catch (SQLException se) {

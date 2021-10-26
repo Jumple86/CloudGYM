@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.subList.model.*"%>
@@ -14,7 +14,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>­×§ï­q¾\ºŞ²z</title>
+    <title>ä¿®æ”¹è¨‚é–±ç®¡ç†</title>
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/back_end_index.css">
     <link rel="stylesheet" href="../css/back_end_sublist_page.css">
@@ -33,9 +33,9 @@
         </div>
         <div id="option">
             <ul>
-                <li class="option"><a class="logout" href="#">µn¥X</a></li>
+                <li class="option"><a class="logout" href="#">ç™»å‡º</a></li>
 				<li class="option"><a class="login_ad"
-					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ºŞ²z­û</a></li>
+					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ç®¡ç†å“¡</a></li>
             </ul>
         </div>
     </div>
@@ -44,9 +44,9 @@
 
             <div id="right">
             <div class="main">
-            <%-- ¿ù»~ªí¦C --%>
+            <%-- éŒ¯èª¤è¡¨åˆ— --%>
 				<c:if test="${not empty errorMsgs}">
-					<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+					<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 					<ul>
 						<c:forEach var="message" items="${errorMsgs}">
 							<li style="color: red">${message}</li>
@@ -54,24 +54,24 @@
 					</ul>
 				</c:if>
                 <div class="main-out">
-                    <div class="name">­q¾\¤è®×­×§ï</div>               
+                    <div class="name">è¨‚é–±æ–¹æ¡ˆä¿®æ”¹</div>               
                     <form method="post" action="sublist.do">
                         <ul class="name-ul">
                         	<input type="hidden" name="subName" value="${sublistVO.subName}">
-                            <li class="name-li">¤è®×¦WºÙ <span>${sublistVO.subName}</span>
+                            <li class="name-li">æ–¹æ¡ˆåç¨± <span>${sublistVO.subName}</span>
                             </li>
-                            <li class="name-li"><span>¤è®×®Éªø</span>
+                            <li class="name-li"><span>æ–¹æ¡ˆæ™‚é•·</span>
                                 <input type="text" name="duration" value="${sublistVO.duration}">
                             </li>
-                            <li class="name-li"><span class="li-span">°â»ù</span>
+                            <li class="name-li"><span class="li-span">å”®åƒ¹</span>
                                 <input type="text" name="price" value="${sublistVO.price}">
                             </li>                            
                             
                             <div>
                             	<input type="hidden" name="subID" value="${sublistVO.subID}">
-                                <button class="confirm" type="submit" name="action" value="update">½T»{</button>
+                                <button class="confirm" type="submit" name="action" value="update">ç¢ºèª</button>
                                 <a href="<%=request.getContextPath()%>/html/back_end_sublist.jsp">
-                                <button class="cancel" type="button">¨ú®ø</button>
+                                <button class="cancel" type="button">å–æ¶ˆ</button>
                             	</a>
                             </div>
                         </ul>

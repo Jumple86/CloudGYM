@@ -53,7 +53,33 @@
 
 <body>
 	<!-- header -->
-	<div id="bar"></div>
+	<div id="bar">
+        <div id="title">
+            <ul>
+                <li class="bar_li">
+                    <img src="../img/logo.png" alt="" for="#CloudGYM">
+                </li>
+                <li class="bar_li">
+                    <a href="#" id="CloudGYM">CloudGYM</a>
+                </li>
+            </ul>
+        </div>
+        <div id="option">
+            <ul>
+                <li class="option">運動類型</li>
+                <li class="option">教練</li>
+                <li class="option">個人專區</li>
+                <li class="option">討論區</li>
+                <li class="option">註冊/登入</li>
+                <li class="option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- header_end -->
 
 	<!-- main -->
 	<div id="updatearticle">
@@ -100,20 +126,39 @@
 				<hr>
 				<div class="icon">
 
-					<form METHOD="post" action="likes.do">
+
+
+<!-- 							<form id="add">
+<%-- 								<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>">  --%>
+<!-- 								<input type="hidden" name="userid" value="1005">  -->
+<!-- 								<input type="hidden" value="insert" name="action"> -->
+<!-- 								<textarea class="form-control" name="commentcontent" rows="2" placeholder="撰寫公開留言..."></textarea> -->
+<!-- 								<button id="newcomment" type="button" class="btn btn-secondary">新增留言</button> -->
+<!-- 							</form> -->
+
+<!-- 					<form METHOD="post" action="likes.do"> -->
+					<form id="addlikes">
 						<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>"> 
+						
+<!-- 						===========================================================更改使用者=========================================================== -->
 						<input type="hidden" name="userid" value="1005">
-						<button id="aa" class="far fa-thumbs-up" type="submit" value="insert" name="action"></button>
+						<input type="hidden" value="insert" name="action">                    
+						<button id="aa" class="far fa-thumbs-up" type="button"></button>
 					</form>
+					
 					<form>
 						<button id="bb" class="far fa-bookmark"></button>
 					</form>
-					<button id="cc" class="fas fa-share-alt"></button>
+					<button id="cc" class="fas fa-share-alt" data-clipboard-text="http://localhost:8081<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=<%=postsVO.getPostsID()%>"></button>  
+					
+					
 					<form>
 						<button id="dd" type="button" class="btn btn-outline-dark">檢舉</button>
 						<input type="hidden" name="postsID" value="<%=postsVO.getPostsID()%>"> 
 						<input type="hidden" name="action" value="addreport">
 					</form>
+					
+					
 				</div>
 				<hr>
 
@@ -125,7 +170,7 @@
 							<!-- 發文表單 -->	
 							<form id="add">  <!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
 								<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>"> 
-								<input type="hidden" name="userid" value="1005"> 
+								<input type="hidden" name="userid" value="2005"> 
 								<input type="hidden" value="insert" name="action">
 								<textarea class="form-control" name="commentcontent" rows="2" placeholder="撰寫公開留言..."></textarea>
 								<button id="newcomment" type="button" class="btn btn-secondary">新增留言</button>
@@ -137,13 +182,20 @@
 								<c:if test="${commentVO.postsID == postsVO.postsID}">
 									<div class="d-flex mb-1">
 										<div class="ms-3">
-											<div class="fw-bold">${coachSvc.getByUserID(commentVO.userID).coachName}${userSvc.findByUserId(commentVO.userID).userName}</div>
-											${commentVO.commentContent}<br> 
+											<div class="fw-bold">
+											${coachSvc.getByUserID(commentVO.userID).coachName}
+											${userSvc.findByUserId(commentVO.userID).userName}
+											<button type="submit" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;" value="">檢舉</button>
+											</div>					
+											${commentVO.commentContent}
+											<br> <!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
+											<form METHOD="post" action="comment.do">
 											<span style="font-size: 10px; color: rgb(155, 151, 151);">
 												<fmt:formatDate value="${commentVO.commentPublishDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 											</span>
 											<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button>
 											<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 10px;" value="">刪除</button>
+											</form>
 										</div>
 									</div>
 									<hr>
@@ -194,11 +246,12 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
 		crossorigin="anonymous"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
 
 	<script>
 	
+	//留言AJAX
 	$(function(){
 		$("#newcomment").on("click",function(){
 	 		console.log($(this).closest("from"));
@@ -254,7 +307,37 @@
 	});
 	
 	
+	//按讚AJAX
+	$("#aa").on("click",function(){
+		$.ajax({
+			  url: "<%=request.getContextPath()%>/html/likes.do",
+			  type: "POST",
+			  data: $("form#addlikes").serialize(),
+			  dataType: "json",
+			  success: function(data){
+			    console.log(data);
+			    $("#aa").removeClass("far fa-thumbs-up");
+			    $("#aa").addClass("fas fa-thumbs-up");
+			    $("#aa").attr("disabled",true);
+		 		
+			  },error : function(XMLHttpResponse, textStatus, errorThrown) {
+					console.log("1 非同步呼叫返回失敗,XMLHttpResponse.readyState:"	+ XMLHttpResponse.readyState);
+					console.log("2 非同步呼叫返回失敗,XMLHttpResponse.status:"	+ XMLHttpResponse.status);
+					console.log("3 非同步呼叫返回失敗,textStatus:"	+ textStatus);
+					console.log("4 非同步呼叫返回失敗,errorThrown:" + errorThrown);
+			}
+			  
+			});
+	});
 	
+	//複製連結
+	$("#cc").click(function(){
+		new ClipboardJS('#cc');
+		alert("連結已複製");
+	});
+	
+	
+
 	</script>
 
 
