@@ -54,6 +54,7 @@ public class CommentServlet extends HttpServlet {
 
 			CommentService commentSvc = new CommentService();
 			commentVO = commentSvc.addComment(postsid, userid, commentcontent, commentpublishdate);
+			Integer commentID = commentVO.getCommentID();
 			req.setAttribute("timestamp", commentpublishdate);
 
 			// ajax存取
@@ -61,6 +62,7 @@ public class CommentServlet extends HttpServlet {
 			list.add(userid.toString());
 			list.add(commentcontent);
 			list.add(str);
+			list.add(commentID.toString());
 			String json = new Gson().toJson(list);
 			res.setContentType("application/json");
 			res.setCharacterEncoding("UTF-8");

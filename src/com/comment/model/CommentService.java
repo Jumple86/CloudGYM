@@ -17,7 +17,8 @@ public class CommentService {
 		commentVO.setUserID(userID);
 		commentVO.setCommentContent(commentContent);
 		commentVO.setCommentPublishDate(commentPublishDate);
-		dao.insert(commentVO);
+		Integer commentID = dao.insert(commentVO);
+		commentVO.setCommentID(commentID);
 		return commentVO;
 	}
 
