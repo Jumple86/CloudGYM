@@ -185,7 +185,10 @@
 											<div class="fw-bold">
 											${coachSvc.getByUserID(commentVO.userID).coachName}
 											${userSvc.findByUserId(commentVO.userID).userName}
-											<button type="submit" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;" value="">檢舉</button>
+											<form>
+												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;">檢舉</button>
+												<input type="hidden" name="commentID" value="${commentVO.commentID}">
+											</form>
 											</div>					
 											${commentVO.commentContent}
 											<br> <!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
@@ -287,7 +290,7 @@
 			});
 		});
 		
-		
+		// 檢舉文章ajax
 		$("button#dd").on("click", function(){
 			console.log("here");
 			$.ajax({
@@ -302,6 +305,11 @@
 					console.log("fail");
 				}
 			})
+		})
+		
+		// 檢舉留言ajax
+		$("button#ff").on("click", function(){
+			console.log("here");
 		})
 		
 	});
