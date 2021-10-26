@@ -1,5 +1,6 @@
 package com.orderList.model;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface OrderListDAO_interface {
@@ -9,4 +10,6 @@ public interface OrderListDAO_interface {
 	public OrderListVO findByOrderListNo(Integer orderListNo);
 	public List<OrderListVO> findByOrderNo(Integer orderNo);
 	public List<OrderListVO> findAll();
+	
+	public void insert2(OrderListVO orderListVO, Connection con);
 }

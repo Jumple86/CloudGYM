@@ -1,0 +1,170 @@
+body{
+    color: white;
+    background-color: #31105E;
+}
+
+#bar{
+    height: 40px;
+    background-color: #5C37A1;
+    overflow: hidden;
+    position:fixed;
+    width: 100%;
+    z-index: 10;
+}
+ 
+#title{
+    float: left;
+    margin-left: 20px;
+    overflow: hidden;
+}
+ 
+img{
+    width: 35px;
+    margin-top: 3px;
+}
+ 
+.bar_li{
+    float: left;
+}
+ 
+a{
+    color: #fff;
+    text-decoration: none;
+    line-height: 40px;
+    margin-left: 10px;
+}
+ 
+#option{
+    float: right;
+    overflow: hidden;
+}
+ 
+.option{
+    float: left;
+    color: white;
+    line-height: 40px;
+    margin: 0 10px;
+    font-size: 14px;
+}
+
+.bi{
+    margin-top: 7px;
+}
+
+#main{
+    padding-top: 40px;
+    
+}
+
+#top{
+    padding: 40px 40px 0;
+    overflow: hidden;
+}
+
+h3{
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#left{
+    width: 700px;
+    height: 600px;
+    float: left;
+}
+
+#video_img{
+    width: 700px;
+}
+
+#video_info{
+    margin-top: 10px;
+}
+
+#video_info button{
+    background-color: #31105E;
+    border: none;
+}
+
+#video_info i{
+    color:#fff;
+}
+
+#video_info span{
+    font-size: 14px;
+    color: #fff;
+}
+
+.date{
+    float: right;
+}
+
+#left p{
+    margin-top: 30px;
+    width: 600px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#right{
+    width: 350px;
+    height: 500px;
+    float: right;
+    background-color: #EDE9F2;
+    color: black;
+}
+
+#coach_name{
+    margin-top: 40px;
+    text-align: center;
+}
+
+#coach_photo{
+    /* margin-top: 10px; */
+    display: block;
+    width: 200px;
+    margin: 10px auto 20px;
+    
+}
+
+#line{
+    width: 100%;
+    border-top: 1px solid gray;
+}
+
+#coach_info{
+    padding: 15px;
+    font-size: 13px;
+}
+
+#bottom{
+    padding: 20px 40px 0;
+}
+
+#bottom ul{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 0;
+    padding-left: 8px;
+}
+
+#bottom li{
+    display: inline-block;
+}
+
+li.push{
+    margin-right: 35px;
+    width: 200px;
+}
+
+li.push a{
+	margin-left:0;
+}
+
+.video_pic{
+    width: 200px;
+}
+
+.video_name{
+    margin-top: 10px;
+    font-size: 14px;
+}

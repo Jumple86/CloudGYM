@@ -287,21 +287,38 @@ public class OrdersServlet extends HttpServlet {
 					}
 				}
 				
-				OrdersVO ordersVO = ordersSvc.addOrders(Integer.parseInt(userID), totalPrice);
+//				OrdersVO ordersVO = ordersSvc.addOrders(Integer.parseInt(userID), totalPrice);
+//				Integer orderNo = ordersVO.getOrderNo();
+//				req.setAttribute("orderNo", orderNo);
+//				req.setAttribute("coachIDs", coachIDs);
+//				req.setAttribute("subIDs", subIDs);
+//				
+//				for(Integer itemID : items) {
+//					orderlistSvc.addOrderList(orderNo, itemID);
+//				}
+				
+				OrdersVO ordersVO = ordersSvc.addOrders2(Integer.parseInt(userID), totalPrice, items);
 				Integer orderNo = ordersVO.getOrderNo();
+				System.out.println(orderNo);
 				req.setAttribute("orderNo", orderNo);
 				req.setAttribute("coachIDs", coachIDs);
 				req.setAttribute("subIDs", subIDs);
-				
-				for(Integer itemID : items) {
-					orderlistSvc.addOrderList(orderNo, itemID);
-				}
 				
 				
 				/*********************3.將訂單明細的東西加到使用者可觀看的資料庫裡*******************/
 				VideoService videoSvc = new VideoService();
 				CoachMenuListService coachmenulistSvc = new CoachMenuListService();
 				UserRightsService userrightsSvc = new UserRightsService();
+				
+				// 取得使用者已經有的影片權限
+				List<Integer> videoRight = new ArrayList<>();
+				List<UserRightsVO> userRightsList = userrightsSvc.getAll(Integer.parseInt(userID));
+				for(UserRightsVO vo : userRightsList) {
+					Integer id = vo.getVideoID();
+					videoRight.add(id);
+				}
+				//---------------------------------------------------------------------
+				
 				for(String key : set) {
 					if(key.startsWith("2")) {
 						Integer duration = 0;
@@ -319,18 +336,28 @@ public class OrdersServlet extends HttpServlet {
 						List<VideoVO> list = videoSvc.getByUserID(Integer.parseInt(key));
 						for(VideoVO videoVO : list) {
 							Integer videoID = videoVO.getVideoID();
-							userrightsSvc.add(Integer.parseInt(userID), videoID, duration);
+							if(videoRight.contains(videoID)) {
+								continue;
+							}else {
+								userrightsSvc.add(Integer.parseInt(userID), videoID, duration);
+							}
 						}
 					}
 					if(key.startsWith("6")) {
 						List<CoachMenuListVO> list = coachmenulistSvc.getByMenuID(Integer.parseInt(key));
 						for(CoachMenuListVO coachMenuListVO : list) {
 							Integer videoID = coachMenuListVO.getVideoID();
-							userrightsSvc.add(Integer.parseInt(userID), videoID, 0);
+							if(videoRight.contains(videoID)) {
+								continue;
+							}else {
+								userrightsSvc.add(Integer.parseInt(userID), videoID, 0);
+							}
 						}
 					}
 					if(key.startsWith("3")) {
-						userrightsSvc.add(Integer.parseInt(userID), Integer.parseInt(key), 0);
+						if(!videoRight.contains(Integer.parseInt(key))) {
+							userrightsSvc.add(Integer.parseInt(userID), Integer.parseInt(key), 0);
+						}
 					}
 				}
 				
