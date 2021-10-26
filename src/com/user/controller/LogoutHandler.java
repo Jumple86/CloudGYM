@@ -32,16 +32,12 @@ public class LogoutHandler extends HttpServlet {
 			return;
 		}
 		
-		/****一般會員的session****/
+		/****移除登入的session****/
 		session.removeAttribute("account");
 		session.removeAttribute("name");
 		session.removeAttribute("id");
-		
-		/****一般會員的session****/
-		session.removeAttribute("account");
-		session.removeAttribute("name");
-		session.removeAttribute("id");
-		
+		session.removeAttribute("userVO");
+		session.removeAttribute("coachVO");
 		
 		res.sendRedirect(req.getContextPath() + "/html/main_page.jsp");
 

@@ -64,15 +64,13 @@ public class LoginHandler extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				UserService userSvc = new UserService();
 				UserVO userVO = userSvc.findByUserAccount(userAccount);
-				String correctpsw = userVO.getUserPassword();
 				
-				if (userVO == null) {
+				if(userVO == null) {
 					errorMsgs.add("查無資料");
-				}else  {
-					if(!password.equals(correctpsw)) {
-						errorMsgs.add("密碼錯誤");
-					}
+				} else if (!password.equals(userVO.getUserPassword())) {
+					errorMsgs.add("密碼錯誤");
 				}
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_user.jsp");
@@ -90,6 +88,7 @@ public class LoginHandler extends HttpServlet {
 				session.setAttribute("account", account); // *工作1: 才在session內做已經登入過的標識
 				session.setAttribute("name", name);
 				session.setAttribute("id", id);
+				session.setAttribute("userVO", userVO);
 	
 				try {
 					String location = (String) session.getAttribute("location");
@@ -101,7 +100,7 @@ public class LoginHandler extends HttpServlet {
 				} catch (Exception ignored) {
 				}
 	
-				res.sendRedirect(req.getContextPath() + "/html/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+				res.sendRedirect(req.getContextPath() + "/html/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至main_page.jsp)
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
