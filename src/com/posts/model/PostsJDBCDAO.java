@@ -25,7 +25,8 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
 	private static final String FIND_KEYWORD = 
 //			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or postsContent or username like '%?%' and postsShow = 1";
-			"select * from posts as p1 	join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or username or postsContent like '%?%'";
+//			"select * from posts as p1 	join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or username or postsContent like '%?%'";
+			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle like CONCAT('%',?,'%') or username like CONCAT('%',?,'%') or postsContent like CONCAT('%',?,'%')";
 
 	static {
 		try {
@@ -368,9 +369,11 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(FIND_KEYWORD);
-//			pstmt.setString(1, str);
+			pstmt.setString(1, str);
+			pstmt.setString(2, str);
+			pstmt.setString(3, str);
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 				PostsVO postsVO = new PostsVO();
 				postsVO.setPostsID(rs.getInt("postsid"));
@@ -457,11 +460,11 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		}
 
 		// 關鍵字
-		String str = "好油";
+		String str = "美";
 		List<PostsVO> keyword = dao.findKeyword(str);
-//		for (PostsVO Kw : keyword) {
-			System.out.println(keyword);
-//		}
+		for (PostsVO Kw : keyword) {
+			System.out.println(Kw);
+		}
 	}
 
 //	public static byte[] getPictureByteArray(String path) throws IOException {

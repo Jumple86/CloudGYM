@@ -142,24 +142,22 @@
 			</div>
 
 
-			<!-- 其他功能 -->
+			<!-- 右側區塊 -->
 			<div class="col-4">
-
 				<!-- 搜尋文章-->
 				<div class="card mb-4">
 					<div class="card-header">
 						<i class="fas fa-search me-2"></i>搜尋文章
 					</div>
-					<div class="card-body">
-						<div class="input-group">
-							<input class="form-control" type="text" placeholder="請輸入關鍵字"
-								aria-describedby="button-search" />
-							<button class="btn btn-outline-dark" id="button-search"
-								type="button">搜尋</button>
+					<form METHOD="post" ACTION="Article.do">
+						<div class="card-body">
+							<div class="input-group">
+								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" />
+								<button class="btn btn-outline-dark" id="button-search" type="submit" name="action" value="search">搜尋</button>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
-
 				<!-- 熱門文章 -->
 				<div class="card mb-4">
 					<div class="card-header">
@@ -172,7 +170,6 @@
 						</c:forEach>
 					</ol>
 				</div>
-
 				<!-- 最新文章 -->
 				<div class="card mb-4">
 					<div class="card-header">
@@ -185,26 +182,8 @@
 						</c:forEach>
 					</ol>
 				</div>
-
-
-				<!-- 累計瀏覽人數 -->
-				<%!int countAll = 0;
-	int countToday = 0;%>
-
-				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-user-friends me-2"></i>瀏覽人氣
-					</div>
-					<ol class="recent-posts">
-						<li>本日人氣：</li>
-						<li>總人氣量：<%=++countAll%></li>
-					</ol>
-				</div>
-
-
-
 			</div>
-			<!-- 其他功能-end -->
+			<!-- 右側區塊_end -->
 
 		</div>
 	</div>

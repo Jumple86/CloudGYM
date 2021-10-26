@@ -100,7 +100,6 @@ public class PostsServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-		
 
 		if ("update".equals(action)) {
 
@@ -130,7 +129,7 @@ public class PostsServlet extends HttpServlet {
 				} else {
 					errorMsgs.add("請上傳圖片");
 				}
-				
+
 //				Timestamp postspublishdate = new Timestamp(System.currentTimeMillis());
 
 				Integer tagid = new Integer(req.getParameter("tagid").trim());
@@ -176,7 +175,7 @@ public class PostsServlet extends HttpServlet {
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
 //				Integer userid = new Integer(req.getParameter("userid"));
-				
+
 				Integer userid = new Integer(2005);
 
 				String poststitle = req.getParameter("poststitle").trim();
@@ -198,9 +197,9 @@ public class PostsServlet extends HttpServlet {
 				} else {
 					errorMsgs.add("請上傳文章封面圖片");
 				}
-				
+
 				Timestamp postspublishdate = new Timestamp(System.currentTimeMillis());
-				
+
 				Integer tagid = new Integer(req.getParameter("tagid"));
 
 				PostsVO postsVO = new PostsVO();
@@ -236,17 +235,41 @@ public class PostsServlet extends HttpServlet {
 		}
 
 		if ("delete".equals(action)) {
-				/*************************** 1.接收請求參數 ***************************************/
-				Integer postsid = new Integer(req.getParameter("postsid"));
+			/*************************** 1.接收請求參數 ***************************************/
+			Integer postsid = new Integer(req.getParameter("postsid"));
 
-				/*************************** 2.開始刪除資料 ***************************************/
-				PostsService postsSvc = new PostsService();
-				postsSvc.deletePosts(postsid);
+			/*************************** 2.開始刪除資料 ***************************************/
+			PostsService postsSvc = new PostsService();
+			postsSvc.deletePosts(postsid);
 
-				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
-				String url = "/html/ArticleList.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
+			/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
+//				String url = "/html/ArticleList.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, res);
+
+			RequestDispatcher successView = null;
+			String url = req.getParameter("page");
+			if ("APG".equals(url)) {
+				successView = req.getRequestDispatcher("/html/ArticleList.jsp");
 				successView.forward(req, res);
+			} else {
+				successView = req.getRequestDispatcher("/html/back_end_post_page.jsp?postID=" + postsid);
+				successView.forward(req, res);
+			}
+
+		}
+
+		if ("search".equals(action)) {
+			/*************************** 1.接收請求參數 ***************************************/
+			String str = new String(req.getParameter("str"));
+			/*************************** 2.開始新增資料 ***************************************/
+			PostsService postsSvc = new PostsService();
+			List<PostsVO> postsVO = postsSvc.search(str);
+			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
+			req.setAttribute("postsVO", str);
+			String url = "/html/ArticleList_Search.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url);
+			successView.forward(req, res);
 		}
 
 	}
