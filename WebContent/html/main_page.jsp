@@ -8,6 +8,12 @@
 <jsp:useBean id="coachSvc1" scope="page" class="com.coach.model.CoachService" />
 
 <%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
+
+<%
 	CoachService coachSvc = new CoachService();
 	List<CoachVO> list = coachSvc.getAll();
 	pageContext.setAttribute("list", list);
