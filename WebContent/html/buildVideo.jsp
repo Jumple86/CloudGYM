@@ -1,87 +1,4 @@
-<<<<<<< HEAD
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>±–Ωm§W∂«ºv§˘</title>
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/buildVideo.css">
-</head>
-<body>
-    <div id="bar">
-        <div id="title">
-            <ul>
-                <li class="bar_li">
-                    <img src="../img/logo.png" alt="" for="#CloudGYM">
-                </li>
-                <li class="bar_li">
-                    <a href="#" id="CloudGYM">CloudGYM</a>
-                </li>
-            </ul>
-        </div>
-        <div id="option">
-            <ul>
-                <li class="option">πB∞ √˛´¨</li>
-                <li class="option">±–Ωm</li>
-                <li class="option">≠”§H±M∞œ</li>
-                <li class="option">∞QΩ◊∞œ</li>
-                <li class="option">µ˘•U/µn§J</li>
-                <li class="option">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                      </svg>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div id="main">
-        <div id="form">
-            <div id="box1">
-                <ul>
-                    <h3 id="form_title">´ÿ•ﬂ±–Ωmºv§˘</h3>
-                </ul>
-            </div>
-            <div id="box2">
-                <ul>
-                    <li id="video_name">ºv§˘¶W∫Ÿ:<input id="name_input" type="text" placeholder="øÈ§Jºv§˘¶W∫Ÿ" aria-label="default input example"></li><br>
-                    
-                    <li id="video_intro">ºv§˘¬≤§∂:</li><br>
-                    <textarea id="intro_input" rows="3"></textarea>
-                    <div id="post_box">
-                        <li id="post_name">∞ ß@¶W∫Ÿ:<br><br>
-                            <input id="post_input" type="text" placeholder="øÈ§J∞ ß@¶W∫Ÿ" aria-label="default input example"><input id="set" type="number" placeholder="¥X≤’" aria-label="default input example">
-                        </li>
-                        <li id="post_name">∞ ß@¶W∫Ÿ:<br><br>
-                            <input id="post_input" type="text" placeholder="øÈ§J∞ ß@¶W∫Ÿ" aria-label="default input example"><input id="set" type="number" placeholder="¥X≤’" aria-label="default input example">
-                        </li>
-                        <li id="post_name">∞ ß@¶W∫Ÿ:<br><br>
-                            <input id="post_input" type="text" placeholder="øÈ§J∞ ß@¶W∫Ÿ" aria-label="default input example"><input id="set" type="number" placeholder="¥X≤’" aria-label="default input example">
-                        </li>
-                        <div id="button_area">
-                            <button type="button" id="button" class="btn btn-primary btn-lg">ΩTª{</button>
-                            <button type="button" id="button" class="btn btn-primary btn-lg">®˙Æ¯</button>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <div id="box3">
-                <img src="../img/work_out_1.jpg" alt="" class="video_pic">
-                <div id="public_box">
-                    <input type="radio" id="userGender_01" name="userGender" value="0" checked="checked" />§Ω∂}  
-                    <input type="radio" id="userGender_02" name="userGender" value="1" />§£§Ω∂}
-                    <br><br><br>
-                    <h3>ª˘ø˙:<input id="price" type="number" placeholder="øÔæ‹ª˘ÆÊ" aria-label="default input example"></h3>
-                    <br><br>
-                    <h3><input type="file" id="file-uploader"></h3>
-                </div>
-            </div>
-        </div>
-    </div>
-=======
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -110,30 +27,41 @@
 <link rel="stylesheet" href="../css/buildVideo.css">
 </head>
 <body>
-	<div id="bar">
-		<div id="title">
-			<ul>
-				<li class="bar_li"><img src="../img/logo.png" alt=""
-					for="#CloudGYM"></li>
-				<li class="bar_li"><a href="#" id="CloudGYM">CloudGYM</a></li>
-			</ul>
-		</div>
-		<div id="option">
-			<ul>
-				<li class="option">ÈÅãÂãïÈ°ûÂûã</li>
-				<li class="option">ÊïôÁ∑¥</li>
-				<li class="option">ÂÄã‰∫∫Â∞àÂçÄ</li>
-				<li class="option">Ë®éË´ñÂçÄ</li>
-				<li class="option">Ë®ªÂÜä/ÁôªÂÖ•</li>
-				<li class="option"><svg xmlns="http://www.w3.org/2000/svg"
-						width="25" height="25" fill="currentColor" class="bi bi-cart-fill"
-						viewBox="0 0 16 16">
-                        <path
-							d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                      </svg></li>
-			</ul>
-		</div>
-	</div>
+<!-- barÂÖ¨Áâà begining -->
+    <div id="bar">
+        <div id="title">
+            <ul>
+                <li class="bar_li">
+                    <img src="../img/logo.png" alt="" for="#CloudGYM">
+                </li>
+                <li class="bar_li">
+                    <a href="${pageContext.request.contextPath}/html/main_page.jsp" id="CloudGYM">CloudGYM</a>
+                </li>
+            </ul>
+        </div>
+        <div id="option">
+            <ul>
+                <li class="option"><a href="#">ÈÅãÂãïÈ°ûÂûã</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/html/all_coach_page.jsp">ÊïôÁ∑¥</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">ÂÄã‰∫∫Â∞àÂçÄ</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/html/ArticleList.jsp">Ë®éË´ñÂçÄ</a></li>
+                
+                <c:if test="${empty name}">
+					<li class="option"><a href="${pageContext.request.contextPath}/html/login_ask_page.html" target="_blank">Ë®ªÂÜä/ÁôªÂÖ•</a></li>
+				</c:if>
+				<c:if test="${not empty name}">
+					<li class="option"><a href="<%=request.getContextPath()%>/LogoutHandler">${name} ÁôªÂá∫</a></li>
+				</c:if>
+                
+                <li class="option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+<!-- barÂÖ¨Áâà end -->
 	<div id="main">
 		<div id="form">
 			<form action="<%=request.getContextPath()%>/video/video.do" method="post" enctype="multipart/form-data">
@@ -219,6 +147,5 @@
 			</form>
 		</div>
 	</div>
->>>>>>> f1bf406ceb65db95715139986e0152cce56a4a6b
 </body>
 </html>

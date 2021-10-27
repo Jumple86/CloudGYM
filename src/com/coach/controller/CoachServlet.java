@@ -25,61 +25,61 @@ public class CoachServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		System.out.println(action);
 
-//		if ("getOne_For_Display".equals(action)) {
-//			List<String> errorMsgs = new LinkedList<String>();
-//			req.setAttribute("errorMsgs", errorMsgs);
-//
-//			try {
-//				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
-//				String str = req.getParameter("userID");
-//				if (str == null || (str.trim()).length() == 0) {
-//					errorMsgs.add("請輸入教練編號");
-//				}
-//				if (!errorMsgs.isEmpty()) {
-//					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
-//					failureView.forward(req, res);
-//					return;// 程式中斷
-//				}
-//
-//				Integer userID = null;
-//				try {
-//					userID = new Integer(str);
-//				} catch (Exception e) {
-//					errorMsgs.add("教練編號格式不正確");
-//				}
-//				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
-//					failureView.forward(req, res);
-//					return;// 程式中斷
-//				}
-//
-//				/*************************** 2.開始查詢資料 *****************************************/
-//				CoachService coachSvc = new CoachService();
-//				CoachVO coachVO = coachSvc.getByUserID(userID);
-//				if (coachVO == null) {
-//					errorMsgs.add("查無資料");
-//				}
-//				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
-//					failureView.forward(req, res);
-//					return;// 程式中斷
-//				}
-//
-//				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
-//				req.setAttribute("coachVO", coachVO); // 資料庫取出的coachVO物件,存入req
-//				String url = "/html/all_coach_page.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneCoach.jsp
-//				successView.forward(req, res);
-//
-//				/*************************** 其他可能的錯誤處理 *************************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("無法取得資料:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/coach/select_page.jsp");
-//				failureView.forward(req, res);
-//			}
-//		}
+		if ("getOne_For_Display".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				String str = req.getParameter("userID");
+				if (str == null || (str.trim()).length() == 0) {
+					errorMsgs.add("請輸入教練編號");
+				}
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				Integer userID = null;
+				try {
+					userID = new Integer(str);
+				} catch (Exception e) {
+					errorMsgs.add("教練編號格式不正確");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/*************************** 2.開始查詢資料 *****************************************/
+				CoachService coachSvc = new CoachService();
+				CoachVO coachVO = coachSvc.getByUserID(userID);
+				if (coachVO == null) {
+					errorMsgs.add("查無資料");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+				req.setAttribute("coachVO", coachVO); // 資料庫取出的coachVO物件,存入req
+				String url = "/html/coach_page.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneCoach.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
 
 //		if ("getOne_For_Update".equals(action)) {
 //
@@ -127,14 +127,15 @@ public class CoachServlet extends HttpServlet {
 //				}
 
 				String coachName = req.getParameter("coachName").trim();
-				String coachNameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,10}$";
+//				String coachNameReg = "^[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,50}$";
 				if (coachName == null || coachName.trim().length() == 0) {
 					errorMsgs.add("教練名字: 請勿空白");
 					System.out.println("教練名字: 請勿空白");
-				} else if (!coachName.trim().matches(coachNameReg)) { // 以下練習正則(規)表示式(regular-expression)
-					errorMsgs.add("教練名字: 只能是中、英文字母、數字和_ , 且長度必需在1到10之間");
-					System.out.println("教練名字: 只能是中、英文字母、數字和_ , 且長度必需在1到10之間");
-				}
+				} 
+//				else if (!coachName.trim().matches(coachNameReg)) { // 以下練習正則(規)表示式(regular-expression)
+//					errorMsgs.add("教練名字: 只能是中、英文字母、數字和_ , 且長度必需在1到50之間");
+//					System.out.println("教練名字: 只能是中、英文字母、數字和_ , 且長度必需在1到50之間");
+//				}
 				System.out.println(coachName);
 				
 //				String coachPassword = req.getParameter("coachPassword");

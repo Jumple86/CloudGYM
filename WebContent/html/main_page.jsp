@@ -121,9 +121,9 @@
 
 							<div class="item">
 								<div class="img_block">
-									<form action="<%=request.getContextPath()%>/coach/coach.do?">
+									<form action="<%=request.getContextPath()%>/html/coach.do?">
 										<input type="submit" id="${coachVO.userID }" style="display: none;"> 
-										<input type="hidden" name="action" value="gotocoach"> 
+										<input type="hidden" name="action" value="getOne_For_Display"> 
 										<input type="hidden" name="userID" value="${coachVO.userID}"> 
 										<label for="${coachVO.userID }"> 
 										    <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="" class="pic">
