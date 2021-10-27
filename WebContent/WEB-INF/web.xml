@@ -181,6 +181,15 @@
 		<servlet-name>ReportServlet</servlet-name>
 		<url-pattern>/report/report.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReviewServlet</servlet-name>
+		<servlet-class>com.review.controller.ReviewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReviewServlet</servlet-name>
+		<url-pattern>/review/review.do</url-pattern>
+	</servlet-mapping>
 
 	<filter>
 		<filter-name>loginFilterUser</filter-name>
