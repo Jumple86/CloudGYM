@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ReviewJDBCDAO implements ReviewDAO_interface {
 	public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://localhost:3306/project?serverTimezone=Asia/Taipei";
+	public static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	public static final String USER = "David";
 	public static final String PASSWRD = "123456";
 

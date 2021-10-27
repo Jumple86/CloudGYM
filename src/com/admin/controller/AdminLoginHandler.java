@@ -48,9 +48,9 @@ public class AdminLoginHandler extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				Integer adminID = null;
+				Integer id = null;
 				try {
-					adminID = new Integer(adminNo);
+					id = new Integer(adminNo);
 				} catch (Exception e) {
 					errorMsgs.add("格式不正確");
 				}
@@ -63,16 +63,13 @@ public class AdminLoginHandler extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				AdminService adminSvc = new AdminService();
-				AdminVO adminVO = adminSvc.getOneAdmin(adminID);
-				String correctpsw = adminVO.getAdminPW();
+				AdminVO adminVO = adminSvc.getOneAdmin(id);
 				
 				if (adminVO == null) {
 					errorMsgs.add("查無資料");
-				}else  {
-					if(!password.equals(correctpsw)) {
+				}else if(!password.equals(adminVO.getAdminPW())) {
 						errorMsgs.add("密碼錯誤");
 					}
-				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_admin.jsp");
@@ -86,7 +83,8 @@ public class AdminLoginHandler extends HttpServlet {
 				
 				// 【帳號 , 密碼有效時, 才做以下工作】
 				HttpSession session = req.getSession();
-				session.setAttribute("adminNo", adminNo); // *工作1: 才在session內做已經登入過的標識
+				session.setAttribute("adminNo", id); // *工作1: 才在session內做已經登入過的標識
+				session.setAttribute("adminVO", adminVO); // *工作1: 才在session內做已經登入過的標識
 //				session.setAttribute("name", name);
 	
 				try {

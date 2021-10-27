@@ -218,7 +218,7 @@ public class ReportRecordJDBCDAO implements ReportRecordDAO_interface {
 //		dao.insert(rpt1);
 		
 		//刪除
-//		dao.delete(40003);
+		dao.delete(50019);
 		
 		//userID查詢
 //		List<ReportRecordVO> reportRecordVO = dao.findbyuserID(1003);

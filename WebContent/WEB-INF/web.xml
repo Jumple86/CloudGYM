@@ -82,7 +82,7 @@
 		<servlet-name>VideoServlet</servlet-name>
 		<url-pattern>/video/video.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>UserServlet</servlet-name>
 		<servlet-class>com.user.controller.UserServlet</servlet-class>
@@ -145,6 +145,7 @@
 		<servlet-name>SubListServlet</servlet-name>
 		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>VideoServleta</servlet-name>
 		<servlet-class>com.video.controller.VideoServlet</servlet-class>
@@ -153,6 +154,16 @@
 		<servlet-name>VideoServleta</servlet-name>
 		<url-pattern>/html/video.do</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CollectionServlet</servlet-name>
+		<servlet-class>com.collection.controller.CollectionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CollectionServlet</servlet-name>
+		<url-pattern>/html/collection.do</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>Reader</servlet-name>
 		<servlet-class>com.posts.controller.Reader</servlet-class>
@@ -160,6 +171,24 @@
 	<servlet-mapping>
 		<servlet-name>Reader</servlet-name>
 		<url-pattern>/Reader</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>com.report.controller.ReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/report/report.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReviewServlet</servlet-name>
+		<servlet-class>com.review.controller.ReviewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReviewServlet</servlet-name>
+		<url-pattern>/review/review.do</url-pattern>
 	</servlet-mapping>
 
 	<filter>
@@ -175,7 +204,7 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>loginFilterCoach</filter-name>
 		<filter-class>filters.LoginFilterCoach</filter-class>

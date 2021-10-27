@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.admin.model.*"%>
@@ -17,7 +17,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>½s¿èºŞ²z­ûªí³æ</title>
+<title>ç·¨è¼¯ç®¡ç†å“¡è¡¨å–®</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
 <link rel="stylesheet" href="../css/back_end_Admin_page.css">
@@ -33,9 +33,9 @@
 		</div>
 		<div id="option">
 			<ul>
-				<li class="option"><a class="logout" href="#">µn¥X</a></li>
+				<li class="option"><a class="logout" href="#">ç™»å‡º</a></li>
 				<li class="option"><a class="login_ad"
-					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ºŞ²z­û</a></li>
+					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ç®¡ç†å“¡</a></li>
 			</ul>
 		</div>
 	</div>
@@ -44,9 +44,9 @@
 
 		<div id="right">
 			<div class="main">
-				<%-- ¿ù»~ªí¦C --%>
+				<%-- éŒ¯èª¤è¡¨åˆ— --%>
 				<c:if test="${not empty errorMsgs}">
-					<font style="color: red">½Ğ­×¥¿¥H¤U¿ù»~:</font>
+					<font style="color: red">è«‹ä¿®æ­£ä»¥ä¸‹éŒ¯èª¤:</font>
 					<ul>
 						<c:forEach var="message" items="${errorMsgs}">
 							<li style="color: red">${message}</li>
@@ -55,23 +55,24 @@
 				</c:if>
 
 				<div class="main-out">
-					<div class="name">ºŞ²z­û¸ê®Æ­×§ï</div>
+					<div class="name">ç®¡ç†å“¡è³‡æ–™ä¿®æ”¹</div>
 					<form method="post" action="admin.do" name="form1">
 						<ul class="name-ul">
-							<li class="name-li">adminID: <span>${adminNo}</span></li>
-							<li class="name-li"><span class="li-span">©m¦W</span> <input
-								type="text" name="name" value="${adminVO.adminName}"></li>
-							<li class="name-li"><span class="li-span">±K½X</span> <input
-								type="text" name="pws"></li>
-							<li class="name-li">½T»{±K½X <input type="password"
-								name="confpws">
+							<li class="name-li">ID: <span>${adminNo}</span></li>
+							<li class="name-li"><span class="li-span">å§“å</span> 
+							<input type="text" name="name" value="${adminVO.adminName}">
+							</li>
+							<li class="name-li"><span class="li-span">å¯†ç¢¼</span> 
+							<input type="password" name="pws"></li>
+							<li class="name-li">ç¢ºèªå¯†ç¢¼ 
+							<input type="password" name="confpws">
 							</li>
 							<div>
 								<input type="hidden" name="id" value="${adminNo}">
 								<button class="confirm" type="submit" name="action"
-									value="update">½T»{</button>
+									value="update">ç¢ºèª</button>
 								<a href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">
-									<button class="cancel" type="button">¨ú®ø</button>
+									<button class="cancel" type="button">å–æ¶ˆ</button>
 								</a>
 							</div>
 						</ul>

@@ -29,47 +29,45 @@ public class CommentServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println(action);
-		
-		if ("insert".equals(action)) {
-			
-				PrintWriter out = res.getWriter();
-					res.setCharacterEncoding("UTF-8");
 
-					Integer postsid = new Integer(req.getParameter("postsid"));
-					System.out.println(postsid);
-					Integer userid = new Integer(req.getParameter("userid"));
-					String commentcontent = req.getParameter("commentcontent");
-					
-					SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					String str = ds.format(new Date(System.currentTimeMillis()));
-					Timestamp commentpublishdate = Timestamp.valueOf(str);
-					
-					CommentVO commentVO = new CommentVO();
-					commentVO.setPostsID(postsid);
-					commentVO.setUserID(userid);
-					commentVO.setCommentContent(commentcontent);
-					commentVO.setCommentPublishDate(commentpublishdate);
-					CommentService commentSvc = new CommentService();
-					commentVO = commentSvc.addComment(postsid, userid, commentcontent, commentpublishdate);
-					req.setAttribute("timestamp", commentpublishdate);
-					
-					//ajax存 
-					List<String> list = new ArrayList<String>();
-					list.add(userid.toString());
-					list.add(commentcontent);
-					list.add(str);
-					String json = new Gson().toJson(list);
-					res.setContentType("application/json");
-					res.setCharacterEncoding("UTF-8");
-					out.write(json);
-					out.close();
-					
-//				RequestDispatcher successView = req.getRequestDispatcher("/html/ArticleList.jsp");
-//				successView.forward(req, res);
+		if ("insert".equals(action)) {
+			PrintWriter out = res.getWriter();
+			res.setCharacterEncoding("UTF-8");
+
+			Integer postsid = new Integer(req.getParameter("postsid"));
+			Integer userid = new Integer(req.getParameter("userid"));
+			String commentcontent = req.getParameter("commentcontent");
+
+			SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String str = ds.format(new Date(System.currentTimeMillis()));
+			Timestamp commentpublishdate = Timestamp.valueOf(str);
+
+			CommentVO commentVO = new CommentVO();
+			commentVO.setPostsID(postsid);
+			commentVO.setUserID(userid);
+			commentVO.setCommentContent(commentcontent);
+			commentVO.setCommentPublishDate(commentpublishdate);
+
+			CommentService commentSvc = new CommentService();
+			commentVO = commentSvc.addComment(postsid, userid, commentcontent, commentpublishdate);
+			Integer commentID = commentVO.getCommentID();
+			req.setAttribute("timestamp", commentpublishdate);
+
+			// ajax存取
+			List<String> list = new ArrayList<String>();
+			list.add(userid.toString());
+			list.add(commentcontent);
+			list.add(str);
+			list.add(commentID.toString());
+			String json = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			out.write(json);
+			out.close();
 
 		}
 		
@@ -106,5 +104,5 @@ public class CommentServlet extends HttpServlet {
 		
 		
 	}
-	
+
 }

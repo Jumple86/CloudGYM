@@ -1,10 +1,10 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.video.model.*"%>
 
-<jsp:useBean id="coachSvc" scope="page"
-	class="com.coach.model.CoachService" />
+<jsp:useBean id="coachSvc" scope="page"	class="com.coach.model.CoachService" />
+<jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
 <%
   response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.setHeader("Pragma","no-cache");        //HTTP 1.0
@@ -15,6 +15,7 @@
 	VideoService videoSvc = new VideoService();
 	List<VideoVO> list = videoSvc.getAll2();
 	pageContext.setAttribute("list", list);
+	session.getAttribute("adminNo");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¼v¤ùºŞ²z</title>
+<title>å½±ç‰‡ç®¡ç†</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
 <link rel="stylesheet" href="../css/back_end_video.css">
@@ -40,9 +41,9 @@
 		</div>
 		<div id="option">
 			<ul>
-				<li class="option"><a class="logout" href="#">µn¥X</a></li>
+				<li class="option"><a class="logout" href="#">ç™»å‡º</a></li>
 				<li class="option"><a class="login_ad"
-					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ºŞ²z­û</a></li>
+					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ç®¡ç†å“¡</a></li>
 			</ul>
 		</div>
 	</div>
@@ -50,62 +51,91 @@
 		<div id="left">
 			<ul id="btn_fa">
 				<li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_video.jsp">
-                        <span class="li_btn">¼v¤ùºŞ²z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_order.jsp">
-                        <span class="li_btn">­q³æ©ú²ÓºŞ²z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_post.jsp">
-                        <span class="li_btn">¤å³¹ºŞ²z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_user.jsp">
-                        <span class="li_btn">·|­ûºŞ²z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_coach.jsp">
-                        <span class="li_btn">±Ğ½mºŞ²z</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<%=request.getContextPath()%>/html/back_end_sublist.jsp">
-                        <span class="li_btn">­q¾\ºŞ²z</span>
-                    </a>
-                </li>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).videoAuth == 1 }">
+					<a href="<%=request.getContextPath()%>/html/back_end_video.jsp">
+					<span class="li_btn">å½±ç‰‡ç®¡ç†</span></a> 
+				</c:if>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).videoAuth == 0 }">
+					<span id="ban_video_li" class="li_btn">
+						<font style="color: #ccc">å½±ç‰‡ç®¡ç†</font>
+					</span>
+				</c:if>
+				</li>
+				<li>
+				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
+					<span class="li_btn">è¨‚å–®æ˜ç´°ç®¡ç†</span></a>
+				</li>
+				<li>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
+					<a href="<%=request.getContextPath()%>/html/back_end_post.jsp">
+					<span class="li_btn">æ–‡ç« ç®¡ç†</span></a>
+				</c:if>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 0 }">
+					<span id="ban_post_li" class="li_btn">
+						<font style="color: #ccc">æ–‡ç« ç®¡ç†</font>
+					</span>
+					</c:if>
+				</li>
+				<li>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).userAuth == 1 }">
+					<a href="<%=request.getContextPath()%>/html/back_end_user.jsp">
+					<span class="li_btn">æœƒå“¡ç®¡ç†</span></a>
+				</c:if>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).userAuth == 0 }">
+					<span id="ban_user_li" class="li_btn">
+						<font style="color: #ccc">æœƒå“¡ç®¡ç†</font>
+					</span>
+				</c:if>
+				</li>
+				<li>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).userAuth == 1 }">
+					<a href="<%=request.getContextPath()%>/html/back_end_coach.jsp">
+					<span class="li_btn">æ•™ç·´ç®¡ç†</span></a>
+				</c:if>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).userAuth == 0 }">
+					<span id="ban_coach_li" class="li_btn">
+						<font style="color: #ccc">æ•™ç·´ç®¡ç†</font>
+					</span>
+				</c:if>
+				</li>
+				<li>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).subAuth == 1 }">
+					<a href="<%=request.getContextPath()%>/html/back_end_sublist.jsp">
+					<span class="li_btn">è¨‚é–±ç®¡ç†</span></a>
+				</c:if>
+				<c:if test="${adminSvc.getOneAdmin(adminNo).subAuth == 0 }">
+					<span id="ban_sub_li" class="li_btn">
+						<font style="color: #ccc">è¨‚é–±ç®¡ç†</font>
+					</span>
+				</c:if>
+				</li>
 			</ul>
 		</div>
-		<p>¼v¤ùºŞ²z</p>
+		<p>å½±ç‰‡ç®¡ç†</p>
 		<div id="right">
 			<div class="main">
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col">½s¸¹</th>
-							<th scope="col">¼v¤ùID</th>
-							<th scope="col">¼v¤ù¼ĞÃD</th>
-							<th scope="col">¤W¶ÇªÌ</th>
-							<th scope="col">¤W¶Ç®É¶¡</th>
-							<th scope="col">³QÀËÁ|¦¸¼Æ</th>
-							<th scope="col">¼v¤ù</th>
-							<th scope="col">ª¬ºA</th>
-							<th scope="col">­×§ï</th>
+							<th scope="col">ç·¨è™Ÿ</th>
+							<th scope="col">å½±ç‰‡ID</th>
+							<th scope="col">å½±ç‰‡æ¨™é¡Œ</th>
+							<th scope="col">ä¸Šå‚³è€…</th>
+							<th scope="col">ä¸Šå‚³æ™‚é–“</th>
+							<th scope="col">è¢«æª¢èˆ‰æ¬¡æ•¸</th>
+							<th scope="col">å½±ç‰‡</th>
+							<th scope="col">ç‹€æ…‹</th>
+							<th scope="col">ä¿®æ”¹</th>
 						</tr>
 					</thead>
 					<tbody>
 						<%--<%@ include file="/pages/page1.file" %> --%>
 
 						<%
-							int rowsPerPage = 10; //¨C­¶ªºµ§¼Æ    
-							int rowNumber = 0; //Á`µ§¼Æ
-							int pageNumber = 0; //Á`­¶¼Æ      
-							int whichPage = 1; //²Ä´X­¶
+							int rowsPerPage = 10; //æ¯é çš„ç­†æ•¸    
+							int rowNumber = 0; //ç¸½ç­†æ•¸
+							int pageNumber = 0; //ç¸½é æ•¸      
+							int whichPage = 1; //ç¬¬å¹¾é 
 							int pageIndexArray[] = null;
 							int pageIndex = 0;
 						%>
@@ -126,10 +156,10 @@
 							try {
 								whichPage = Integer.parseInt(request.getParameter("whichPage"));
 								pageIndex = pageIndexArray[whichPage - 1];
-							} catch (NumberFormatException e) { //²Ä¤@¦¸°õ¦æªº®É­Ô
+							} catch (NumberFormatException e) { //ç¬¬ä¸€æ¬¡åŸ·è¡Œçš„æ™‚å€™
 								whichPage = 1;
 								pageIndex = 0;
-							} catch (ArrayIndexOutOfBoundsException e) { //Á`­¶¼Æ¤§¥~ªº¿ù»~­¶¼Æ
+							} catch (ArrayIndexOutOfBoundsException e) { //ç¸½é æ•¸ä¹‹å¤–çš„éŒ¯èª¤é æ•¸
 								if (pageNumber > 0) {
 									whichPage = pageNumber;
 									pageIndex = pageIndexArray[pageNumber - 1];
@@ -158,9 +188,9 @@
 									<!--                         </video> --></td>
 								<td>
 								<input type="radio" name="videoshow${videoVO.videoID}"
-									${videoVO.listed == true ? "checked='true'" : ""}>¤½¶}
+									${videoVO.listed == true ? "checked='true'" : ""}>å…¬é–‹
 								<input type="radio" name="videoshow${videoVO.videoID}"
-									${videoVO.listed == false ? "checked='true'" : ""}>¤£¤½¶}
+									${videoVO.listed == false ? "checked='true'" : ""}>ä¸å…¬é–‹
 								</td>
 								<td>
 									<form method="post" action="video.do">
@@ -187,6 +217,40 @@
 		</div>
 
 		<script src="../vendors/jquery/jquery-3.6.0.min.js"></script>
-		<script src="../js/back_end_video.js"></script>
+<!-- 		<script src="../js/back_end_video.js"></script> -->
+
+		<script>
+		$(function(){
+	        $('#ban_video_li').on('click',function(){
+	            if(${adminSvc.getOneAdmin(adminNo).videoAuth == 0}){
+	            alert("æ‚¨æ²’æœ‰ç®¡ç†å½±ç‰‡çš„æ¬Šé™!");
+	                }
+	            })
+	        $('#ban_user_li').on('click',function(){
+	            if(${adminSvc.getOneAdmin(adminNo).userAuth == 0}){
+	            alert("æ‚¨æ²’æœ‰ç®¡ç†æœƒå“¡çš„æ¬Šé™!");
+	                } 
+	            })
+	            
+		    $('#ban_coach_li').on('click',function(){
+		        if(${adminSvc.getOneAdmin(adminNo).userAuth == 0}){
+		        alert("æ‚¨æ²’æœ‰ç®¡ç†æ•™ç·´çš„æ¬Šé™!");
+		             } 
+		        })
+		        
+			 $('#ban_post_li').on('click',function(){
+			    if(${adminSvc.getOneAdmin(adminNo).commentAuth == 0}){
+			    alert("æ‚¨æ²’æœ‰ç®¡ç†æ–‡ç« çš„æ¬Šé™!");
+			          } 
+			     })
+			     
+			$('#ban_sub_li').on('click',function(){
+			 	if(${adminSvc.getOneAdmin(adminNo).subAuth == 0}){
+				alert("æ‚¨æ²’æœ‰ç®¡ç†è¨‚é–±çš„æ¬Šé™!");
+					  } 
+			   })	
+		})
+		
+		</script>
 </body>
 </html>
