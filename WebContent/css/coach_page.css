@@ -32,6 +32,10 @@ a{
     line-height: 40px;
     margin-left: 10px;
 }
+
+i.bi-cart-fill span.-on{
+	display: none;
+}
  
 #option{
     float: right;
@@ -452,6 +456,3 @@ div.video li.-on{
     display: none;
 }
 
-i.bi-cart-fill span.-on{
-	display: none;
-}
