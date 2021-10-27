@@ -1,0 +1,15 @@
+	<div id="bar">
+		<div id="title">
+			<ul>
+				<li class="bar_li"><img src="../img/logo.png" alt="" for="#CloudGYM"></li>
+				<li class="bar_li"><a href="${pageContext.request.contextPath}/html/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
+			</ul>
+		</div>
+		<div id="option">
+			<ul>
+				<li class="option"><a class="logout" href="<%=request.getContextPath()%>/AdminLogoutHandler">登出</a></li>
+				<li class="option"><a class="login_ad"
+					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">管理員</a></li>
+			</ul>
+		</div>
+	</div>
