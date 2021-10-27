@@ -41,17 +41,20 @@
 	
 // 	String username = "peter";
 // 	session.setAttribute("username", username);
-	Integer userID = 1003;
-	session.setAttribute("userID", userID);
-	
-	List<OrdersVO> orders = new OrdersService().getOrdersByUserID(userID);
-	OrderListService orderlistSvc = new OrderListService();
-	List<Integer> itemIDs = new ArrayList<>();
-	for(OrdersVO ordersVO : orders){
-		List<OrderListVO> orderlists = orderlistSvc.getOrderListByOrderNo(ordersVO.getOrderNo());
-		for(OrderListVO orderListVO : orderlists){
-			Integer itemID = orderListVO.getItemID();
-			itemIDs.add(itemID);
+// 	Integer userID = 1003;
+// 	session.setAttribute("userID", userID);
+	Integer userID = (Integer)session.getAttribute("userID");
+	List<Integer> itemIDs = null;
+	if(userID != null){
+		List<OrdersVO> orders = new OrdersService().getOrdersByUserID(userID);
+		OrderListService orderlistSvc = new OrderListService();
+		itemIDs = new ArrayList<>();
+		for(OrdersVO ordersVO : orders){
+			List<OrderListVO> orderlists = orderlistSvc.getOrderListByOrderNo(ordersVO.getOrderNo());
+			for(OrderListVO orderListVO : orderlists){
+				Integer itemID = orderListVO.getItemID();
+				itemIDs.add(itemID);
+			}
 		}
 	}
 	
