@@ -32,7 +32,7 @@ public class CoachLoginHandler extends HttpServlet {
 		
 		String action = req.getParameter("action");
 
-		if ("login".equals(action)) { // 來自select_page.jsp的請求
+		if ("login".equals(action)) { // 來自login_coach.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -92,7 +92,7 @@ public class CoachLoginHandler extends HttpServlet {
 				HttpSession session = req.getSession();
 				session.setAttribute("account", account); // *工作1: 才在session內做已經登入過的標識
 				session.setAttribute("name", name);
-				session.setAttribute("id", id);
+				session.setAttribute("userID", id);
 				session.setAttribute("coachVO", coachVO);
 	
 				try {
