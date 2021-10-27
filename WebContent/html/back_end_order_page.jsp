@@ -1,27 +1,32 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.posts.model.*"%>
+<%@ page import="com.orderList.model.*"%>
 
 <jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
+<jsp:useBean id="ordersSvc" scope="page" class="com.orders.model.OrdersService" />
+<jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService" />
+<jsp:useBean id="coachmenuSvc" scope="page"	class="com.coachMenu.model.CoachMenuService" />
+<jsp:useBean id="sublistSvc" scope="page" class="com.subList.model.SubListService" />
 <jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
-<jsp:useBean id="coachSvc" scope="page"	class="com.coach.model.CoachService" />
 <%
-	PostsService postSvc = new PostsService();
-	List<PostsVO> list = postSvc.getAll2();
+	OrderListVO orderListVO = (OrderListVO)request.getAttribute("orderListVO");
+	Integer orderNo = (Integer)request.getAttribute("orderNo");
+	OrderListService orderListSvc = new OrderListService();
+	List<OrderListVO> list = orderListSvc.getOrderListByOrderNo(orderNo);
 	pageContext.setAttribute("list", list);
-	session.getAttribute("adminNo");
 %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文章管理</title>
+<title>訂單明細管理</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
-<link rel="stylesheet" href="../css/back_end_post.css">
+<link rel="stylesheet" href="../css/back_end_order.css">
 </head>
 <body>
 	<div id="bar">
@@ -104,22 +109,38 @@
 				</li>
 			</ul>
 		</div>
-		<p>文章管理</p>
+		<p>訂單明細管理</p>
 		<div id="right">
 			<div class="main">
+			<%-- 錯誤表列 --%>
+			<c:if test="${not empty errorMsgs}">
+				<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+				</c:forEach>
+			</ul>
+			</c:if>
+			
+			 <FORM METHOD="post" ACTION="orderList.do">
+                  <b>查詢訂單編號:</b>
+                  <input type="text" name="orderNo">
+                  <input type="hidden" name="action" value="getbyOrderNO">
+                  <input type="submit" value="送出">
+              </FORM>
 				<table class="table">
 					<thead>
 						<tr>
 							<th scope="col">編號</th>
-							<th scope="col">文章ID</th>
-							<th scope="col">文章標題</th>
-							<th scope="col">上傳者</th>
-							<th scope="col">上傳時間</th>
-							<th scope="col">被檢舉次數</th>
+							<th scope="col">訂單編號</th>
+							<th scope="col">購買人</th>
+							<th scope="col">品項</th>
+							<th scope="col">購買人手機</th>
+							<th scope="col">訂單建立時間</th>
 						</tr>
 					</thead>
 					<tbody>
-						<%--                     <%@ include file="/pages/page1.file" %> --%>
+						<%-- 						<%@ include file="/pages/page1.file"%> --%>
 						<%
 							int rowsPerPage = 10; //每頁的筆數    
 							int rowNumber = 0; //總筆數
@@ -158,71 +179,29 @@
 						<%
 							int number = pageIndex + 1;
 						%>
-						<c:forEach var="postsVO" items="${list}" begin="<%=pageIndex%>"	end="<%=pageIndex+rowsPerPage-1%>">
-							<tr	data-href="<%=request.getContextPath()%>/html/back_end_post_page.jsp?postID=${postsVO.postsID}">
-								<th scope="row">
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red"><%=number++%></font>
-									</c:when>
-									<c:otherwise>
-										<%=number++%>
-									</c:otherwise>
-								</c:choose>
+
+						<c:forEach var="orderListVO" items="${list}"
+							begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+							<tr>
+								<th scope="row"><%=number++%></th>
+								<td>${orderListVO.orderNo}
 								</th>
-								<td>
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red">${postsVO.postsID}</font>
-									</c:when>
-									<c:otherwise>
-										${postsVO.postsID}
-									</c:otherwise>
-								</c:choose>
+								<td>${ordersSvc.gerOrdersByOrderNo(orderListVO.orderNo).userID}-
+									${userSvc.findByUserId(ordersSvc.gerOrdersByOrderNo(orderListVO.orderNo).userID).userName}</td>
+								<td>${orderListVO.itemID}-
+									<c:if
+										test="${orderListVO.itemID.toString().substring(0,1)=='3'}">
+										${videoSvc.findByPrimaryKeyNoVideo(orderListVO.itemID).getTitle()}(影片)</c:if>
+									<c:if
+										test="${orderListVO.itemID.toString().substring(0,1)=='6'}">
+										${coachmenuSvc.getByMenuID(orderListVO.itemID).getMenuName()}(教練菜單)</c:if>
+									<c:if
+										test="${orderListVO.itemID.toString().substring(0,1)=='7'}">
+										${sublistSvc.getBySubID(orderListVO.itemID).getSubName()}(訂閱)</c:if>
 								</td>
-								<td style="text-align: left; font-size: 15px">
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red">${postsVO.postsTitle}</font>
-									</c:when>
-									<c:otherwise>
-										${postsVO.postsTitle}
-									</c:otherwise>
-								</c:choose>
+								<td>${userSvc.findByUserId(ordersSvc.gerOrdersByOrderNo(orderListVO.orderNo).userID).userMobile }</td>
 								<td>
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red">${postsVO.userID} -
-										${userSvc.findByUserId(postsVO.userID).userName}
-										${coachSvc.getByUserID(postsVO.userID).coachName}
-									</font>
-									</c:when>
-									<c:otherwise>
-										${postsVO.userID} -
-										${userSvc.findByUserId(postsVO.userID).userName}
-										${coachSvc.getByUserID(postsVO.userID).coachName}
-									</c:otherwise>
-								</c:choose>
-								</td>
-								<td>
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red">${postsVO.postsPublishDate}</font>
-									</c:when>
-									<c:otherwise>
-										${postsVO.postsPublishDate}
-									</c:otherwise>
-								</c:choose>
-								</td>
-								<td>
-								<c:choose>
-									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
-										<font style="color: red">${postsVO.postsReportedTimes}</font>
-									</c:when>
-									<c:otherwise>
-										${postsVO.postsReportedTimes}
-									</c:otherwise>
-								</c:choose>
+									${ordersSvc.gerOrdersByOrderNo(orderListVO.orderNo).builtDate}
 								</td>
 							</tr>
 						</c:forEach>
@@ -240,9 +219,7 @@
 			</div>
 		</div>
 	</div>
-
-	<script src="../js/jquery-3.6.0.min.js"></script>
-	<script src="../js/back_end_post.js"></script>
+	    <script src="../js/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function(){
 	        $('#ban_video_li').on('click',function(){
@@ -276,5 +253,6 @@
 		})
 		
 		</script>
+
 </body>
 </html>

@@ -189,6 +189,13 @@
 	<servlet-mapping>
 		<servlet-name>ReviewServlet</servlet-name>
 		<url-pattern>/review/review.do</url-pattern>
+	<servlet>
+		<servlet-name>OrderListServlet</servlet-name>
+		<servlet-class>com.orderList.controller.OrderListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderListServlet</servlet-name>
+		<url-pattern>/html/orderList.do</url-pattern>
 	</servlet-mapping>
 
 	<filter>
