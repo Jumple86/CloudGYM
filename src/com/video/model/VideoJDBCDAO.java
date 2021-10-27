@@ -20,12 +20,14 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	public static final String USER = "David";
 	public static final String PASSWRD = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO video(userID, title, price, intro, img, content, level, duration, listed, reportedTimes, publishTime) VALUES(?,?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP)";
+	private static final String INSERT_STMT = "INSERT INTO video(userID, title, price, intro, content, level, thePosition, publishTime) VALUES(?,?,?,?,?,?,?, CURRENT_TIMESTAMP)";
 	private static final String DELETE = "DELETE FROM video WHERE videoID=?";
-	private static final String UPDATE_STMT = "UPDATE video set title =?, price = ?, intro=?, img=?, content=?, level=? where videoID =?";
-	private static final String GET_ONE_STMT = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video where videoID=?";
-	private static final String GET_BY_USERID = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video where userID=?";
-	private static final String GET_ALL_STMT = "SELECT videoID, userID, title, duration, price, intro, img, content, review, publishTime, level FROM video";
+	private static final String UPDATE_STMT = "UPDATE video set title =?, price = ?, intro=?, img=?, content=?, level=?, listed = ?, reportedTimes=?, thePosition=? where videoID =?";
+	private static final String GET_ONE_STMT = "SELECT * FROM video where videoID=?";
+	private static final String GET_ALL_STMT = "SELECT * FROM video";
+	private static final String GET_ALL_NOVIDEO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video";
+	private static final String GET_BY_USERID = "SELECT * FROM video WHERE userID = ?";
+	private static final String FIND_BY_POSITIONNO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video WHERE thePosition=?";
 
 	static {
 		try {
@@ -36,26 +38,36 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	}
 
 	@Override
-	public void add(VideoVO videoVO) {
+	public Integer add(VideoVO videoVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer primaryKey = null;
 
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
-			pstmt = con.prepareStatement(INSERT_STMT);
+			pstmt = con.prepareStatement(INSERT_STMT, 1);
 
 			pstmt.setInt(1, videoVO.getUserID());
 			pstmt.setString(2, videoVO.getTitle());
 			pstmt.setInt(3, videoVO.getPrice());
 			pstmt.setString(4, videoVO.getIntro());
-			pstmt.setBytes(5, videoVO.getImg());
-			pstmt.setBinaryStream(6, videoVO.getContent());
-			pstmt.setString(7, videoVO.getLevel());
-			pstmt.setInt(8, videoVO.getDuration());
-			pstmt.setBoolean(9, videoVO.getListed());
-			pstmt.setInt(10, videoVO.getReportedTimes());
+//			pstmt.setBytes(5, videoVO.getImg());
+			pstmt.setBytes(5, videoVO.getContent());
+			pstmt.setString(6, videoVO.getLevel());
+			pstmt.setInt(7, videoVO.getThePosition());
+//			pstmt.setInt(7, videoVO.getDuration());
+//			pstmt.setBoolean(9, videoVO.getListed());
+//			pstmt.setInt(10, videoVO.getReportedTimes());
 
 			pstmt.executeUpdate();
+
+			// 取得自增主鍵
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				primaryKey = rs.getInt(1);
+			}
+			return primaryKey;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -75,6 +87,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 				}
 			}
 		}
+		return primaryKey;
 	}
 
 	@Override
@@ -90,9 +103,12 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 			pstmt.setInt(2, videoVO.getPrice());
 			pstmt.setString(3, videoVO.getIntro());
 			pstmt.setBytes(4, videoVO.getImg());
-			pstmt.setBinaryStream(5, videoVO.getContent());
+			pstmt.setBytes(5, videoVO.getContent());
 			pstmt.setString(6, videoVO.getLevel());
-			pstmt.setInt(7, videoVO.getVideoID());
+			pstmt.setBoolean(7, videoVO.getListed());
+			pstmt.setInt(8, videoVO.getReportedTimes());
+			pstmt.setInt(9, videoVO.getThePosition());
+			pstmt.setInt(10, videoVO.getVideoID());
 
 			pstmt.executeUpdate();
 
@@ -150,7 +166,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	}
 
 	@Override
-	public VideoVO findByPrimaryKey(Integer userID) {
+	public VideoVO findByPrimaryKey(Integer videoID) {
 		VideoVO videoVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -159,8 +175,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
 			pstmt = con.prepareStatement(GET_ONE_STMT);
-
-			pstmt.setInt(1, userID);
+			pstmt.setInt(1, videoID);
 
 			rs = pstmt.executeQuery();
 
@@ -173,10 +188,13 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setContent(rs.getBytes("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
 			}
 
 		} catch (SQLException e) {
@@ -210,7 +228,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	}
 
 	@Override
-	public List<VideoVO> findByUserID(Integer userID) {
+	public List<VideoVO> getAll() {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -219,8 +237,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
-			pstmt = con.prepareStatement(GET_BY_USERID);
-			pstmt.setInt(1, userID);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
 
 			rs = pstmt.executeQuery();
 
@@ -233,15 +250,17 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setContent(rs.getBytes("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
 
 				list.add(videoVO);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {
@@ -270,7 +289,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	}
 
 	@Override
-	public List<VideoVO> getAll() {
+	public List<VideoVO> findByUserID(Integer userID) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -279,7 +298,68 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWRD);
-			pstmt = con.prepareStatement(GET_ALL_STMT);
+			pstmt = con.prepareStatement(GET_BY_USERID);
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+				videoVO.setImg(rs.getBytes("img"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
+
+				list.add(videoVO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public List<VideoVO> getAll2() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<VideoVO> list = new ArrayList<VideoVO>();
+		VideoVO videoVO = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(GET_ALL_NOVIDEO);
 
 			rs = pstmt.executeQuery();
 
@@ -292,14 +372,79 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 				videoVO.setPrice(rs.getInt("price"));
 				videoVO.setIntro(rs.getString("intro"));
 				videoVO.setImg(rs.getBytes("img"));
-				videoVO.setContent(rs.getBinaryStream("content"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
 				videoVO.setReview(rs.getInt("review"));
 				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
 				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
 
 				list.add(videoVO);
 			}
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<VideoVO> findByPositionNo(Integer positionNo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<VideoVO> list = new ArrayList<VideoVO>();
+		VideoVO videoVO = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(FIND_BY_POSITIONNO);
+			pstmt.setInt(1, positionNo);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+				videoVO.setImg(rs.getBytes("img"));
+//				videoVO.setContent(rs.getBinaryStream("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
+
+				list.add(videoVO);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {
@@ -345,15 +490,15 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 
 		// add listed, reportedtimes預設true, 0 之後再由管理員修改
 //		VideoVO video = new VideoVO();
-//		video.setUserID(2006);
-//		video.setTitle("30分鐘燃脂");
+//		video.setUserID(2005);
+//		video.setTitle("居家瘦身");
 //		video.setPrice(20);
-//		video.setIntro("一系列燃脂運動");
-//		byte[] pic = getPictureByteArray("items/example.jpg");
+//		video.setIntro("居家防疫期間，是否也讓你的瘦身、健身計劃泡湯了呢？別擔心，在家也能有完美的運動健身計畫！");
+//		byte[] pic = getPictureByteArray("items/example6.jpg");
 //		video.setImg(pic);
 //		InputStream is = getPictureStream("items/test.mp4");
 //		video.setContent(is);
-//		video.setLevel("強");
+//		video.setLevel("中");
 //		video.setDuration(20);
 //		video.setListed(true);
 //		video.setReportedTimes(0);
@@ -391,22 +536,6 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 //		System.out.println(video.getReview());
 //		System.out.println(video.getLevel());
 
-		// findByUserID
-		List<VideoVO> list = dao.findByUserID(2001);
-		for(VideoVO video1 : list) {
-			System.out.println(video1.getVideoID());
-			System.out.println(video1.getUserID());
-			System.out.println(video1.getTitle());
-			System.out.println(video1.getDuration());
-			System.out.println(video1.getPrice());
-			System.out.println(video1.getImg());
-			System.out.println(video1.getIntro());
-			System.out.println(video1.getContent());
-			System.out.println(video1.getPublishTime());
-			System.out.println(video1.getReview());
-			System.out.println(video1.getLevel());
-		}
-		
 		// findall
 //		List<VideoVO> list = dao.getAll();
 //		for(VideoVO video1 : list) {
@@ -421,6 +550,23 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 //			System.out.println(video1.getPublishTime());
 //			System.out.println(video1.getReview());
 //			System.out.println(video1.getLevel());
+//		}
+		
+		// find by positionNo
+//		List<VideoVO> list = dao.findByPositionNo(1);
+//		for(VideoVO video1 : list) {
+//			System.out.println(video1.getVideoID());
+//			System.out.println(video1.getUserID());
+//			System.out.println(video1.getTitle());
+//			System.out.println(video1.getDuration());
+//			System.out.println(video1.getPrice());
+////			System.out.println(video1.getImg());
+//			System.out.println(video1.getIntro());
+////			System.out.println(video1.getContent());
+//			System.out.println(video1.getPublishTime());
+//			System.out.println(video1.getReview());
+//			System.out.println(video1.getLevel());
+//			System.out.println(video1.getThePosition());
 //		}
 	}
 }

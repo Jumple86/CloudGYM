@@ -1,5 +1,5 @@
 package com.posts.model;
-
+ 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,11 +16,13 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String URL = "jdbc:mysql://localhost:3306/CloudGYM?serverTimezone=Asia/Taipei";
 	private static final String USER = "David";
 	private static final String PASSWORD = "123456";
-	private static final String INSERT = "INSERT INTO POSTS(postsID, userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID, postsShow) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE POSTS SET postsTitle=?, postsContent=?, postsImg=?, postsPublishDate=?, tagID=?, postsShow=? WHERE postsID=?";
-	private static final String DELETE = "DELETE FROM POSTS WHERE POSTSID = ?";
-	private static final String FIND_PK = "SELECT * FROM POSTS WHERE POSTSID = ?";
-	private static final String FIND_ALL = "SELECT * FROM POSTS";
+	private static final String INSERT = "insert into posts(userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID) values(?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE = "update posts set postsTitle=?, postsContent=?, postsImg=?, postsPublishDate=?, tagID=? where postsID=?";
+	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?"; // 更改狀態
+	private static final String FIND_PK = "select * from posts where postsid = ?";
+	private static final String FIND_TOP = "select * from posts where postsshow = 1 order by postsLikes desc";
+	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
+	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
 
 	static {
 		try {
@@ -39,14 +41,12 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
 			pstmt = con.prepareStatement(INSERT);
 
-			pstmt.setInt(1, postsVO.getPostsID());
-			pstmt.setInt(2, postsVO.getUserID());
-			pstmt.setString(3, postsVO.getPostsTitle());
-			pstmt.setString(4, postsVO.getPostsContent());
-			pstmt.setBytes(5, postsVO.getPostsImg());
-			pstmt.setTimestamp(6, postsVO.getPostsPublishDate());
-			pstmt.setInt(7, postsVO.getTagID());
-			pstmt.setBoolean(8, postsVO.isPostsShow());
+			pstmt.setInt(1, postsVO.getUserID());
+			pstmt.setString(2, postsVO.getPostsTitle());
+			pstmt.setString(3, postsVO.getPostsContent());
+			pstmt.setBytes(4, postsVO.getPostsImg());
+			pstmt.setTimestamp(5, postsVO.getPostsPublishDate());
+			pstmt.setInt(6, postsVO.getTagID());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -83,8 +83,7 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			pstmt.setBytes(3, postsVO.getPostsImg());
 			pstmt.setTimestamp(4, postsVO.getPostsPublishDate());
 			pstmt.setInt(5, postsVO.getTagID());
-			pstmt.setBoolean(6, postsVO.isPostsShow());
-			pstmt.setInt(7, postsVO.getPostsID());
+			pstmt.setInt(6, postsVO.getPostsID());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -192,6 +191,61 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	}
 
 	@Override
+	public List<PostsVO> findByTopPost() {
+		List<PostsVO> top = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_TOP);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				PostsVO postsVO = new PostsVO();
+				postsVO.setPostsID(rs.getInt("postsid"));
+				postsVO.setUserID(rs.getInt("userid"));
+				postsVO.setPostsTitle(rs.getString("poststitle"));
+				postsVO.setPostsContent(rs.getString("postscontent"));
+				postsVO.setPostsImg(rs.getBytes("postsimg"));
+				postsVO.setPostsPublishDate(rs.getTimestamp("postspublishdate"));
+				postsVO.setTagID(rs.getInt("tagid"));
+				postsVO.setPostsLikes(rs.getInt("postslikes"));
+				postsVO.setPostsReportedTimes(rs.getInt("postsreportedtimes"));
+				postsVO.setPostsShow(rs.getBoolean("postsshow"));
+				top.add(postsVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return top;
+	}
+
+	@Override
 	public List<PostsVO> findAll() {
 		List<PostsVO> list = new ArrayList<>();
 		Connection con = null;
@@ -246,10 +300,66 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 		return list;
 	}
 
+	@Override
+	public List<PostsVO> findAll2() {
+
+		List<PostsVO> list2 = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_ALL2);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				PostsVO postsVO = new PostsVO();
+				postsVO.setPostsID(rs.getInt("postsid"));
+				postsVO.setUserID(rs.getInt("userid"));
+				postsVO.setPostsTitle(rs.getString("poststitle"));
+				postsVO.setPostsContent(rs.getString("postscontent"));
+				postsVO.setPostsImg(rs.getBytes("postsimg"));
+				postsVO.setPostsPublishDate(rs.getTimestamp("postspublishdate"));
+				postsVO.setTagID(rs.getInt("tagid"));
+				postsVO.setPostsLikes(rs.getInt("postslikes"));
+				postsVO.setPostsReportedTimes(rs.getInt("postsreportedtimes"));
+				postsVO.setPostsShow(rs.getBoolean("postsshow"));
+				list2.add(postsVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return list2;
+	}
+
 	public static void main(String[] args) throws IOException {
 		PostsJDBCDAO dao = new PostsJDBCDAO();
 
-//		新增
+//		�憓�
 //		PostsVO postsVO = new PostsVO();
 //		postsVO.setPostsID(40011);
 //		postsVO.setUserID(1002);
@@ -260,9 +370,9 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		postsVO.setTagID(20);
 //		postsVO.setPostsShow(true);
 //		dao.insert(postsVO);
-//		System.out.println("新增成功");
+//		System.out.println("�憓���");
 
-//		修改
+//		靽格
 //		PostsVO postsVO = new PostsVO();
 //		postsVO.setPostsTitle("ABCDAAAAA");
 //		postsVO.setPostsContent("DCBAAAAA");
@@ -272,17 +382,17 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		postsVO.setPostsShow(false);
 //		postsVO.setPostsID(40011);
 //		dao.update(postsVO);
-//		System.out.println("修改成功");
+//		System.out.println("靽格����");
 
-//		刪除
+//		��
 //		dao.delete(40011);
-//		System.out.println("刪除成功");
+//		System.out.println("������");
 
-//		查詢PK
+//		�閰㎜K
 //		PostsVO PK = dao.findByPrimaryKey(40003);
 //		System.out.println(PK);
 
-//		查詢All
+//		�閰∕ll
 //		List<PostsVO> list = dao.findAll();
 //		for (PostsVO all : list) {
 //			System.out.println(all);
