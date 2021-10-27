@@ -26,8 +26,8 @@ public class LoginFilterAdmin implements Filter {
 		// 【取得 session】
 		HttpSession session = req.getSession();
 		// 【從 session 判斷此user是否登入過】
-	    Object adminNo = session.getAttribute("adminNo");                  // 從 session內取出 (key) account的值
-		if (adminNo == null) {
+	    Object adminVO = session.getAttribute("adminVO");                  // 從 session內取出 (key) account的值
+		if (adminVO == null) {
 			session.setAttribute("location", req.getRequestURI());       //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁(須配合LoginHandler.java)
 			res.sendRedirect(req.getContextPath() + "/html/login_admin.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
 			return;

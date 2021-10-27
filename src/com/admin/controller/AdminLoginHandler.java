@@ -28,7 +28,7 @@ public class AdminLoginHandler extends HttpServlet {
 		
 		String action = req.getParameter("action");
 
-		if ("login".equals(action)) { // 來自select_page.jsp的請求
+		if ("login".equals(action)) { // 來自login_admin.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
