@@ -72,4 +72,8 @@ public class VideoService {
 	public List<VideoVO> getByPositionNo(Integer positionNo){
 		return dao.findByPositionNo(positionNo);
 	}
+	
+	public VideoVO findByPrimaryKeyNoVideo(Integer videoID) {
+		return dao.findByPrimaryKeyNoVideo(videoID);
+	}
 }

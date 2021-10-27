@@ -142,7 +142,7 @@
 				</p>
 			</div>
 
-			<button type="button" onclick="javascript:location.href='./all_video_page.html'">返回首頁</button>
+			<button type="button" onclick="javascript:location.href='<%=request.getContextPath()%>/html/all_video_page.jsp'">返回首頁</button>
         </div>
     </div>
     <script src="../js/jquery-3.6.0.min.js"></script>

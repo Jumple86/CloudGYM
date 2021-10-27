@@ -5,6 +5,7 @@
 <%@ page import="com.comment.model.*"%>
 
 <jsp:useBean id="userSvc" scope="page"	class="com.user.model.UserService" />
+<jsp:useBean id="coachSvc" scope="page"	class="com.coach.model.CoachService" />
 <%
   response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.setHeader("Pragma","no-cache");        //HTTP 1.0
@@ -102,7 +103,8 @@
 				</a>
 				<div class="up_name">
 					上傳者: &nbsp&nbsp<span>${postsVO.userID} -
-						${userSvc.findByUserId(postsVO.userID).userName}</span>
+						${userSvc.findByUserId(postsVO.userID).userName}
+						${coachSvc.getByUserID(postsVO.userID).coachName}</span>
 				</div>
 				<div class="up_time">
 					上傳時間: <span>${postsVO.postsPublishDate}</span>
