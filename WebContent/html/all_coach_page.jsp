@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="BIG5">
-<title>Insert title here</title>
+<title>教練總覽</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/all_coach_page.css">
 </head>

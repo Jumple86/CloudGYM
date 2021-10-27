@@ -1,6 +1,9 @@
 package com.coach.model;
 
 import java.util.*;
+
+import com.user.model.UserVO;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -20,11 +23,12 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 	private static final String INSERT_STMT = 
 			"INSERT INTO coach(userID,coachAccount,coachName,coachPassword,coachImg,userMobile,coachSex,coachBirthday,coachDescription,coachRegisteredDate,coachCertificate,reportedTimes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE coach SET coachAccount=?,coachName=?, coachPassword=?,coachImg=?, userMobile=?, coachSex=?, coachBirthday=?, coachDescription=?, coachRegisteredDate=?,coachCertificate=?,reportedTimes=? WHERE userID=?";
+			"UPDATE coach SET coachName=?,coachImg=?,coachDescription=?,coachCertificate=? WHERE userID=?";
 	private static final String DELETE_STMT =
 			"DELETE FROM coach WHERE userID=?";
 	private static final String FIND_BY_USERID_STMT = 
 			"SELECT * FROM coach WHERE userID = ?";
+	private static final String FIND_BY_COACHACCOUNT = "SELECT * FROM coach WHERE coachAccount=?";
 	private static final String FIND_ALL = 
 			"SELECT * FROM coach";
 	
@@ -99,18 +103,11 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setString(1, coachVO.getCoachAccount());
-			pstmt.setString(2, coachVO.getCoachName());
-			pstmt.setString(3, coachVO.getCoachPassword());
-			pstmt.setBytes(4, coachVO.getCoachImg());
-			pstmt.setString(5, coachVO.getUserMobile());
-			pstmt.setString(6, coachVO.getCoachSex());
-			pstmt.setDate(7, coachVO.getCoachBirthday());
-			pstmt.setString(8, coachVO.getCoachDescription());
-			pstmt.setDate(9, coachVO.getCoachRegisteredDate());
-			pstmt.setString(10, coachVO.getCoachCertificate());
-			pstmt.setInt(11, coachVO.getReportedTimes());
-			pstmt.setInt(12, coachVO.getUserID());
+			pstmt.setString(1, coachVO.getCoachName());
+			pstmt.setBytes(2, coachVO.getCoachImg());
+			pstmt.setString(3, coachVO.getCoachDescription());
+			pstmt.setString(4, coachVO.getCoachCertificate());
+			pstmt.setInt(5, coachVO.getUserID());
 			
 			
 			pstmt.executeUpdate();
@@ -225,6 +222,59 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 		return coachVO;
 	}
 
+	@Override
+	public CoachVO findByCoachAccount(String coachAccount) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CoachVO coachVO = null;
+
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(FIND_BY_COACHACCOUNT);
+			pstmt.setString(1, coachAccount);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				coachVO = new CoachVO();
+				coachVO.setUserID(rs.getInt("userID"));
+				coachVO.setCoachAccount(rs.getString("coachAccount"));
+				coachVO.setCoachName(rs.getString("coachName"));
+				coachVO.setCoachPassword(rs.getString("coachPassword"));
+				coachVO.setCoachImg(rs.getBytes("coachImg"));
+				coachVO.setUserMobile(rs.getString("userMobile"));
+				coachVO.setCoachSex(rs.getString("coachSex"));
+				coachVO.setCoachBirthday(rs.getDate("coachBirthday"));
+				coachVO.setCoachDescription(rs.getString("coachDescription"));
+				coachVO.setCoachRegisteredDate(rs.getDate("coachRegisteredDate"));
+				coachVO.setCoachCertificate(rs.getString("coachCertificate"));
+				coachVO.setReportedTimes(rs.getInt("reportedTimes"));
+			}
+
+		} catch (SQLException se) {
+//			se.printStackTrace();
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+
+		return coachVO;
+	}
+	
 	@Override
 	public List<CoachVO> findAll() {
 

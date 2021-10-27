@@ -23,7 +23,7 @@ public class SubListServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 
-		req.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("BIG5");
 		String action = req.getParameter("action");
 		
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
@@ -120,7 +120,7 @@ public class SubListServlet extends HttpServlet {
 				}
 			}
 		
-		if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
+		if ("update".equals(action)) { // 來自back_end_sublit_update.jsp的請求
 			
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -138,9 +138,9 @@ public class SubListServlet extends HttpServlet {
 				}
 				
 				String subName = req.getParameter("subName").trim();
-				if (subName == null || subName.trim().length() == 0) {
-					errorMsgs.add("方案名稱請勿空白");
-				}
+//				if (subName == null || subName.trim().length() == 0) {
+//					errorMsgs.add("方案名稱請勿空白");
+//				}
 				
 				Integer price = null;
 				try {
@@ -160,7 +160,7 @@ public class SubListServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("subListVO", subListVO); // 含有輸入格式錯誤的subscriptionVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/subList/update_subList_input.jsp");
+							.getRequestDispatcher("/html/back_end_sublist_update.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -171,7 +171,7 @@ public class SubListServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("subListVO", subListVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/subList/listOneSubList.jsp";
+				String url = "/html/back_end_sublist.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -179,7 +179,7 @@ public class SubListServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/subList/update_subList_input.jsp");
+						.getRequestDispatcher("/html/back_end_sublist_update.jsp");
 				failureView.forward(req, res);
 					}
 				}

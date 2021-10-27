@@ -17,8 +17,8 @@ public class UserService {
 		dao = new UserJDBCDAO();
 	}
 
-	public UserVO addUser(String userAccount, String userName, String userPassword, String userMobile,
-			String userSex, Date userBirthday, Timestamp userRegisterDate, Integer userReportedTimes) {
+	public UserVO addUser(String userAccount, String userName, String userPassword, String userMobile, String userSex,
+			Date userBirthday, Timestamp userRegisterDate, Integer userReportedTimes) {
 
 		UserVO userVO = new UserVO();
 
@@ -67,6 +67,16 @@ public class UserService {
 
 	public List<UserVO> getAll() {
 		return dao.getAll();
+	}
+
+	public UserVO changePassword(String userPassword, Integer userID) {
+		UserVO userVO = new UserVO();
+
+		userVO.setUserPassword(userPassword);
+		userVO.setUserID(userID);
+		dao.changePassword(userVO);
+
+		return userVO;
 	}
 
 }
