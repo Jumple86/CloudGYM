@@ -209,6 +209,20 @@
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>loginFilterAdmin</filter-name>
+		<filter-class>filters.LoginFilterAdmin</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterAdmin</filter-name>
+		<url-pattern>/protected_admin/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
 
 	<resource-ref>
 		<description>DB Connection</description>
