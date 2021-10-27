@@ -44,7 +44,7 @@
 <body>
 <%-- <%@include file="../bar.file"%> --%>
 
-<!-- bar公版 begining -->
+<!-- bar begining -->
     <div id="bar">
         <div id="title">
             <ul>
@@ -58,10 +58,18 @@
         </div>
         <div id="option">
             <ul>
-                <li class="option"><a href="#">運動類型</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/html/all_video_page.jsp">運動類型</a></li>
                 <li class="option"><a href="${pageContext.request.contextPath}/html/all_coach_page.jsp">教練</a></li>
-                <li class="option"><a href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">個人專區</a></li>
-                <li class="option"><a href="${pageContext.request.contextPath}/html/ArticleList.jsp">討論區</a></li>
+                
+                <c:if test="${not empty userVO}">
+	                <li class="option"><a href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">個人專區</a></li>
+                </c:if>
+                
+                <c:if test="${not empty coachVO}">
+                	<li class="option"><a href="${pageContext.request.contextPath}/html/coach_page.jsp">我是教練</a></li>
+                </c:if>
+                
+               	<li class="option"><a href="${pageContext.request.contextPath}/html/ArticleList.jsp">討論區</a></li>
                 
                 <c:if test="${empty name}">
 					<li class="option"><a href="${pageContext.request.contextPath}/html/login_ask_page.html" target="_blank">註冊/登入</a></li>
@@ -78,7 +86,7 @@
             </ul>
         </div>
     </div>
-<!-- bar公版 end -->
+<!-- bar end -->
     
     <div id="top">
         <img src="../img/EVO-2021-PP-Feb-Banner_10-1200x675.jpg" alt="" id="main_img">
