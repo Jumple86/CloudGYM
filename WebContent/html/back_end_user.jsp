@@ -129,7 +129,9 @@
                         <th scope="col">生日</th>
                         <th scope="col">性別</th>
                         <th scope="col">檢舉次數</th>
+                        <th scope="col">註冊日期</th>  
                         <th scope="col">權限管理</th>                        
+                        <th scope="col">權限最後更新日期</th>                        
                       </tr>
                     </thead>
                     <tbody>
@@ -180,7 +182,17 @@
                         <td>${userVO.userMobile}</td>
                         <td>${userVO.userBirthday}</td>
                         <td>${userVO.userSex}</td>
-                        <td>${userVO.userReportedTimes}</td>
+                        <td>
+                        <c:choose>
+                        	<c:when test="${userVO.userReportedTimes >= 3}">
+                        		<font style="color: red">${userVO.userReportedTimes}</font>
+                        	</c:when>
+	                        <c:otherwise>
+	                    	    ${userVO.userReportedTimes}
+	                        </c:otherwise>
+                        </c:choose>
+                        </td>
+                        <td>${userVO.userRegisterDate}</td>
                         <td>
                           <span class="td_comm">
                             <i class="bi bi-chat-text-fill"  
@@ -197,7 +209,8 @@
                                ${userAuthSvc.getUserID(userVO.userID).banUsers == 1 ? "style='color:red'" : ""}
                               ></i>
                             </span>
-                          </td>                        
+                          </td>
+                          <td>${userAuthSvc.getUserID(userVO.userID).startTime}</td>                        
                       </tr>                     
                     </c:forEach>
                     </tbody>

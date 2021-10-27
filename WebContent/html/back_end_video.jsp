@@ -179,13 +179,10 @@
 									${coachSvc.getByUserID(videoVO.userID).coachName}</td>
 								<td>${videoVO.publishTime}</td>
 								<td>${videoVO.reportedTimes}</td>
-								<td><a
-									href="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoVO.videoID}">
+								<td>
 										<i class="bi bi-camera-reels-fill"></i>
-								</a> <!--                         <video controls class="td_video_src"> -->
-									<%--                             <source src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoVO.videoID}" type="video/mp4"> --%>
-									<!--                            <source src="https://giant.gfycat.com/VerifiableTerrificHind.webm" type="video/webm">  -->
-									<!--                         </video> --></td>
+                       				 	<input class="videoid" type="hidden" value="${videoVO.videoID}">
+								</td>
 								<td>
 								<input type="radio" name="videoshow${videoVO.videoID}"
 									${videoVO.listed == true ? "checked='true'" : ""}>公開
@@ -217,11 +214,31 @@
 		</div>
 
 		<script src="../vendors/jquery/jquery-3.6.0.min.js"></script>
-<!-- 		<script src="../js/back_end_video.js"></script> -->
-
 		<script>
 		$(function(){
-	        $('#ban_video_li').on('click',function(){
+		    $('.bi.bi-camera-reels-fill').on('click',function(){
+		    	var videoid=$(this).next().val();
+		    	console.log(videoid);
+		        if($('div').hasClass('pushvideo') == true){
+		            $('.pushvideo').remove();
+		        }else{
+		            let video = `
+		            <div class="pushvideo">
+		            <video controls autoplay>
+		                <source src="<%=request.getContextPath()%>/html/VideoOutput?videoID=`+videoid+`" type="video/mp4">
+		            </video>
+		            <button type="button" class="btn_modal_close">關閉</button>
+		         </div>
+		            `;
+		            $('table').prepend(video);
+		        }
+
+		        $('button.btn_modal_close').on('click',function(){
+		            $('.pushvideo').remove();
+		        })
+		    })
+			
+			$('#ban_video_li').on('click',function(){
 	            if(${adminSvc.getOneAdmin(adminNo).videoAuth == 0}){
 	            alert("您沒有管理影片的權限!");
 	                }
