@@ -27,7 +27,8 @@ public class LoginFilterUser implements Filter {
 	    Object account = session.getAttribute("account");                  // 從 session內取出 (key) account的值
 	    Object name = session.getAttribute("name");                  // 從 session內取出 (key) name的值
 	    Object id = session.getAttribute("id");                  // 從 session內取出 (key) id的值
-		if (account == null) {
+	    Object userVO = session.getAttribute("userVO");                  // 從 session內取出 (key) id的值
+		if (userVO == null) {
 			session.setAttribute("location", req.getRequestURI());       //*工作1 : 同時記下目前位置 , 以便於login.html登入成功後 , 能夠直接導至此網頁(須配合LoginHandler.java)
 			res.sendRedirect(req.getContextPath() + "/html/login_user.jsp");   //*工作2 : 請該user去登入網頁(login.html) , 進行登入
 			return;

@@ -1,0 +1,73 @@
+html {
+/* 	padding: 50px; */
+	font-family: sans-serif;
+}
+
+#exampleSlider {
+	position: relative;
+	width: 1400px;
+}
+
+#exampleSlider .MS-content {
+	margin: 15px 5%;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 1150px;
+	
+}
+
+#exampleSlider .MS-content .item {
+	display: inline-block;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+	vertical-align: top;
+	/*   border: 1px solid green; */
+	border-right: none;
+/* 	width: 33.333%; */
+	width: 433px;
+}
+
+.img_block{
+	margin:0 auto;
+}
+
+.pic {
+	width: 250px;
+}
+
+.video_title {
+	color: #fff;
+	text-align: left;
+	font-size: 12px;
+	width: 270px;
+	margin-left: 3px;
+}
+
+.video_coach{
+	float:right;
+	color: #fff;
+}
+
+#exampleSlider .MS-controls button {
+	position: absolute;
+	border: none;
+	background: transparent;
+	font-size: 30px;
+	outline: 0;
+	top: 60px;
+}
+
+#exampleSlider .MS-controls button:hover {
+	cursor: pointer;
+}
+
+#exampleSlider .MS-controls .MS-left {
+	left: 0px;
+}
+
+
+#exampleSlider .MS-controls .MS-right {
+	right: 130px;
+}
+
