@@ -1,6 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.user.model.*"%>
+<%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
 
 <%
   UserVO userVO = (UserVO) request.getAttribute("userVO");

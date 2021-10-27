@@ -24,7 +24,7 @@
 <body>
 
 	<div id="login">
-		<form method="post" action="loginhandler">
+		<form method="post" action="<%=request.getContextPath()%>/loginhandler">
 			<h2>會員登入</h2>
 			<input type="text" name="account" placeholder="請輸入帳號" id="email"
 			value="<%=(userVO == null) ? "1001@cloudgym.com" : userVO.getUserAccount()%>"> 
