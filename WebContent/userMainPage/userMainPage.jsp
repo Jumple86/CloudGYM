@@ -212,10 +212,34 @@ a {
 			</div>
 			<div class="col-8 info">
 				<ul>
-					<li>修改個人資料</li>
-					<li>修改密碼</li>
-					<li>歷史訂單</li>
-					<li>我的文章</li>
+					<li>
+						<FORM METHOD="post"
+							ACTION="<%=request.getContextPath()%>/userMainPage/userInfo.do"
+							style="margin-bottom: 0px;">
+							<input type="submit" value="修改個人資料" style="background-color: transparent; border: none; color: white;"> <input type="hidden"
+								name="userID" value="1003"> <input type="hidden"
+								name="action" value="update_prepare">
+						</FORM>
+					</li>
+
+					<li>
+						<FORM METHOD="post"
+							ACTION="<%=request.getContextPath()%>/userMainPage/userInfo.do"
+							style="margin-bottom: 0px;">
+							<input type="submit" value="歷史訂單" style="background-color: transparent; border: none; color: white;"> 
+							<input type="hidden" name="userID" value="1003"> 
+							<input type="hidden" name="action" value="history_orders">
+						</FORM>
+					</li>
+					<li>
+						<FORM METHOD="post"
+							ACTION="<%=request.getContextPath()%>/userMainPage/userInfo.do"
+							style="margin-bottom: 0px;">
+							<input type="submit" value="我的文章" style="background-color: transparent; border: none; color: white;"> <input type="hidden"
+								name="user" value="${userSvc.findByUserId(1003)}"> <input
+								type="hidden" name="action" value="update_prepare">
+						</FORM>
+					</li>
 				</ul>
 			</div>
 		</div>
