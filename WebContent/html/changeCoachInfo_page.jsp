@@ -96,7 +96,7 @@
 					<label class="form-label">教練名字</label> <input type="text"
 						class="form-control" name="coachName"
 						value="<%=coachVO.getCoachName()%>" />
-					<div class="form-text">名字請勿空白</div>
+					<div class="form-text">名字不要空白</div>
 
 				</div>
 
