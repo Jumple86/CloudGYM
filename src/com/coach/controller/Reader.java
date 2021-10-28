@@ -14,11 +14,11 @@ public class Reader extends HttpServlet {
 
 		res.setContentType("image/gif");
 		ServletOutputStream out = res.getOutputStream();
+		String userID = req.getParameter("userID");
 
 		try {
 			Statement stmt = con.createStatement();
-			String id = req.getParameter("id");
-			ResultSet rs = stmt.executeQuery("SELECT coachImg FROM coach WHERE userID="+ id);
+			ResultSet rs = stmt.executeQuery("SELECT coachImg FROM coach WHERE userID="+ userID);
 
 			if (rs.next()) {
 				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("coachImg"));
