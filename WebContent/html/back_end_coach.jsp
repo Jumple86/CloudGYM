@@ -129,8 +129,10 @@
                         <th scope="col">生日</th>
                         <th scope="col">性別</th>
                         <th scope="col">檢舉次數</th>
-                        <th scope="col">權限管理</th>
                         <th scope="col">照片</th>
+                        <th scope="col">註冊日期</th> 
+                        <th scope="col">權限管理</th>
+                        <th scope="col">權限最後更新日期</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -181,7 +183,28 @@
                         <td>${coachVO.userMobile}</td>                   
                         <td>${coachVO.coachBirthday}</td>
                         <td>${coachVO.coachSex}</td>
-                        <td>${coachVO.reportedTimes}</td>
+						<td>
+						<c:choose>
+                        	<c:when test="${coachVO.reportedTimes >= 3}">
+                        		<font style="color: red">${coachVO.reportedTimes}</font>
+                        	</c:when>
+	                        <c:otherwise>
+	                    	    ${coachVO.reportedTimes}
+	                        </c:otherwise>
+                        </c:choose>
+						</td>
+                         <td>
+                        <c:choose>
+                        	<c:when test="${empty coachVO.coachImg }">
+                        		<font style="color:red;font-size:14px">用戶未上傳照片</font>
+                        	</c:when>
+                        <c:otherwise>
+							<i class="bi bi-images"></i>
+                        	<input class="coachid" type="hidden" value="${coachVO.userID}">
+						</c:otherwise>
+                        </c:choose>
+                        </td>
+                        <td>${coachVO.coachRegisteredDate}</td>
                         <td><span class="td_comm">
                             <i class="bi bi-chat-text-fill"
                             ${userAuthSvc.getUserID(coachVO.userID).banComment == 1 ? "style='color:red'" : ""}
@@ -198,12 +221,7 @@
                               ></i>
                         </span>
                       </td>
-                        <td>
-                        <c:if test="${empty coachVO.coachImg }">
-                        	<font style="color:red">未上傳照片</font>
-                        </c:if>
-                        <img class="td_img" src="<%=request.getContextPath()%>/html/CoachImageOutput?userID=${coachVO.userID}">
-                        </td>
+                       <td>${userAuthSvc.getUserID(coachVO.userID).startTime}</td>
                       </c:forEach>
                     </tbody>
                   </table>
@@ -219,6 +237,27 @@
 	<script src="../js/jquery-3.6.0.min.js"></script>
 	<script>
 		$(function(){
+			$('.bi.bi-images').on('click',function(){
+			var userID=$(this).next().val();
+			console.log(userID);
+		        if($('div').hasClass('pushimg') == true){
+		            $('.pushimg').remove();
+		        }else{
+		            let img = `
+		            <div class="pushimg">
+		                <img src="<%=request.getContextPath()%>/html/CoachImageOutput?userID=`+userID+`">
+		                <button type="button" class="btn_modal_close">關閉</button>
+		             </div>
+		            `;
+		            $('table').prepend(img);
+		        }
+
+		        $('button.btn_modal_close').on('click',function(){
+		            $('.pushimg').remove();
+		        })
+		    })
+			
+			
 			 $('.ban_user,.ban_upload,.ban_comm').on('click',function(){
 			        var checkbox = $('input:checkbox:checked').length;
 			        if(checkbox == 0){

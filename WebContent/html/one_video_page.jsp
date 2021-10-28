@@ -5,6 +5,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="com.video.model.*" %>
+<%@ page import="com.report.model.*" %>
+<%@ page import="com.reportRecord.model.*" %>
 <jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService"/>
 <%
 	Integer videoID = Integer.parseInt(request.getParameter("videoID"));
@@ -24,6 +26,14 @@
 	
 	Integer userID = 1003;
 	session.setAttribute("userID", userID);
+	
+	ReportService reportSvc = new ReportService();
+	List<ReportVO> reports = reportSvc.getByUser(userID);
+	List<Integer> items = new ArrayList<Integer>();
+	for(ReportVO reportVO : reports){
+		items.add(reportVO.getItemID());
+	}
+	request.setAttribute("items", items);
 %>
 
 
@@ -68,31 +78,56 @@
         <div id="top">
             <h3>${videoSvc.findByPrimaryKey(videoID).title }</h3>
             <div id="left">
+            	<div class="comment" style="display: none; z-index:10;">
+                    <h3>你覺得這支影片讚嗎</h3>
+                    <form>
+	                    <span class="star" data-star="1"><i class="fas fa-star"></i></span>
+	                    <span class="star" data-star="2"><i class="fas fa-star"></i></span>
+	                    <span class="star" data-star="3"><i class="fas fa-star"></i></span>
+	                    <span class="star" data-star="4"><i class="fas fa-star"></i></span>
+	                    <span class="star" data-star="5"><i class="fas fa-star"></i></span>
+<!--                     <h4>對辛苦的教練說一點話吧</h4> -->
+                    	<input type="hidden" name="stars" value="0" class="stars">
+                    	<input type="hidden" name="action" value="addReview">
+                    	<input type="hidden" name="videoID" value="${videoID}">
+<!--                         <input type="text"> -->
+                    </form>
+                </div>
 <!--                 <img src="../img/work_out_1.jpg" alt="" id="video_img"> -->
-                <video src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoID}" width="700" controls>
+                <video src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoID}" width="700" controls preload="metadata">
                 	<source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
   					<source src="http://techslides.com/demos/sample-videos/small.ogv" type="video/ogg">
                 </video>
                 <div id="video_info">
-                	<form action="" style="display:inline-block;">
+                	<form style="display:inline-block;">
                 		<button>
                 			<i class="bi bi-heart-fill"></i>
                     		<span>收藏</span>
                 		</button>
                 	</form>
-                	<form action="" style="display:inline-block;">
+                	<form style="display:inline-block;">
                 		<button>
                 			 <i class="bi bi-plus-circle"></i>
 		                     <span>加入菜單</span>
                 		</button>
                 	</form>
-                	<form action="" style="display:inline-block;">
-                		<button type="button" class="report_btn">
-                			<i class="bi bi-exclamation-circle-fill"></i>
+                	<form style="display:inline-block;">
+                	<i class="bi bi-exclamation-circle-fill"></i>
+                	<%if(!items.contains(videoID)){%>
+                		<button type="button" class="report_btn" style="padding-left:0;">
+<!--                 			<i class="bi bi-exclamation-circle-fill"></i> -->
 	                        <span>檢舉</span>
                 		</button>
+                		<input class="videoAction" type="hidden" name="action" value="addreport">
+                	<%}%>
+                	<%if(items.contains(videoID)){%>
+                		<button type="button" class="report_btn" style="padding-left:0;">
+<!--                 			<i class="bi bi-exclamation-circle-fill"></i> -->
+	                        <span>已檢舉</span>
+                		</button>
+                		<input class="videoAction" type="hidden" name="action" value="deleteReport">
+                	<%}%>
                 		<input type="hidden" name="videoID" value="${videoID}">
-                		<input type="hidden" name="action" value="addreport">
                 	</form>
                     <span class="date">上傳於 ${publishTime}</span>
                 </div>
@@ -150,13 +185,51 @@
     				success: function(data){
     					console.log("success");
     					console.log(data);
-    					alert("檢舉成功");
+    					if(data[0] == "cancelSuccess"){
+    						alert("已取消檢舉");
+    						$("button.report_btn").html("檢舉");
+    						$("button.report_btn").attr("style", "color:white; padding-left:0;");
+    						$("input.videoAction").val("addreport");
+    					}
+    					if(data[0] == "reportSuccess"){
+    						alert("檢舉成功");
+    						$("button.report_btn").html("已檢舉");
+    						$("button.report_btn").attr("style", "color:white; padding-left:0;");
+    						$("input.videoAction").val("deleteReport");
+    					}
+    					
     				},
     				error: function(xhr){
     					console.log("fail");
     				}
     			})
     		});
+    		
+    		$("video").on("ended", function(){
+    			$("div.comment").attr("style", "z-index:9;");
+    		});
+    		
+    		$("span.star").on("click", function(){
+    			console.log($(this).attr("data-star"));
+    			let stars = $(this).attr("data-star");
+    			$("div.comment input.stars").val(stars);
+    			$.ajax({
+    				url:"<%=request.getContextPath()%>/review/review.do",
+    				type: "post",
+    				data: $(this).closest("form").serialize(),
+    				dataType: "json",
+    				success: function(data){
+    					console.log("success");
+    					$("div.comment").html('<h3 style="font-size:32px; font-weight:bold; margin-top:200px;">感謝您的回饋</h3>');
+    				},
+    				error : function(XMLHttpResponse, textStatus, errorThrown) {
+						console.log("1 非同步呼叫返回失敗,XMLHttpResponse.readyState:"	+ XMLHttpResponse.readyState);
+						console.log("2 非同步呼叫返回失敗,XMLHttpResponse.status:"	+ XMLHttpResponse.status);
+						console.log("3 非同步呼叫返回失敗,textStatus:"	+ textStatus);
+						console.log("4 非同步呼叫返回失敗,errorThrown:" + errorThrown);
+					}
+    			})
+    		})
     	})
     </script>
 </body>

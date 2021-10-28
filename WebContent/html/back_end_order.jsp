@@ -9,6 +9,12 @@
 <jsp:useBean id="coachmenuSvc" scope="page"	class="com.coachMenu.model.CoachMenuService" />
 <jsp:useBean id="sublistSvc" scope="page" class="com.subList.model.SubListService" />
 <jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
+
+<%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
 <%
 	OrderListService orderListSvc = new OrderListService();
 	List<OrderListVO> list = orderListSvc.getAll();
@@ -17,6 +23,7 @@
 <!-- --------------------------------- -->
 <%-- ${userSvc.findByUserId(ordersSvc.gerOrdersByOrderNo(90001).userID).userMobile } --%>
 <!-- --------------------------------------- -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,6 +35,7 @@
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
 <link rel="stylesheet" href="../css/back_end_order.css">
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 </head>
 <body>
 	<div id="bar">
@@ -113,6 +121,28 @@
 		<p>訂單明細管理</p>
 		<div id="right">
 			<div class="main">
+			<%-- 錯誤表列 --%>
+			<c:if test="${not empty errorMsgs}">
+				<font style="color:red">請修正以下錯誤:</font>
+			<ul>
+				<c:forEach var="message" items="${errorMsgs}">
+			<li style="color:red">${message}</li>
+				</c:forEach>
+			</ul>
+			</c:if>
+			
+			 <FORM METHOD="post" ACTION="orderList.do">
+                  <b>查詢訂單編號:</b>
+                  <input type="text" name="orderNo">
+                  <input type="hidden" name="action" value="getbyOrderNO">
+                  <input type="submit" value="查詢">
+              </FORM>
+              <FORM METHOD="post" ACTION="orderList.do">
+                  <b>查詢訂單日期:</b>
+                  <input id="start_date" type="text" name="builtDate">
+                  <input type="hidden" name="action" value="getbyDate">
+                  <input type="submit" value="查詢">
+              </FORM>
 				<table class="table">
 					<thead>
 						<tr>
@@ -176,7 +206,7 @@
 								<td>${orderListVO.itemID}-
 									<c:if
 										test="${orderListVO.itemID.toString().substring(0,1)=='3'}">
-										${videoSvc.findByPrimaryKey(orderListVO.itemID).getTitle()}(影片)</c:if>
+										${videoSvc.findByPrimaryKeyNoVideo(orderListVO.itemID).getTitle()}(影片)</c:if>
 									<c:if
 										test="${orderListVO.itemID.toString().substring(0,1)=='6'}">
 										${coachmenuSvc.getByMenuID(orderListVO.itemID).getMenuName()}(教練菜單)</c:if>
@@ -205,9 +235,25 @@
 		</div>
 	</div>
 	    <script src="../js/jquery-3.6.0.min.js"></script>
+		<script src="<%=request.getContextPath()%>/datetimepicker/jquery.js"></script>
+		<script src="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.full.js"></script>
+
 	<script>
-		$(function(){
-	        $('#ban_video_li').on('click',function(){
+		 $.datetimepicker.setLocale('zh'); // kr ko ja en
+		 $(function(){
+			 $('#start_date').datetimepicker({
+			       theme: '',              //theme: 'dark',
+			       timepicker:false,       //timepicker:true,
+			       step: 1,                //step: 60 (這是timepicker的預設間隔60分鐘)
+			       format:'Y-m-d',         //format:'Y-m-d H:i:s',
+				   value: new Date(), // value:   new Date(),
+		           //disabledDates:        ['2017/06/08','2017/06/09','2017/06/10'], // 去除特定不含
+		           //startDate:	            '2017/07/10',  // 起始日
+		           //minDate:               '-1970-01-01', // 去除今日(不含)之前
+		           //maxDate:               '+1970-01-01'  // 去除今日(不含)之後
+		        });
+			
+			$('#ban_video_li').on('click',function(){
 	            if(${adminSvc.getOneAdmin(adminNo).videoAuth == 0}){
 	            alert("您沒有管理影片的權限!");
 	                }

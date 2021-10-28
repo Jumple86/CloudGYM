@@ -28,7 +28,8 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	private static final String GET_ALL_NOVIDEO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video";
 	private static final String GET_BY_USERID = "SELECT * FROM video WHERE userID = ?";
 	private static final String FIND_BY_POSITIONNO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video WHERE thePosition=?";
-
+	private static final String GET_ONE_STMT_NOVIDEO = "SELECT userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video where videoID=?";
+	
 	static {
 		try {
 			Class.forName(DRIVER);
@@ -470,6 +471,69 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 			}
 		}
 		return list;
+	}
+	
+	
+	
+
+	@Override
+	public VideoVO findByPrimaryKeyNoVideo(Integer videoID) {
+		VideoVO videoVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(GET_ONE_STMT);
+			pstmt.setInt(1, videoID);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+//				videoVO.setImg(rs.getBytes("img"));
+//				videoVO.setContent(rs.getBytes("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return videoVO;
 	}
 
 	public static byte[] getPictureByteArray(String path) throws IOException {

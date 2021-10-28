@@ -274,10 +274,10 @@ public class ReportJDBCDAO implements ReportDAO_interface {
 //		rpt1.setReportTime(ts);
 //		dao.insert(rpt1);
 		
-		//刪除
+//		刪除
 //		ReportVO rpt2 = new ReportVO();
-//		rpt2.setUserID(1001);
-//		rpt2.setItemID(40002);
+//		rpt2.setUserID(1005);
+//		rpt2.setItemID(50019);
 //		dao.delete(rpt2);
 		
 		//userID查詢

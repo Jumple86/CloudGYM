@@ -3,6 +3,12 @@
 <%@ page import="com.user.model.*"%>
 
 <%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
+
+<%
   UserVO userVO = (UserVO) request.getAttribute("userVO");
 %>
 
@@ -18,7 +24,7 @@
 <body>
 
 	<div id="login">
-		<form method="post" action="loginhandler">
+		<form method="post" action="<%=request.getContextPath()%>/loginhandler">
 			<h2>會員登入</h2>
 			<input type="text" name="account" placeholder="請輸入帳號" id="email"
 			value="<%=(userVO == null) ? "1001@cloudgym.com" : userVO.getUserAccount()%>"> 

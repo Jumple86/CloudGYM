@@ -6,6 +6,7 @@
 <%@ page import="com.comment.model.*"%>
 <%@ page import="com.user.model.*"%>
 <%@ page import="com.coach.model.*"%>
+<%@ page import="com.report.model.*" %>
 
 <jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
 <jsp:useBean id="coachSvc" scope="page" class="com.coach.model.CoachService" />
@@ -29,6 +30,14 @@
 	session.setAttribute("userID", userid);
 	UserVO userVO1 = userSvc.findByUserId(userid);
 	String username = userVO1.getUserName();
+	
+	ReportService reportSvc = new ReportService();
+	List<ReportVO> reports = reportSvc.getByUser(userid);
+	List<Integer> items = new ArrayList<Integer>();
+	for(ReportVO reportVO : reports){
+		items.add(reportVO.getItemID());
+	}
+	request.setAttribute("items", items);
 %>
 
 <!DOCTYPE html>
@@ -143,11 +152,18 @@
 					
 					<!-- 分享按鈕 -->
 						<button id="cc" class="fas fa-share-alt" data-clipboard-text="http://localhost:8081<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=<%=postsVO.getPostsID()%>"></button>
-					<!-- 檢舉按鈕 -->	
+					<!-- 檢舉按鈕 -->
+						
 					<form>
-						<button id="dd" type="button" class="btn btn-outline-dark">檢舉</button>
+						<%if(!items.contains(postsVO.getPostsID())){%>
+							<button id="dd" type="button" class="btn btn-outline-dark" style="">檢舉</button>
+							<input class="postsAction" type="hidden" name="action" value="addreport">
+						<%}else{%>
+							<button id="dd" type="button" class="btn btn-outline-dark" style="background-color:gray; color:white; border:none;">已檢舉</button>
+							<input class="postsAction" type="hidden" name="action" value="deleteReport">
+						<%} %>
 						<input type="hidden" name="postsID" value="<%=postsVO.getPostsID()%>"> 
-						<input type="hidden" name="action" value="addreport">
+						
 					</form>
 				</div>
 				<hr>
@@ -159,7 +175,7 @@
 							<!-- 發文表單 -->
 							<form id="add"><!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
 								<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>"> 
-									<input type="hidden" name="userid" value="2001"> 
+									<input type="hidden" name="userid" value="${userID }"> 
 									<input type="hidden" value="insert" name="action">
 								<textarea class="form-control" name="commentcontent" rows="2" placeholder="撰寫公開留言..."></textarea>
 								<button id="newcomment" type="button" class="btn btn-secondary">新增留言</button>
@@ -171,12 +187,24 @@
 									<div class="d-flex mb-1">
 										<div class="ms-3">
 											<div class="fw-bold">
-												${coachSvc.getByUserID(commentVO.userID).coachName}
-												${userSvc.findByUserId(commentVO.userID).userName}
-												<button type="submit" class="btn btn-outline-danger" style="font-size: 10px; position: absolute; right: 40px;" value="">檢舉</button>
-											</div>
-											${commentVO.commentContent}<br>
-											<!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
+											${coachSvc.getByUserID(commentVO.userID).coachName}
+											${userSvc.findByUserId(commentVO.userID).userName}
+											<form>
+											<c:if test="${!items.contains(commentVO.commentID) }">
+												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;">檢舉</button>
+												<input class="commentAction" type="hidden" name="action" value="addreport">
+											</c:if>
+											<c:if test="${items.contains(commentVO.commentID) }">
+												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px; background-color:red; color:white;">已檢舉</button>
+												<input class="commentAction" type="hidden" name="action" value="deleteReport">
+											</c:if>
+												
+												<input type="hidden" name="commentID" value="${commentVO.commentID}">
+												
+											</form>
+											</div>					
+											${commentVO.commentContent}
+											<br> <!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
 											<form METHOD="post" action="comment.do">
 												<span style="font-size: 10px; color: rgb(155, 151, 151);">
 													<fmt:formatDate value="${commentVO.commentPublishDate}" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -257,10 +285,17 @@
 						let userid = data[0];
 						let content = data[1];
 						let timestamp = data[2];
+						let commentID = data[3];
 						let list_html = "";
 						list_html += '<div class="d-flex mb-1">';
 						list_html += '<div class="ms-3">';
-						list_html += '<div class="fw-bold"><%=username%></div>';
+						list_html += '<div class="fw-bold"><%=username%>';
+						list_html += '<form>';
+						list_html += '<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;">檢舉</button>';
+						list_html += '<input class="commentAction" type="hidden" name="action" value="addreport">';
+						list_html += '<input type="hidden" name="commentID" value="' + commentID + '">';
+						list_html += '</form>';
+						list_html += '</div>';
 						list_html += content + '<br> <span style="font-size: 10px; color: rgb(155, 151, 151);">';
 						list_html += '<span>' + timestamp + '</span>';
 						list_html += '<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button>';
@@ -269,6 +304,7 @@
 						list_html += '</div>';
 						list_html += '<hr>';
 						$("#com").append(list_html);
+						$("textarea.form-control").val("");
 					},
 					error : function(XMLHttpResponse, textStatus, errorThrown) {
 						console.log("1 非同步呼叫返回失敗,XMLHttpResponse.readyState:"	+ XMLHttpResponse.readyState);
@@ -279,7 +315,7 @@
 			});
 		});
 		
-		
+		// 檢舉文章ajax
 		$("button#dd").on("click", function(){
 			console.log("here");
 			$.ajax({
@@ -288,7 +324,50 @@
 				data: $(this).closest("form").serialize(),
 				dataType: "json",
 				success: function(data){
+					
+					if(data[0] == "cancelSuccess"){
+						alert("已取消檢舉");
+						$("button#dd").attr("style", "");
+						$("button#dd").html("檢舉");
+						$("input.postsAction").val("addreport");
+					}
+					if(data[0] == "reportSuccess"){
+						alert("檢舉成功");
+						$("button#dd").attr("style", "background-color:gray; color:white; border:none;");
+						$("button#dd").html("已檢舉");
+						$("input.postsAction").val("deleteReport");
+					}
+				},
+				error: function(xhr){
+					console.log("fail");
+				}
+			})
+		})
+		
+		// 檢舉留言ajax
+		$("div#com").on("click", "button#ff", function(){
+			console.log("here");
+			var that = $(this);
+			$.ajax({
+				url: "<%=request.getContextPath()%>/report/report.do",
+				type: "post",
+				data: $(this).closest("form").serialize(),
+				dataType: "json",
+				success: function(data){
 					console.log("success");
+					
+					if(data[0] == "cancelSuccess"){
+						alert("已取消檢舉");
+						$(that).attr("style", "font-size: 10px; margin-left: 675px;");
+						$(that).html("檢舉");
+						$(that).next().val("addreport");
+					}
+					if(data[0] == "reportSuccess"){
+						alert("檢舉成功");
+						$(that).attr("style", "font-size: 10px; margin-left: 675px; background-color:red; color:white;");
+						$(that).html("已檢舉");
+						$(that).next().val("deleteReport");
+					}
 				},
 				error: function(xhr){
 					console.log("fail");

@@ -32,7 +32,7 @@ public class CoachLoginHandler extends HttpServlet {
 		
 		String action = req.getParameter("action");
 
-		if ("login".equals(action)) { // 來自select_page.jsp的請求
+		if ("login".equals(action)) { // 來自login_coach.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -68,12 +68,11 @@ public class CoachLoginHandler extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				CoachService coachSvc = new CoachService();
 				CoachVO coachVO = coachSvc.findByCoachAccount(coachAccount);
-				String correctpsw = coachVO.getCoachPassword();
 				
 				if (coachVO == null) {
 					errorMsgs.add("查無資料");
 				}else  {
-					if(!password.equals(correctpsw)) {
+					if(!password.equals(coachVO.getCoachPassword())) {
 						errorMsgs.add("密碼錯誤");
 					}
 				}
@@ -91,9 +90,10 @@ public class CoachLoginHandler extends HttpServlet {
 				
 				// 【帳號 , 密碼有效時, 才做以下工作】
 				HttpSession session = req.getSession();
-				session.setAttribute("coachAccount", account); // *工作1: 才在session內做已經登入過的標識
-				session.setAttribute("coachName", name);
+				session.setAttribute("account", account); // *工作1: 才在session內做已經登入過的標識
+				session.setAttribute("name", name);
 				session.setAttribute("userID", id);
+				session.setAttribute("coachVO", coachVO);
 	
 				try {
 					String location = (String) session.getAttribute("location");

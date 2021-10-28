@@ -14,7 +14,7 @@
 	response.setHeader("Pragma","no-cache");        //HTTP 1.0
 	response.setDateHeader ("Expires", 0);
 
-	String userID = (String) session.getAttribute("userID");
+	String userID = session.getAttribute("userID").toString();
 	List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
 	
 	int price = 0;

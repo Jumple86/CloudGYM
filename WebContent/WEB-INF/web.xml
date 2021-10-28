@@ -181,6 +181,23 @@
 		<servlet-name>ReportServlet</servlet-name>
 		<url-pattern>/report/report.do</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ReviewServlet</servlet-name>
+		<servlet-class>com.review.controller.ReviewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReviewServlet</servlet-name>
+		<url-pattern>/review/review.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>OrderListServlet</servlet-name>
+		<servlet-class>com.orderList.controller.OrderListServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrderListServlet</servlet-name>
+		<url-pattern>/html/orderList.do</url-pattern>
+	</servlet-mapping>
 
 	<filter>
 		<filter-name>loginFilterUser</filter-name>
@@ -203,6 +220,20 @@
 	<filter-mapping>
 		<filter-name>loginFilterCoach</filter-name>
 		<url-pattern>/protected_coach/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>loginFilterAdmin</filter-name>
+		<filter-class>filters.LoginFilterAdmin</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilterAdmin</filter-name>
+		<url-pattern>/protected_admin/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>

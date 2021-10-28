@@ -105,6 +105,51 @@ h3{
     line-height: 1.6;
 }
 
+div.comment{
+    width: 700px;
+    height: 403px;
+    position: absolute;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+div.comment h3{
+    color:rgb(51, 51, 51);
+    margin-top: 100px;
+}
+
+span.star{
+    color: white;
+}
+
+span.star:hover{
+    color:yellow;
+}
+
+div.comment span.get{
+    color:yellow;
+}
+
+div.comment h4{
+    text-align: center;
+    margin-top: 30px;
+    color:rgb(51, 51, 51);
+    font-size: 20px;
+}
+
+div.comment input{
+    margin-top: 15px;
+    width: 210px;
+    height: 30px;
+    /* padding: 3px; */
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid black;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 0;
+    outline: none;
+}
+
 #right{
     width: 350px;
     height: 500px;
