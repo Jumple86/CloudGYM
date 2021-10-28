@@ -133,21 +133,17 @@
 				</div>
 
 
-				<div class="mb-3">
-					<label class="form-label">文章內容</label> 
-					<input type="TEXT" class="form-control" name="postscontent" value="<%=(postsVO == null) ? "" : postsVO.getPostsContent()%>" />
-					<div class="form-text">文章內容請勿空白，字數限2000字以內。</div>
-				</div>
+<!-- 				<div class="mb-3"> -->
+<!-- 					<label class="form-label">文章內容</label>  -->
+<%-- 					<input type="TEXT" class="form-control" name="postscontent" value="<%=(postsVO == null) ? "" : postsVO.getPostsContent()%>" /> --%>
+<!-- 					<div class="form-text">文章內容請勿空白，字數限2000字以內。</div> -->
+<!-- 				</div> -->
 
-				<!-- 			    <div class="mb-3"> -->
-				<!-- 					<label class="form-label">文章內容</label> -->
-				<!-- 					<textarea id="editor" class="form-control" name="postscontent" -->
-				<%-- 						value="<%=(postsVO == null) ? "" : postsVO.getPostsContent()%>" --%>
-				<!-- 						rows="40" /></textarea> -->
-				<!-- 					<div class="form-text">Your password must be 8-20 characters -->
-				<!-- 						long, contain letters and numbers, and must not contain spaces, -->
-				<!-- 						special characters, or emoji.</div> -->
-				<!-- 				</div> -->
+				    <div class="mb-3">
+						<label class="form-label">文章內容</label>
+						<textarea id="editor" class="form-control" name="postscontent" value="<%=(postsVO == null) ? "" : postsVO.getPostsContent()%>" rows="40" /></textarea>
+						<div class="form-text">文章內容請勿空白，字數限2000字以內。</div>
+					</div>
 
 
 				<div class="mb-3">
@@ -179,9 +175,16 @@
 
 	<script>
 	
-// 		  CKEDITOR.replace( 'editor1', {
+// 		  CKEDITOR.replace( 'editor', {
 // 		      height: '600px'
 // 		  });
+
+
+// 		        ClassicEditor
+// 		            .create(document.querySelector('#editor'))
+// 		            .catch(error => {
+// 		                console.error(error);
+// 		            });
 	
 	
 		

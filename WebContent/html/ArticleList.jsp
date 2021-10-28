@@ -1,19 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.posts.model.*"%>
 
-<jsp:useBean id="postsSvc" scope="page"
-	class="com.posts.model.PostsService" />
-<jsp:useBean id="likesSvc" scope="page"
-	class="com.likes.model.LikesService" />
-<jsp:useBean id="commentSvc" scope="page"
-	class="com.comment.model.CommentService" />
-<jsp:useBean id="userSvc" scope="page"
-	class="com.user.model.UserService" />
-<jsp:useBean id="coachSvc" scope="page"
-	class="com.coach.model.CoachService" />
+<jsp:useBean id="postsSvc" scope="page" class="com.posts.model.PostsService" />
+<jsp:useBean id="likesSvc" scope="page" class="com.likes.model.LikesService" />
+<jsp:useBean id="commentSvc" scope="page" class="com.comment.model.CommentService" />
+<jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
+<jsp:useBean id="coachSvc" scope="page" class="com.coach.model.CoachService" />
 
 <%
 	List<PostsVO> list = postsSvc.getAll();
@@ -51,8 +45,7 @@
 	<div id="bar">
 		<div id="title">
 			<ul>
-				<li class="bar_li"><img src="../img/logo.png" alt=""
-					for="#CloudGYM"></li>
+				<li class="bar_li"><img src="../img/logo.png" alt="" for="#CloudGYM"></li>
 				<li class="bar_li"><a href="#" id="CloudGYM">CloudGYM</a></li>
 			</ul>
 		</div>
@@ -145,13 +138,11 @@
 						<%
 							if (whichPage == 1) {
 						%>
-						<li class="page-item disabled"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=1">第一頁</a></li>
+						<li class="page-item disabled"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=1">第一頁</a></li>
 						<%
 							} else {
 						%>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=1">第一頁</a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=1">第一頁</a></li>
 						<%
 							}
 						%>
@@ -159,30 +150,21 @@
 						<%
 							if (whichPage == 1) {
 						%>
-						<li class="page-item disabled"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 1%>"><%=whichPage + 1%></a></li>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 2%>"><%=whichPage + 2%></a></li>
+						<li class="page-item disabled"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 1%>"><%=whichPage + 1%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 2%>"><%=whichPage + 2%></a></li>
 						<%
 							} else if (whichPage == pageNumber) {
 						%>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 2%>"><%=whichPage - 2%></a></li>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 1%>"><%=whichPage - 1%></a></li>
-						<li class="page-item disabled"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 2%>"><%=whichPage - 2%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 1%>"><%=whichPage - 1%></a></li>
+						<li class="page-item disabled"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
 						<%
 							} else {
 						%>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 1%>"><%=whichPage - 1%></a></li>
-						<li class="page-item disabled"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 1%>"><%=whichPage + 1%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage - 1%>"><%=whichPage - 1%></a></li>
+						<li class="page-item disabled"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage%>"><%=whichPage%></a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=whichPage + 1%>"><%=whichPage + 1%></a></li>
 						<%
 							}
 						%>
@@ -190,13 +172,11 @@
 						<%
 							if (whichPage == pageNumber) {
 						%>
-						<li class="page-item disabled"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">最後一頁</a></li>
+						<li class="page-item disabled"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">最後一頁</a></li>
 						<%
 							} else {
 						%>
-						<li class="page-item"><a class="page-link"
-							href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">最後一頁</a></li>
+						<li class="page-item"><a class="page-link" href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">最後一頁</a></li>
 						<%
 							}
 						%>
@@ -225,14 +205,14 @@
 					</form>
 				</div>
 				<!-- 熱門文章 -->
+				<%! int counttop = 0; %>
 				<div class="card mb-4">
 					<div class="card-header">
 						<i class="fab fa-hotjar me-2"></i>熱門文章
 					</div>
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${top}" begin="0" end="4">
-							<li><a
-								href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
 				</div>
@@ -243,13 +223,12 @@
 					</div>
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${list}" begin="0" end="4">
-							<li><a
-								href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
 				</div>
 				<!-- 累計瀏覽人數 -->
-				<%! int countAll = 0; %>
+				<%!int countAll = 0;%>
 				<div class="card mb-4">
 					<div class="card-header">
 						<i class="fas fa-user-friends me-2"></i>瀏覽人氣

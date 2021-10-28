@@ -83,7 +83,7 @@
 			<div class="row">
 				<form class="row" METHOD="post" ACTION="Article.do" name="form1">
 					<div class="col">
-						<input type="hidden" name="page" value="APG"> 
+						<input type="hidden" name="page" value="APG">
 						<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>">
 						<button type="submit" class="btn btn-outline-light me-4" name="action" value="getOne_For_Update">
 							<i class="far fa-edit me-2"></i>編輯文章
@@ -178,8 +178,10 @@
 												<span style="font-size: 10px; color: rgb(155, 151, 151);">
 													<fmt:formatDate value="${commentVO.commentPublishDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 												</span>
-												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button>
-												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 10px;" value="">刪除</button>
+<!-- 												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button> -->
+												<input type="hidden" name="page" value="APG">
+												<input type="hidden" name="commentid" value="${commentVO.commentID}">
+												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 628px;" value="delete" name="action">刪除</button>
 											</form>
 										</div>
 									</div>
