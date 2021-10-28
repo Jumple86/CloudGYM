@@ -38,7 +38,7 @@ public class ThePositionJDBCDAO  implements ThePositionDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 			
-			pstmt.setString(1, thePositionVO.getPostionName());
+			pstmt.setString(1, thePositionVO.getPositionName());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -70,7 +70,7 @@ public class ThePositionJDBCDAO  implements ThePositionDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setString(1, thePositionVO.getPostionName());
+			pstmt.setString(1, thePositionVO.getPositionName());
 			pstmt.setInt(2, thePositionVO.getPositionNo());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -142,7 +142,7 @@ public class ThePositionJDBCDAO  implements ThePositionDAO_interface{
 			while(rs.next()) {
 				thePositionVO = new ThePositionVO();
 				thePositionVO.setPositionNo(rs.getInt("positionNo"));
-				thePositionVO.setPostionName(rs.getString("positionName"));
+				thePositionVO.setPositionName(rs.getString("positionName"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -167,7 +167,7 @@ public class ThePositionJDBCDAO  implements ThePositionDAO_interface{
 			while(rs.next()) {
 				thePositionVO = new ThePositionVO();
 				thePositionVO.setPositionNo(rs.getInt("positionNo"));
-				thePositionVO.setPostionName(rs.getString("positionName"));
+				thePositionVO.setPositionName(rs.getString("positionName"));
 				list.add(thePositionVO);
 			}
 		} catch (SQLException e) {
@@ -195,16 +195,16 @@ public class ThePositionJDBCDAO  implements ThePositionDAO_interface{
 //		dao.delete(7);
 		
 		// getOne
-		ThePositionVO obj = dao.getOnePosition(6);
-		System.out.print(obj.getPositionNo() + ", ");
-		System.out.print(obj.getPostionName());
-		System.out.println();
+//		ThePositionVO obj = dao.getOnePosition(6);
+//		System.out.print(obj.getPositionNo() + ", ");
+//		System.out.print(obj.getPostionName());
+//		System.out.println();
 		
 		// getAll
 		List<ThePositionVO> list = dao.getAll();
 		for(ThePositionVO pvo : list) {
 			System.out.print(pvo.getPositionNo() + ", ");
-			System.out.print(pvo.getPostionName());
+			System.out.print(pvo.getPositionName());
 			System.out.println();
 		}
 	}

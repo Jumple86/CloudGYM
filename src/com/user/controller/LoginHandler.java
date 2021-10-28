@@ -8,9 +8,13 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.WebServlet;
 
+import com.admin.model.AdminService;
+import com.admin.model.AdminVO;
+import com.coach.model.CoachService;
+import com.coach.model.CoachVO;
 import com.user.model.*;
 
-@WebServlet("/html/loginhandler")
+@WebServlet("/loginhandler")
 public class LoginHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -23,12 +27,13 @@ public class LoginHandler extends HttpServlet {
 		res.setContentType("text/html; charset=Big5");
 
 		// 【取得使用者 帳號(account) 密碼(password)】
-		String account = req.getParameter("account");
+		String account = req.getParameter("account"); 
 		String password = req.getParameter("password");
 		
 		String action = req.getParameter("action");
-
-		if ("login".equals(action)) { // 來自select_page.jsp的請求
+		
+		/*************************** 會員登入 ***************************/
+		if ("login".equals(action)) { // 來自login_user.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -39,7 +44,7 @@ public class LoginHandler extends HttpServlet {
 				/*************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
 				
 				if (account == null || (account.trim()).length() == 0) {
-					errorMsgs.add("請輸入會員帳號");
+					errorMsgs.add("請輸入帳號");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -52,7 +57,7 @@ public class LoginHandler extends HttpServlet {
 				try {
 					userAccount = new String(account);
 				} catch (Exception e) {
-					errorMsgs.add("會員帳號格式不正確");
+					errorMsgs.add("帳號格式不正確");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -64,15 +69,13 @@ public class LoginHandler extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				UserService userSvc = new UserService();
 				UserVO userVO = userSvc.findByUserAccount(userAccount);
-				String correctpsw = userVO.getUserPassword();
 				
-				if (userVO == null) {
+				if(userVO == null) {
 					errorMsgs.add("查無資料");
-				}else  {
-					if(!password.equals(correctpsw)) {
-						errorMsgs.add("密碼錯誤");
-					}
+				} else if (!password.equals(userVO.getUserPassword())) {
+					errorMsgs.add("密碼錯誤");
 				}
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_user.jsp");
@@ -89,7 +92,8 @@ public class LoginHandler extends HttpServlet {
 				HttpSession session = req.getSession();
 				session.setAttribute("account", account); // *工作1: 才在session內做已經登入過的標識
 				session.setAttribute("name", name);
-				session.setAttribute("id", id);
+				session.setAttribute("userVO", userVO);
+				session.setAttribute("userID", id);
 	
 				try {
 					String location = (String) session.getAttribute("location");
@@ -101,7 +105,7 @@ public class LoginHandler extends HttpServlet {
 				} catch (Exception ignored) {
 				}
 	
-				res.sendRedirect(req.getContextPath() + "/html/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+				res.sendRedirect(req.getContextPath() + "/html/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至main_page.jsp)
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {

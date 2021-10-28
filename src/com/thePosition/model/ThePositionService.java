@@ -12,7 +12,7 @@ public class ThePositionService {
 	public ThePositionVO addPosition(String positionName) {
 		ThePositionVO thePositionVO = new ThePositionVO();
 		
-		thePositionVO.setPostionName(positionName);
+		thePositionVO.setPositionName(positionName);
 		dao.insert(thePositionVO);
 		return thePositionVO;
 	}
@@ -21,7 +21,7 @@ public class ThePositionService {
 		ThePositionVO thePositionVO = new ThePositionVO();
 		
 		thePositionVO.setPositionNo(positionNo);
-		thePositionVO.setPostionName(positionName);
+		thePositionVO.setPositionName(positionName);
 		dao.update(thePositionVO);
 		return thePositionVO;
 	}

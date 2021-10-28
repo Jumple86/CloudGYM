@@ -29,78 +29,88 @@ public class CommentServlet extends HttpServlet {
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		
+
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println(action);
-		
-		if ("insert".equals(action)) {
-			
-				PrintWriter out = res.getWriter();
-					res.setCharacterEncoding("UTF-8");
 
-					Integer postsid = new Integer(req.getParameter("postsid"));
-					System.out.println(postsid);
-					Integer userid = new Integer(req.getParameter("userid"));
-					String commentcontent = req.getParameter("commentcontent");
-					
-					SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					String str = ds.format(new Date(System.currentTimeMillis()));
-					Timestamp commentpublishdate = Timestamp.valueOf(str);
-					
-					CommentVO commentVO = new CommentVO();
-					commentVO.setPostsID(postsid);
-					commentVO.setUserID(userid);
-					commentVO.setCommentContent(commentcontent);
-					commentVO.setCommentPublishDate(commentpublishdate);
-					CommentService commentSvc = new CommentService();
-					commentVO = commentSvc.addComment(postsid, userid, commentcontent, commentpublishdate);
-					req.setAttribute("timestamp", commentpublishdate);
-					
-					//ajax存 
-					List<String> list = new ArrayList<String>();
-					list.add(userid.toString());
-					list.add(commentcontent);
-					list.add(str);
-					String json = new Gson().toJson(list);
-					res.setContentType("application/json");
-					res.setCharacterEncoding("UTF-8");
-					out.write(json);
-					out.close();
-					
-//				RequestDispatcher successView = req.getRequestDispatcher("/html/ArticleList.jsp");
-//				successView.forward(req, res);
+		if ("insert".equals(action)) {
+			PrintWriter out = res.getWriter();
+			res.setCharacterEncoding("UTF-8");
+
+			Integer postsid = new Integer(req.getParameter("postsid"));
+			Integer userid = new Integer(req.getParameter("userid"));
+			String commentcontent = req.getParameter("commentcontent");
+
+			SimpleDateFormat ds = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String str = ds.format(new Date(System.currentTimeMillis()));
+			Timestamp commentpublishdate = Timestamp.valueOf(str);
+
+			CommentVO commentVO = new CommentVO();
+			commentVO.setPostsID(postsid);
+			commentVO.setUserID(userid);
+			commentVO.setCommentContent(commentcontent);
+			commentVO.setCommentPublishDate(commentpublishdate);
+
+			CommentService commentSvc = new CommentService();
+			commentVO = commentSvc.addComment(postsid, userid, commentcontent, commentpublishdate);
+			Integer commentID = commentVO.getCommentID();
+			req.setAttribute("timestamp", commentpublishdate);
+
+			// ajax存取
+			List<String> list = new ArrayList<String>();
+			list.add(userid.toString());
+			list.add(commentcontent);
+			list.add(str);
+			list.add(commentID.toString());
+			String json = new Gson().toJson(list);
+			res.setContentType("application/json");
+			res.setCharacterEncoding("UTF-8");
+			out.write(json);
+			out.close();
 
 		}
 		
 		
-//		if ("delete".equals(action)) {
-//
-//			List<String> errorMsgs = new LinkedList<String>();
-//			req.setAttribute("errorMsgs", errorMsgs);
-//
+		if ("delete".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
 //			try {
-//				/*************************** 1.接收請求參數 ***************************************/
-//				Integer commentid = new Integer(req.getParameter("commentid"));
-//
-//				/*************************** 2.開始刪除資料 ***************************************/
-//				CommentService commentSvc = new CommentService();
-//				commentSvc.deleteComment(commentid);
-//
-//				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
+				/*************************** 1.接收請求參數 ***************************************/
+				Integer commentid = new Integer(req.getParameter("commentid"));
+
+				/*************************** 2.開始刪除資料 ***************************************/
+				CommentService commentSvc = new CommentService();
+				Integer postID = commentSvc.getByCommtntID(commentid).getPostsID();
+				System.out.println(postID);
+				commentSvc.deleteComment(commentid);
+
+				/*************************** 3.刪除完成,準備轉交(Send the Success view) ***********/
+				
 //				String url = "/Forum/ArticleList.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url);
-//				successView.forward(req, res);
-//
-//				/*************************** 其他可能的錯誤處理 **********************************/
+//				String url = "/html/back_end_post_page.jsp?postID="+postID;
+				RequestDispatcher successView = null;
+				String url = req.getParameter("page");
+				if("APG".equals(url)) {
+					successView = req.getRequestDispatcher("/html/ArticlePage.jsp?postsID=" + postID);
+					successView.forward(req, res);
+					return;
+				}else
+					successView = req.getRequestDispatcher("/html/back_end_post_page.jsp?postID="+ postID);
+					successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 **********************************/
 //			} catch (Exception e) {
 //				errorMsgs.add("刪除資料失敗:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
+////				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/ArticleList.jsp");
+//				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_post.jsp");
 //				failureView.forward(req, res);
 //			}
-//		}
+		}
 		
 		
 	}
-	
+
 }

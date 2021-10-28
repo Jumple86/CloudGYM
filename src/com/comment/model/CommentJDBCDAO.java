@@ -31,13 +31,15 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 	}
 
 	@Override
-	public void insert(CommentVO commentVO) {
+	public Integer insert(CommentVO commentVO) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Integer primaryKey = null;
 
 		try {
 			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(INSERT);
+			pstmt = con.prepareStatement(INSERT, 1);
 
 			pstmt.setInt(1, commentVO.getPostsID());
 			pstmt.setInt(2, commentVO.getUserID());
@@ -45,8 +47,15 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 			pstmt.setTimestamp(4, commentVO.getCommentPublishDate());
 			pstmt.executeUpdate();
 
+			// 取得自增主鍵
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+				primaryKey = rs.getInt(1);
+			}
+			return primaryKey;
+
 		} catch (SQLException se) {
-			se.printStackTrace();
+			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -151,6 +160,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 				commentVO.setCommentContent(rs.getString("commentcontent"));
 				commentVO.setCommentPublishDate(rs.getTimestamp("commentpublishdate"));
 				commentVO.setCommentShow(rs.getBoolean("commentshow"));
+				commentVO.setCommentReportedTimes(rs.getInt("commentReportedTimes"));
 			}
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -247,6 +257,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 				commentVO.setCommentContent(rs.getString("commentcontent"));
 				commentVO.setCommentPublishDate(rs.getTimestamp("commentpublishdate"));
 				commentVO.setCommentShow(rs.getBoolean("commentshow"));
+				commentVO.setCommentReportedTimes(rs.getInt("commentreportedtimes"));
 				list.add(commentVO);
 			}
 		} catch (SQLException se) {

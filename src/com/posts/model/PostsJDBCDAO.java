@@ -17,12 +17,16 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String USER = "David";
 	private static final String PASSWORD = "123456";
 	private static final String INSERT = "insert into posts(userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID) values(?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE = "update posts set postsTitle=?, postsContent=?, postsImg=?, postsPublishDate=?, tagID=? where postsID=?";
-	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?"; // 更改狀態
+	private static final String UPDATE = "update posts set postsTitle=?, postsContent=?, postsImg=?, tagID=? where postsID=?";
+	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?";    //更改狀態
 	private static final String FIND_PK = "select * from posts where postsid = ?";
 	private static final String FIND_TOP = "select * from posts where postsshow = 1 order by postsLikes desc";
 	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
 	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
+	private static final String FIND_KEYWORD = 
+//			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or postsContent or username like '%?%' and postsShow = 1";
+//			"select * from posts as p1 	join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or username or postsContent like '%?%'";
+			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle like CONCAT('%',?,'%') or username like CONCAT('%',?,'%') or postsContent like CONCAT('%',?,'%')";
 
 	static {
 		try {
@@ -81,9 +85,8 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			pstmt.setString(1, postsVO.getPostsTitle());
 			pstmt.setString(2, postsVO.getPostsContent());
 			pstmt.setBytes(3, postsVO.getPostsImg());
-			pstmt.setTimestamp(4, postsVO.getPostsPublishDate());
-			pstmt.setInt(5, postsVO.getTagID());
-			pstmt.setInt(6, postsVO.getPostsID());
+			pstmt.setInt(4, postsVO.getTagID());
+			pstmt.setInt(5, postsVO.getPostsID());
 			pstmt.executeUpdate();
 
 		} catch (SQLException se) {
@@ -356,6 +359,64 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 		return list2;
 	}
 
+	@Override
+	public List<PostsVO> findKeyword(String str) {
+		List<PostsVO> keyword = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_KEYWORD);
+			pstmt.setString(1, str);
+			pstmt.setString(2, str);
+			pstmt.setString(3, str);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				PostsVO postsVO = new PostsVO();
+				postsVO.setPostsID(rs.getInt("postsid"));
+				postsVO.setUserID(rs.getInt("userid"));
+				postsVO.setPostsTitle(rs.getString("poststitle"));
+				postsVO.setPostsContent(rs.getString("postscontent"));
+				postsVO.setPostsImg(rs.getBytes("postsimg"));
+				postsVO.setPostsPublishDate(rs.getTimestamp("postspublishdate"));
+				postsVO.setTagID(rs.getInt("tagid"));
+				postsVO.setPostsLikes(rs.getInt("postslikes"));
+				postsVO.setPostsReportedTimes(rs.getInt("postsreportedtimes"));
+				postsVO.setPostsShow(rs.getBoolean("postsshow"));
+				keyword.add(postsVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return keyword;
+	}
+
 	public static void main(String[] args) throws IOException {
 		PostsJDBCDAO dao = new PostsJDBCDAO();
 
@@ -398,14 +459,20 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //			System.out.println(all);
 //		}
 
+		// 關鍵字
+		String str = "美";
+		List<PostsVO> keyword = dao.findKeyword(str);
+		for (PostsVO Kw : keyword) {
+			System.out.println(Kw);
+		}
 	}
 
-	public static byte[] getPictureByteArray(String path) throws IOException {
-		FileInputStream fis = new FileInputStream(path);
-		byte[] buffer = new byte[fis.available()];
-		fis.read(buffer);
-		fis.close();
-		return buffer;
-	}
+//	public static byte[] getPictureByteArray(String path) throws IOException {
+//		FileInputStream fis = new FileInputStream(path);
+//		byte[] buffer = new byte[fis.available()];
+//		fis.read(buffer);
+//		fis.close();
+//		return buffer;
+//	}
 
 }

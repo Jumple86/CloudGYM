@@ -15,12 +15,23 @@ import com.google.gson.Gson;
 import com.orderList.model.*;
 import com.orders.model.*;
 import com.subList.model.*;
+import com.user.model.*;
 import com.userRights.model.*;
 import com.video.model.*;
 
 import others.CardInfo;
 import redis.clients.jedis.Jedis;
 import javax.naming.*;
+
+import java.util.Properties;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class OrdersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -45,7 +56,7 @@ public class OrdersServlet extends HttpServlet {
 
 			try {
 				HttpSession session = req.getSession();
-				String userID = (String) session.getAttribute("userID");
+				String userID = session.getAttribute("userID").toString();
 				String uri = (String) session.getAttribute("uri");
 
 				if (userID == null) { // 判斷是否有登入
@@ -256,7 +267,7 @@ public class OrdersServlet extends HttpServlet {
 				/**************************2.開始新增訂單*************************/
 				jedis = new Jedis("localhost", 6379);
 				HttpSession session = req.getSession();
-				String userID = (String) session.getAttribute("userID");
+				String userID = session.getAttribute("userID").toString();
 				SubListService sublistSvc = new SubListService();
 				OrdersService ordersSvc = new OrdersService();
 				OrderListService orderlistSvc = new OrderListService();
@@ -287,21 +298,38 @@ public class OrdersServlet extends HttpServlet {
 					}
 				}
 				
-				OrdersVO ordersVO = ordersSvc.addOrders(Integer.parseInt(userID), totalPrice);
+//				OrdersVO ordersVO = ordersSvc.addOrders(Integer.parseInt(userID), totalPrice);
+//				Integer orderNo = ordersVO.getOrderNo();
+//				req.setAttribute("orderNo", orderNo);
+//				req.setAttribute("coachIDs", coachIDs);
+//				req.setAttribute("subIDs", subIDs);
+//				
+//				for(Integer itemID : items) {
+//					orderlistSvc.addOrderList(orderNo, itemID);
+//				}
+				
+				OrdersVO ordersVO = ordersSvc.addOrders2(Integer.parseInt(userID), totalPrice, items);
 				Integer orderNo = ordersVO.getOrderNo();
+				System.out.println(orderNo);
 				req.setAttribute("orderNo", orderNo);
 				req.setAttribute("coachIDs", coachIDs);
 				req.setAttribute("subIDs", subIDs);
-				
-				for(Integer itemID : items) {
-					orderlistSvc.addOrderList(orderNo, itemID);
-				}
 				
 				
 				/*********************3.將訂單明細的東西加到使用者可觀看的資料庫裡*******************/
 				VideoService videoSvc = new VideoService();
 				CoachMenuListService coachmenulistSvc = new CoachMenuListService();
 				UserRightsService userrightsSvc = new UserRightsService();
+				
+				// 取得使用者已經有的影片權限
+				List<Integer> videoRight = new ArrayList<>();
+				List<UserRightsVO> userRightsList = userrightsSvc.getAll(Integer.parseInt(userID));
+				for(UserRightsVO vo : userRightsList) {
+					Integer id = vo.getVideoID();
+					videoRight.add(id);
+				}
+				//---------------------------------------------------------------------
+				
 				for(String key : set) {
 					if(key.startsWith("2")) {
 						Integer duration = 0;
@@ -319,21 +347,39 @@ public class OrdersServlet extends HttpServlet {
 						List<VideoVO> list = videoSvc.getByUserID(Integer.parseInt(key));
 						for(VideoVO videoVO : list) {
 							Integer videoID = videoVO.getVideoID();
-							userrightsSvc.add(Integer.parseInt(userID), videoID, duration);
+							if(videoRight.contains(videoID)) {
+								continue;
+							}else {
+								userrightsSvc.add(Integer.parseInt(userID), videoID, duration);
+							}
 						}
 					}
 					if(key.startsWith("6")) {
 						List<CoachMenuListVO> list = coachmenulistSvc.getByMenuID(Integer.parseInt(key));
 						for(CoachMenuListVO coachMenuListVO : list) {
 							Integer videoID = coachMenuListVO.getVideoID();
-							userrightsSvc.add(Integer.parseInt(userID), videoID, 0);
+							if(videoRight.contains(videoID)) {
+								continue;
+							}else {
+								userrightsSvc.add(Integer.parseInt(userID), videoID, 0);
+							}
 						}
 					}
 					if(key.startsWith("3")) {
-						userrightsSvc.add(Integer.parseInt(userID), Integer.parseInt(key), 0);
+						if(!videoRight.contains(Integer.parseInt(key))) {
+							userrightsSvc.add(Integer.parseInt(userID), Integer.parseInt(key), 0);
+						}
 					}
 				}
 				
+				//----------------------------寄出購買成功通知信件---------------------------//
+				UserService userSvc = new UserService();
+				UserVO userVO = userSvc.findByUserId(Integer.parseInt(userID));
+				String usermail = userVO.getUserAccount();
+				String subject = "購買成功通知";
+				String mailtext = "您已購買xxxxxxx";
+				
+				sendMail(usermail, subject, mailtext);
 				
 				jedis.del(userID);
 				/************************4.新增訂單資料完成，轉交至成功頁面***********************/
@@ -341,7 +387,7 @@ public class OrdersServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher("/html/thanks_page.jsp");
 				successView.forward(req, res);
 			}catch(Exception e) {
-				
+				e.printStackTrace();
 			}finally {
 				if(jedis != null) {
 					jedis.close();
@@ -350,4 +396,43 @@ public class OrdersServlet extends HttpServlet {
 		}
 
 	}
+	
+	// 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
+		public void sendMail(String to, String subject, String messageText) {
+				
+		   try {
+			   // 設定使用SSL連線至 Gmail smtp Server
+			   Properties props = new Properties();
+			   props.put("mail.smtp.host", "smtp.gmail.com");
+			   props.put("mail.smtp.socketFactory.port", "465");
+			   props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+			   props.put("mail.smtp.auth", "true");
+			   props.put("mail.smtp.port", "465");
+
+	       // ●設定 gmail 的帳號 & 密碼 (將藉由你的Gmail來傳送Email)
+	       // ●須將myGmail的【安全性較低的應用程式存取權】打開
+		     final String myGmail = "tfa103cloudgym@gmail.com";
+		     final String myGmail_password = "tfa103group3";
+			   Session session = Session.getInstance(props, new Authenticator() {
+				   protected PasswordAuthentication getPasswordAuthentication() {
+					   return new PasswordAuthentication(myGmail, myGmail_password);
+				   }
+			   });
+
+			   Message message = new MimeMessage(session);
+			   message.setFrom(new InternetAddress(myGmail));
+			   message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
+			  
+			   //設定信中的主旨  
+			   message.setSubject(subject);
+			   //設定信中的內容 
+			   message.setText(messageText);
+
+			   Transport.send(message);
+			   System.out.println("傳送成功!");
+	     }catch (MessagingException e){
+		     System.out.println("傳送失敗!");
+		     e.printStackTrace();
+	     }
+	   }
 }

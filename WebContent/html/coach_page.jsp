@@ -7,6 +7,8 @@
 <%@ page import="redis.clients.jedis.Jedis" %>
 <%@ page import="com.subscription.model.*" %>
 <%@ page import="com.video.model.*" %>
+<%@ page import="com.orders.model.*" %>
+<%@ page import="com.orderList.model.*" %>
 
 
 <%
@@ -39,8 +41,24 @@
 	
 // 	String username = "peter";
 // 	session.setAttribute("username", username);
-	String userID = "1003";
-	session.setAttribute("userID", userID);
+// 	Integer userID = 1003;
+// 	session.setAttribute("userID", userID);
+	Integer userID = (Integer)session.getAttribute("userID");
+	List<Integer> itemIDs = null;
+	if(userID != null){
+		List<OrdersVO> orders = new OrdersService().getOrdersByUserID(userID);
+		OrderListService orderlistSvc = new OrderListService();
+		itemIDs = new ArrayList<>();
+		for(OrdersVO ordersVO : orders){
+			List<OrderListVO> orderlists = orderlistSvc.getOrderListByOrderNo(ordersVO.getOrderNo());
+			for(OrderListVO orderListVO : orderlists){
+				Integer itemID = orderListVO.getItemID();
+				itemIDs.add(itemID);
+			}
+		}
+	}
+	
+	pageContext.setAttribute("itemIDs", itemIDs);
 	
 	long cartCount = 0;
 	Jedis jedis = new Jedis("localhost", 6379);
@@ -131,6 +149,7 @@ div.menu input:disabled{
 <!-- 	                        <input type="submit" value="加入購物車"> -->
 							<c:if test="${video.price == 0}"><button type="button" value="加入購物車" disabled>加入購物車</button></c:if>
 							<c:if test="${video.price != 0}"><button type="button" value="加入購物車">加入購物車</button></c:if>
+							<c:if test="${itemIDs.contains(video.videoID) }"><button type="button" value="加入購物車" disabled>已購買</button></c:if>
 	                        <input type="hidden" name="videoID" value="${video.videoID}">
 	                        <input type="hidden" name="videoPrice" value="${video.price}">
 	                        <input type="hidden" name="action" value="addCart">
@@ -159,6 +178,7 @@ div.menu input:disabled{
 <!-- 	                        <input type="submit" value="加入購物車"> -->
 							<c:if test="${coachMenu.price == 0}"><button type="button" value="加入購物車" disabled>加入購物車</button></c:if>
 							<c:if test="${coachMenu.price != 0}"><button type="button" value="加入購物車">加入購物車</button></c:if>
+							<c:if test="${itemIDs.contains(coachMenu.menuID) }"><button type="button" value="加入購物車" disabled>已購買</button></c:if>
 	                        <input type="hidden" name="menuID" value="${coachMenu.menuID}">
 	                        <input type="hidden" name="menuPrice" value="${coachMenu.price}">
 	                        <input type="hidden" name="action" value="addCart">

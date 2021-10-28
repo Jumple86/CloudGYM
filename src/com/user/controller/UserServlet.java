@@ -51,6 +51,8 @@ public class UserServlet extends HttpServlet {
 
 			try {
 				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				UserService userSvc = new UserService();
+				UserVO userVO1 = null;
 
 //				Integer userID = new Integer(req.getParameter("userID").trim());
 
@@ -63,23 +65,28 @@ public class UserServlet extends HttpServlet {
 //				}
 
 				String userAccount = req.getParameter("userAccount");
+				String accountReg = "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
 				if (userAccount == null || userAccount.trim().length() == 0) {
-					errorMsgs.add("帳號: 請勿空白");
+					errorMsgs.add("帳號: 請勿空白!");
+				}else if (!userAccount.trim().matches(accountReg)) {
+					errorMsgs.add("email格式錯誤");
+				}else if(userAccount != null && userSvc.findByUserAccount(userAccount) != null){ 
+					errorMsgs.add("帳號: 該用戶已註冊!");
 				}
 
 				String userPassword = req.getParameter("userPassword").trim();
 				String passwordReg = "^[(a-zA-Z0-9_)]{6}$";
 				if (userPassword == null || userPassword.trim().length() == 0) {
-					errorMsgs.add("密碼: 請勿空白");
+					errorMsgs.add("密碼: 請勿空白!");
 				} else if (!userPassword.trim().matches(passwordReg)) {
-					errorMsgs.add("密碼只能是英文字母,數字,且長度不能小於6碼");
+					errorMsgs.add("密碼只能是英文字母,數字,且長度不能小於6碼!");
 				}
 
 				String passwordConfirm = req.getParameter("passwordConfirm").trim();
 				if (!passwordConfirm.equals(userPassword)) {
-					errorMsgs.add("兩次密碼輸入不一致");
+					errorMsgs.add("兩次密碼輸入不一致!");
 				} else if (passwordConfirm.trim().length() == 0) {
-					errorMsgs.add("確認密碼: 請勿空白");
+					errorMsgs.add("確認密碼: 請勿空白!");
 				}
 
 				String userMobile = req.getParameter("userMobile");
@@ -127,13 +134,12 @@ public class UserServlet extends HttpServlet {
 				}
 
 				/*************************** 2.開始新增資料 ***************************************/
-				UserService userSvc = new UserService();
 				userVO = userSvc.addUser(userAccount, userName, userPassword, userMobile, userSex, userBirthday,
 						userRegisterDate, userReportedTimes);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/html/login_user.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交login_user.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

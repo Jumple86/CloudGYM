@@ -10,13 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
-@WebServlet("/protected_user/LogoutHandler")
+@WebServlet("/LogoutHandler")
 public class LogoutHandler extends HttpServlet {
-
-	/**
-	 * @category 退出登入的Servlet,登出
-	 * @author Bird
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) 
@@ -32,10 +27,16 @@ public class LogoutHandler extends HttpServlet {
 			return;
 		}
 		
-		session.removeAttribute("account");
-		session.removeAttribute("name");
-		session.removeAttribute("id");
-		res.sendRedirect(req.getContextPath() + "/html/login_user.jsp");
+		/****移除登入的session****/
+		session.removeAttribute("account");    // 會員與教練的account
+		session.removeAttribute("name");    // 會員與教練的name
+		session.removeAttribute("userID");    // 會員與教練的id
+		session.removeAttribute("adminNo");    // 管理者的adminNo
+		session.removeAttribute("userVO");    // 會員的userVO
+		session.removeAttribute("coachVO");    // 教練的coachVO
+		session.removeAttribute("adminVO");    // 管理者的adminVO
+		
+		res.sendRedirect(req.getContextPath() + "/html/main_page.jsp");
 
 	}
 

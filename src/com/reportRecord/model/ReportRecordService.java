@@ -10,10 +10,10 @@ public class ReportRecordService {
 		dao = new ReportRecordJDBCDAO();
 	}
 
-	public ReportRecordVO addReportRecord(Integer recordID,Integer itemID,Integer userID) {
+	public ReportRecordVO addReportRecord(Integer itemID,Integer userID) {
 		
 		ReportRecordVO reportRecordVO = new ReportRecordVO();
-		reportRecordVO.setRecordID(recordID);
+//		reportRecordVO.setRecordID(recordID);
 		reportRecordVO.setItemID(itemID);
 		reportRecordVO.setUserID(userID);
 		dao.insert(reportRecordVO);

@@ -1,11 +1,17 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.posts.model.*"%>
 <%@ page import="com.comment.model.*"%>
 
-<jsp:useBean id="userSvc" scope="page"
-	class="com.user.model.UserService" />
+<jsp:useBean id="userSvc" scope="page"	class="com.user.model.UserService" />
+<jsp:useBean id="coachSvc" scope="page"	class="com.coach.model.CoachService" />
+<%
+  response.setHeader("Cache-Control","no-store"); //HTTP 1.1
+  response.setHeader("Pragma","no-cache");        //HTTP 1.0
+  response.setDateHeader ("Expires", 0);
+%>
+
 <%
 	PostsService postSvc = new PostsService();
 	PostsVO postsVO = postSvc.getByPostsID(Integer.parseInt(request.getParameter("postID")));
@@ -22,7 +28,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¤å³¹ºŞ²z­¶­±</title>
+<title>ä½¿ç”¨è€…æ–‡ç« </title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
 <link rel="stylesheet" href="../css/back_end_post_page.css">
@@ -40,29 +46,30 @@
 		</div>
 		<div id="option">
 			<ul>
-				<li class="option"><a class="logout" href="#">µn¥X</a></li>
+				<li class="option"><a class="logout" href="#">ç™»å‡º</a></li>
 				<li class="option"><a class="login_ad"
-					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ºŞ²z­û</a></li>
+					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">ç®¡ç†å“¡</a></li>
 			</ul>
 		</div>
 	</div>
 	<div id="wrap">
 		<div id="left"></div>
-		<p>¤å³¹ºŞ²z</p>
+		<a href="<%=request.getContextPath()%>/html/back_end_post.jsp">
+		<p>è¿”å›æ–‡ç« åˆ—è¡¨</p>
+		</a>
 		<div id="right">
 			<div class="main">
 				<div class="main_right">
-					<span>©Ò¦³¯d¨¥:</span>
+					<span>æ‰€æœ‰ç•™è¨€:</span>
 					<div class="comment">
-
 						<c:forEach var="commentVO" items="${list}">
-							<form method="post" action="xxx.do" name="">
 								<c:if test="${commentVO.postsID == postsVO.postsID}">
 									<ul class="com_ul">
 										<span>${commentVO.userID} -
 											${userSvc.findByUserId(commentVO.userID).userName}</span>
-										<form method="post" action="xxx">
-											<button type="submit">
+										<form method="post" action="comment.do">
+											<input type="hidden" name="commentid" value="${commentVO.commentID}">
+											<button type="submit" name="action" value="delete">
 												<i class="bi bi-trash-fill"></i>
 											</button>
 										</form>
@@ -70,35 +77,37 @@
 										<li class="time">${commentVO.commentPublishDate}</li>
 									</ul>
 								</c:if>
-							</form>
 						</c:forEach>
 
 					</div>
 				</div>
 				<div class="post">
 					${postsVO.postsID}<br>${postsVO.postsTitle}</div>
-				<form>
-					<div class="post_text">¤å³¹¤º®e:</div>
+					<div class="post_text">æ–‡ç« å…§å®¹:</div>
 					<div class="postshow">
-						<input type="radio" name="postshow" value="open"
-							${postsVO.postsShow == true ? "checked='true'" : ""}>¤½¶} <input
-							type="radio" name="postshow" value="close"
-							${postsVO.postsShow == false ? "checked='true'" : ""}>¤£¤½¶}
-						<input type="hidden" name="action" value=""> <input
-							type="submit" value="­×§ï">
-					</div>
+				<form method="post" action="Article.do">
+						<input type="radio" name="postshow"
+							${postsVO.postsShow == true ? "checked='true'" : ""} disabled>å…¬é–‹ 
+						<input type="radio" name="postshow"
+							${postsVO.postsShow == false ? "checked='true'" : ""} disabled>ä¸å…¬é–‹
+						<input type="hidden" name="action" value="delete"> 
+						<input type="hidden" name="postsid" value="${postsVO.postsID}"> 
+						<input type="submit" value="æ–‡ç« ç•°å¸¸">
+						
 				</form>
+					</div>
 				<textarea id="content">${postsVO.postsContent}</textarea>
 				<a
 					href="<%=request.getContextPath()%>/html/PostsImageOutput?postsID=${postsVO.postsID}">
 					<i class="bi bi-images"></i>
 				</a>
 				<div class="up_name">
-					¤W¶ÇªÌ: &nbsp&nbsp<span>${postsVO.userID} -
-						${userSvc.findByUserId(postsVO.userID).userName}</span>
+					ä¸Šå‚³è€…: &nbsp&nbsp<span>${postsVO.userID} -
+						${userSvc.findByUserId(postsVO.userID).userName}
+						${coachSvc.getByUserID(postsVO.userID).coachName}</span>
 				</div>
 				<div class="up_time">
-					¤W¶Ç®É¶¡: <span>${postsVO.postsPublishDate}</span>
+					ä¸Šå‚³æ™‚é–“: <span>${postsVO.postsPublishDate}</span>
 				</div>
 			</div>
 		</div>

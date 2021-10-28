@@ -1,6 +1,8 @@
 package com.report.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ReportService {
@@ -11,12 +13,15 @@ public class ReportService {
 		dao = new ReportJDBCDAO();
 	}
 	
-	public ReportVO addReport(Integer reportID,Integer userID,Integer itemID,Timestamp reportTime) {
+	public ReportVO addReport(Integer userID,Integer itemID) {
+		SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String str = sd.format(new Date(System.currentTimeMillis()));
+		Timestamp ts = Timestamp.valueOf(str);
 		
 		ReportVO reportVO = new ReportVO();
 		reportVO.setUserID(userID);
 		reportVO.setItemID(itemID);
-		reportVO.setReportTime(reportTime);
+		reportVO.setReportTime(ts);
 		dao.insert(reportVO);
 		return reportVO;
 	}
