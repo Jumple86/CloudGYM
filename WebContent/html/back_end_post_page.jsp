@@ -66,7 +66,8 @@
 								<c:if test="${commentVO.postsID == postsVO.postsID}">
 									<ul class="com_ul">
 										<span>${commentVO.userID} -
-											${userSvc.findByUserId(commentVO.userID).userName}</span>
+											${userSvc.findByUserId(commentVO.userID).userName}
+											${coachSvc.getByUserID(commentVO.userID).coachName}</span>
 										<form method="post" action="comment.do">
 											<input type="hidden" name="commentid" value="${commentVO.commentID}">
 											<button type="submit" name="action" value="delete">

@@ -1,7 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.user.model.*" %>
+
 <%
   response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.setHeader("Pragma","no-cache");        //HTTP 1.0
@@ -10,7 +13,15 @@
 <%
 	UserService userSvc = new UserService();
 	List<UserVO> list = userSvc.getAll();
-	pageContext.setAttribute("list", list);		
+	pageContext.setAttribute("list", list);
+	
+// 	UserVO userVO = new UserVO();
+// 	UserVO userid = userSvc.findByUserId(userVO.getUserID());
+// 	Timestamp time =  userVO.getUserRegisterDate();
+// 	Date date =new Date(time.getTime());
+// 	SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
+// 	String registerDate = sd.format(date);
+// 	pageContext.setAttribute("registerDate", registerDate);
 %>
 <jsp:useBean id="userAuthSvc" scope="page" class="com.userAuth.model.UserAuthService" />
 <jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
@@ -61,7 +72,7 @@
 				</li>
 				<li>
 				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">

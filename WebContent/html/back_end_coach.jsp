@@ -61,7 +61,7 @@
 				</li>
 				<li>
 				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">

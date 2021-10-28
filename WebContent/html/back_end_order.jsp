@@ -31,7 +31,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>訂單明細管理</title>
+<title>訂單查詢</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/back_end_index.css">
 <link rel="stylesheet" href="../css/back_end_order.css">
@@ -70,7 +70,7 @@
 				</li>
 				<li>
 				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
