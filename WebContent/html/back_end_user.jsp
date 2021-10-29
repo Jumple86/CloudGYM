@@ -182,6 +182,7 @@
 								}
 							}
 						%>
+						<% session.setAttribute("whichPage",whichPage); %>
                     <c:forEach var="userVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
                       <tr>
                         <th scope="row">
@@ -229,7 +230,7 @@
 <%--                   <%@ include file="/pages/page2.file" %>                  --%>
                  <div class="page">
                   <%for(int i = 0; i < pageIndexArray.length; i++){%>
-                  		<a href="<%request.getRequestURI();%>?whichPage=<%=i+1%>"><%=i+1%></a>
+                  		<a href="<%=request.getContextPath()%>/html/back_end_user.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
                   	<%}%>
                   </div>    
             	</form>

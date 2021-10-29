@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.userAuth.*;
 import com.userAuth.model.UserAuthService;
@@ -79,13 +80,15 @@ public class UserAuthServlet extends HttpServlet {
 			}
 											
 			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -142,13 +145,15 @@ public class UserAuthServlet extends HttpServlet {
 			}
 											
 			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -206,13 +211,15 @@ public class UserAuthServlet extends HttpServlet {
 			}
 											
 			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -269,13 +276,15 @@ public class UserAuthServlet extends HttpServlet {
 			}
 											
 			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp");
+					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
