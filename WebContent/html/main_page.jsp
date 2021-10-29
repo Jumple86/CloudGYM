@@ -32,6 +32,7 @@
     <title>CloudGYM</title>
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/main_page.css">
+    <link rel="stylesheet" href="../css/bar.css">
     
     <!-- Mutislider CSS -->
     <link href="../css/main_coach.css" rel="stylesheet">
