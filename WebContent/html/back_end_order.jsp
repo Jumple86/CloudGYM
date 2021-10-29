@@ -137,12 +137,12 @@
                   <input type="hidden" name="action" value="getbyOrderNO">
                   <input type="submit" value="查詢">
               </FORM>
-              <FORM METHOD="post" ACTION="orderList.do">
-                  <b>查詢訂單日期:</b>
-                  <input id="start_date" type="text" name="builtDate">
-                  <input type="hidden" name="action" value="getbyDate">
-                  <input type="submit" value="查詢">
-              </FORM>
+<!--               <FORM METHOD="post" ACTION="orderList.do"> -->
+<!--                   <b>查詢訂單日期:</b> -->
+<!--                   <input id="start_date" type="text" name="builtDate"> -->
+<!--                   <input type="hidden" name="action" value="getbyDate"> -->
+<!--                   <input type="submit" value="查詢"> -->
+<!--               </FORM> -->
 				<table class="table">
 					<thead>
 						<tr>
