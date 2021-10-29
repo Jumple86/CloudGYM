@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.coach.model.*"%>
@@ -36,104 +36,50 @@
     
     <!-- Mutislider CSS -->
     <link href="../css/main_coach.css" rel="stylesheet">
-    <link href="../css/main_video.css" rel="stylesheet">
+<!--     <link href="../css/main_video.css" rel="stylesheet"> -->
 
     <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     
 </head>
 <body>
-<%-- <%@include file="../bar.file"%> --%>
+<%@include file="../bar.file"%>
 
-<!-- bar begining -->
-    <div id="bar">
-        <div id="title">
-            <ul>
-                <li class="bar_li">
-                    <img src="../img/logo.png" alt="" for="#CloudGYM">
-                </li>
-                <li class="bar_li">
-                    <a href="${pageContext.request.contextPath}/html/main_page.jsp" id="CloudGYM">CloudGYM</a>
-                </li>
-            </ul>
-        </div>
-        <div id="option">
-            <ul>
-                <li class="option"><a href="${pageContext.request.contextPath}/html/all_video_page.jsp">¹B°ÊÃþ«¬</a></li>
-                <li class="option"><a href="${pageContext.request.contextPath}/html/all_coach_page.jsp">±Ð½m</a></li>
-                
-                <c:if test="${not empty userVO}">
-	                <li class="option"><a href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">­Ó¤H±M°Ï</a></li>
-                </c:if>
-                
-                <c:if test="${not empty coachVO}">
-                	<li class="option"><a href="${pageContext.request.contextPath}/html/coach_page.jsp">§Ú¬O±Ð½m</a></li>
-                </c:if>
-                
-               	<li class="option"><a href="${pageContext.request.contextPath}/html/ArticleList.jsp">°Q½×°Ï</a></li>
-                
-                <c:if test="${empty name}">
-					<li class="option"><a href="${pageContext.request.contextPath}/html/login_ask_page.html" target="_blank">µù¥U/µn¤J</a></li>
-				</c:if>
-				<c:if test="${not empty name}">
-					<li class="option"><a href="<%=request.getContextPath()%>/LogoutHandler">${name} µn¥X</a></li>
-				</c:if>
-                
-                <li class="option">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                      </svg>
-                </li>
-            </ul>
-        </div>
-    </div>
-<!-- bar end -->
     
     <div id="top">
         <img src="../img/EVO-2021-PP-Feb-Banner_10-1200x675.jpg" alt="" id="main_img">
     </div>
     
 	<div id="center">
-		<div>
+		<div id="center2">
 			<div id="text1">
 				<ul>
-					<li id="hot_video">¼öªù¼v¤ù</li>
+					<li id="hot_video">ç†±é–€å½±ç‰‡</li>
 				</ul>
 			</div>
 
 			<div id="video_pic_div">
-				<iframe src="main_video.jsp" width="1500" height="300" frameborder="0" scrolling="no"></iframe>
+				<iframe src="main_video.jsp" width="100%;" height="400" frameborder="0" scrolling="no"></iframe>
 			</div>
 
 
-			<div id="coach_rank">±Ð½mª÷º]</div>
+			<div id="coach_rank">æ•™ç·´é‡‘æ¦œ</div>
 			<div id="coach_pic_div">
 
-				<%--             <c:forEach var="coachVO" items="${list}" begin="0" end="${list.size()}"> --%>
-				<%-- 	            <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="" class="coach_pic"> --%>
-				<%--             </c:forEach> --%>
-
-				<%--             <c:forEach var="coachVO" items="${list}" begin="0" end="${list.size()}"> --%>
-				<%-- 	            <p class="coach_list">${coachVO.coachName}</p> --%>
-				<%--             </c:forEach> --%>
-
-
-
-
-				<!-- 		    <iframe src="main_coach.jsp" width="1500" height="300" frameborder="0" scrolling="no"> ></iframe> -->
+<!-- 				<iframe position="absolute" top="0" left="0" width="100%" height="100%" transform="scale(0.55)" -webkit-transform="scale(0.8)" frameborder="0" scrolling="no" src="main_coach.jsp" ></iframe> -->
 
 				<div id="exampleSlider">
-					<div class="MS-content">
+			       <div class="MS-content">
 						<c:forEach var="coachVO" items="${list}" begin="0"
-							end="${list.size()}">
-
-
+ 							end="${list.size()}"> 
+			
+			
 							<div class="item">
 								<div class="img_block">
 									<form action="<%=request.getContextPath()%>/html/coach.do?">
 										<input type="submit" id="${coachVO.userID }" style="display: none;"> 
 										<input type="hidden" name="action" value="getOne_For_Display"> 
-										<input type="hidden" name="userID" value="${coachVO.userID}"> 
+										<input type="hidden"name="userID" value="${coachVO.userID }"> 
 										<label for="${coachVO.userID }"> 
 										    <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="" class="pic">
 											<p class="coach_list">${coachVO.coachName}</p>
@@ -141,30 +87,25 @@
 									</form>
 								</div>
 							</div>
-
-
+			
+			
 						</c:forEach>
 					</div>
-
-					<div class="MS-controls">
-						<button class="MS-left">
-							<i class="fa fa-chevron-left" aria-hidden="true"></i>
-						</button>
-						<button class="MS-right">
-							<i class="fa fa-chevron-right" aria-hidden="true"></i>
-						</button>
-					</div>
-					
-				</div>
+			       
+			       <div class="MS-controls">
+			           <button class="MS-left"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+			           <button class="MS-right"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+			       </div>
+			   </div>
 			</div>
 		</div>
 	</div>
 
 
 	<div id="bottom">
-        <p id="about">Ãö©ó§Ú­Ì</p>
-        <p id="contact">Ápµ¸§Ú­Ì</p>
-        <p id="address">¥xÆW¥x¥_¥««H¸q°Ï«H¸q¸ô¤­¬q7¸¹</p>
+        <p id="about">é—œæ–¼æˆ‘å€‘</p>
+        <p id="contact">è¯çµ¡æˆ‘å€‘</p>
+        <p id="address">å°ç£å°åŒ—å¸‚ä¿¡ç¾©å€ä¿¡ç¾©è·¯äº”æ®µ7è™Ÿ</p>
         <p>029484184</p>
     </div>
     
