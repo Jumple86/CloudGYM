@@ -134,7 +134,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>CoachServlet</servlet-name>
-		<url-pattern>/coach/coach.do</url-pattern>
+		<url-pattern>/html/coach.do</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

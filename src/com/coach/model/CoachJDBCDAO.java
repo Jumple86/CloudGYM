@@ -23,7 +23,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 	private static final String INSERT_STMT = 
 			"INSERT INTO coach(userID,coachAccount,coachName,coachPassword,coachImg,userMobile,coachSex,coachBirthday,coachDescription,coachRegisteredDate,coachCertificate,reportedTimes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE coach SET coachAccount=?,coachName=?, coachPassword=?,coachImg=?, userMobile=?, coachSex=?, coachBirthday=?, coachDescription=?, coachRegisteredDate=?,coachCertificate=?,reportedTimes=? WHERE userID=?";
+			"UPDATE coach SET coachName=?,coachImg=?,coachDescription=?,coachCertificate=? WHERE userID=?";
 	private static final String DELETE_STMT =
 			"DELETE FROM coach WHERE userID=?";
 	private static final String FIND_BY_USERID_STMT = 
@@ -103,18 +103,11 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setString(1, coachVO.getCoachAccount());
-			pstmt.setString(2, coachVO.getCoachName());
-			pstmt.setString(3, coachVO.getCoachPassword());
-			pstmt.setBytes(4, coachVO.getCoachImg());
-			pstmt.setString(5, coachVO.getUserMobile());
-			pstmt.setString(6, coachVO.getCoachSex());
-			pstmt.setDate(7, coachVO.getCoachBirthday());
-			pstmt.setString(8, coachVO.getCoachDescription());
-			pstmt.setDate(9, coachVO.getCoachRegisteredDate());
-			pstmt.setString(10, coachVO.getCoachCertificate());
-			pstmt.setInt(11, coachVO.getReportedTimes());
-			pstmt.setInt(12, coachVO.getUserID());
+			pstmt.setString(1, coachVO.getCoachName());
+			pstmt.setBytes(2, coachVO.getCoachImg());
+			pstmt.setString(3, coachVO.getCoachDescription());
+			pstmt.setString(4, coachVO.getCoachCertificate());
+			pstmt.setInt(5, coachVO.getUserID());
 			
 			
 			pstmt.executeUpdate();

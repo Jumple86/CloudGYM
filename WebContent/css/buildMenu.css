@@ -1,5 +1,5 @@
 body{
-    font-family: ·L³n¥¿¶ÂÅé;
+    font-family: ï¿½Lï¿½nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;
     background-color: #31105E !important;
 }
 
@@ -62,7 +62,7 @@ a {
 }
 
 #box1{
-    /* overflow: hidden; */
+    overflow: hidden;
     border: black;
     /* border:1px solid #000; */
 }
@@ -78,39 +78,12 @@ a {
 
 #box2{
     position: absolute;
-    padding-top: 50px;
+    padding-top: 100px;
     font-weight: bold;
     float: left;
     width: 300px;
     color: black;
-    margin-left: 50px;
     /* border:1px solid #000; */
-}
-
-div#box2 ul{
-	width:400px;
-}
-
-div#box2 li{
-    margin-top: 50px;
-}
-
-div#box2 input{
-    border: none;
-    border-bottom: 1px solid black;
-    background-color: #EDE9F2;
-    outline:none;
-    padding-left: 5px;
-    padding-bottom: 5px;
-}
-
-div#box2 select{
-    margin-top: 10px;
-    height: 25px;
-}
-
-div#box2 option{
-    height: 25px;
 }
 
 #post_box{
@@ -118,40 +91,17 @@ div#box2 option{
     float: right;
     height: 217px;
     width: 380px;
-    padding-top: 65px;
-}
-
-#post_box ul{
-    margin-left: 100px;
-}
-
-#post_box li{
-    margin-top: 25px;
-}
-
-#post_box p{
-    font-weight: bold;
-}
-
-#post_box select{
-    margin-top: 10px;
-    height: 25px;
+    padding-top: 89px;
 }
 
 #button_area{
-    padding-top: 60px;
-    /* padding-left: 280px; */
+    padding-top: 350px;
+    padding-left: 280px;
     /* border:1px solid #000; */
-    clear: both;
-    text-align: center;
 }
 
-button.btn{
+#button{
     background-color: #5C37A1;
     color: white;
-    border-radius: 15px;
-    width: 100px;
-    border: none;
-    height: 30px;
-    margin: 0 50px;
+    border-radius: 5px;
 }
