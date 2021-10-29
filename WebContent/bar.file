@@ -45,16 +45,14 @@
 			<!-- 第一組清單   -->
 			<div class="item">
 				<div class="main">
-					<a calss="url"
-						href="${pageContext.request.contextPath}/html/all_video_page.jsp">運動類型</a>
+					<a calss="url" href="${pageContext.request.contextPath}/html/all_video_page.jsp">運動類型</a>
 				</div>
 				<div class="sub"></div>
 			</div>
 			<!-- 第二組清單   -->
 			<div class="item">
 				<div class="main">
-					<a
-						href="${pageContext.request.contextPath}/html/all_coach_page.jsp">教練</a>
+					<a calss="url" href="${pageContext.request.contextPath}/html/all_coach_page.jsp">教練</a>
 				</div>
 				<div class="sub"></div>
 			</div>
@@ -62,8 +60,7 @@
 			<c:if test="${not empty userVO}">
 				<div class="item">
 					<div class="main">
-						<a
-							href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">個人專區</a>
+						<a calss="url" href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">個人專區</a>
 					</div>
 					<div class="sub"></div>
 				</div>
@@ -72,7 +69,7 @@
 			<c:if test="${not empty coachVO}">
 				<div class="item">
 					<div class="main">
-						<a href="${pageContext.request.contextPath}/html/coach_page.jsp">我是教練</a>
+						<a calss="url" href="${pageContext.request.contextPath}/html/coach_page.jsp">我是教練</a>
 					</div>
 					<div class="sub"></div>
 				</div>
@@ -80,14 +77,14 @@
 			<!-- 第五組清單   -->
 			<div class="item">
 				<div class="main">
-					<a href="${pageContext.request.contextPath}/html/ArticleList.jsp">討論區</a>
+					<a calss="url" href="${pageContext.request.contextPath}/html/ArticleList.jsp">討論區</a>
 				</div>
 				<div class="sub"></div>
 			</div>
 			<!-- 第六組清單   -->
 			<c:if test="${empty userID}">
 				<div class="item">
-					<div class="main">註冊/登入</div>
+					<div class="main" >註冊/登入</div>
 					<div class="sub">
 						<ul>
 							<li><a href="${pageContext.request.contextPath}/html/sign_up_page.jsp">會員註冊</a></li>
@@ -101,13 +98,8 @@
 			<!-- 第七組清單   -->
 			<c:if test="${not empty userID}">
 				<div class="item">
-					<div class="main">${name}</a>
-					</div>
-					<div class="sub">
-						<ul>
-							<li><a href="<%=request.getContextPath()%>/LogoutHandler">登出</a></li>
-						</ul>
-					</div>
+					<div class="main" id="logout"><a href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name} 登出</a></div>
+					<div class="sub"></div>
 				</div>
 			</c:if>
 
