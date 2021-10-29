@@ -13,49 +13,59 @@
 <html>
 <head>
 <meta charset="BIG5">
-<title>Insert title here</title>
+<title>教練總覽</title>
 <link rel="stylesheet" href="../css/reset.css">
 <link rel="stylesheet" href="../css/all_coach_page.css">
 </head>
 <body>
-	<div id="bar">
-		<div id="title">
-			<ul>
-				<li class="bar_li"><img src="../img/logo.png" alt=""
-					for="#CloudGYM"></li>
-				<li class="bar_li"><a href="#" id="CloudGYM">CloudGYM</a></li>
-			</ul>
-		</div>
-		<div id="option">
-			<ul>
-				<li class="option">運動類型</li>
-				<li class="option">教練</li>
-				<li class="option">個人專區</li>
-				<li class="option">討論區</li>
-				<li class="option">註冊/登入</li>
-				<li class="option"><svg xmlns="http://www.w3.org/2000/svg"
-						width="25" height="25" fill="currentColor" class="bi bi-cart-fill"
-						viewBox="0 0 16 16">
-                        <path
-							d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
-                    </svg></li>
-			</ul>
-		</div>
-	</div>
+<!-- bar公版 begining -->
+    <div id="bar">
+        <div id="title">
+            <ul>
+                <li class="bar_li">
+                    <img src="../img/logo.png" alt="" for="#CloudGYM">
+                </li>
+                <li class="bar_li">
+                    <a href="${pageContext.request.contextPath}/html/main_page.jsp" id="CloudGYM">CloudGYM</a>
+                </li>
+            </ul>
+        </div>
+        <div id="option">
+            <ul>
+                <li class="option"><a href="#">運動類型</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/html/all_coach_page.jsp">教練</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/userMainPage/userMainPage.jsp">個人專區</a></li>
+                <li class="option"><a href="${pageContext.request.contextPath}/html/ArticleList.jsp">討論區</a></li>
+                
+                <c:if test="${empty name}">
+					<li class="option"><a href="${pageContext.request.contextPath}/html/login_ask_page.html" target="_blank">註冊/登入</a></li>
+				</c:if>
+				<c:if test="${not empty name}">
+					<li class="option"><a href="<%=request.getContextPath()%>/LogoutHandler">${name} 登出</a></li>
+				</c:if>
+                
+                <li class="option">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                      </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+<!-- bar公版 end -->
 
 	<div id="main">
 		<div class="find">
-			<form action="">
-				<input type="text" name="" id="" placeholder="點我找教練"> <i
-					class="fas fa-paper-plane"></i>
+			<form method="post" action="coach.do">
+				<input type="text" name="coachName" id="coachName" placeholder="點我找教練"> <i class="fas fa-paper-plane"></i>
 			</form>
 		</div>
 		<div class="coach_list">
 			<ul>
 				<c:forEach var="coachVO" items="${coach}">
-					<form action="<%=request.getContextPath()%>/coach/coach.do?">
+					<form action="<%=request.getContextPath()%>/html/coach.do?">
 						<input type="submit" id="${coachVO.userID }" style="display:none;">
-						<input type="hidden" name="action" value="gotocoach"> <input
+						<input type="hidden" name="action" value="getOne_For_Display"> <input
 							type="hidden" name="userID" value="${coachVO.userID }"> 
 						<label for="${coachVO.userID }">
 							<li class="coach"><img

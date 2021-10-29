@@ -34,25 +34,30 @@ public class CoachService {
 	}
 	
 	
-	public CoachVO updateCoach
-	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String userMobile,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
-		CoachVO coachVO = new CoachVO();
-		
-		coachVO.setUserID(userID);
-		coachVO.setCoachAccount(coachAccount);
-		coachVO.setCoachName(coachName);
-		coachVO.setCoachPassword(coachPassword);
-		coachVO.setCoachImg(coachImg);
-		coachVO.setUserMobile(userMobile);
-		coachVO.setCoachSex(coachSex);
-		coachVO.setCoachBirthday(coachBirthday);
-		coachVO.setCoachDescription(coachDescription);
-		coachVO.setCoachRegisteredDate(coachRegisteredDate);
-		coachVO.setCoachCertificate(coachCertificate);
-		coachVO.setReportedTimes(reportedTimes);
-		
+//	public CoachVO updateCoach
+//	(Integer userID,String coachAccount,String coachName,String coachPassword,byte[] coachImg,String userMobile,String coachSex,Date coachBirthday,String coachDescription,Date coachRegisteredDate,String coachCertificate,Integer reportedTimes) {
+//		CoachVO coachVO = new CoachVO();
+//		
+//		coachVO.setUserID(userID);
+//		coachVO.setCoachAccount(coachAccount);
+//		coachVO.setCoachName(coachName);
+//		coachVO.setCoachPassword(coachPassword);
+//		coachVO.setCoachImg(coachImg);
+//		coachVO.setUserMobile(userMobile);
+//		coachVO.setCoachSex(coachSex);
+//		coachVO.setCoachBirthday(coachBirthday);
+//		coachVO.setCoachDescription(coachDescription);
+//		coachVO.setCoachRegisteredDate(coachRegisteredDate);
+//		coachVO.setCoachCertificate(coachCertificate);
+//		coachVO.setReportedTimes(reportedTimes);
+//		
+//		dao.update(coachVO);
+//		
+//		return coachVO;
+//	}
+	
+	public CoachVO updateCoach(CoachVO coachVO) {
 		dao.update(coachVO);
-		
 		return coachVO;
 	}
 	
