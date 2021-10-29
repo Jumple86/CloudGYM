@@ -1,55 +1,7 @@
 body {
 	font-family: 微軟正黑體;
 }
-/* bar css begining */
-#bar {
-	height: 40px;
-	background-color: #5C37A1;
-	overflow: hidden;
-	position: fixed;
-	width: 100%;
-	z-index: 10;
-}
 
-#title {
-	float: left;
-	margin-left: 20px;
-	overflow: hidden;
-}
-
-img {
-	width: 35px;
-	margin-top: 3px;
-}
-
-.bar_li {
-	float: left;
-}
-
-a {
-	color: #fff;
-	text-decoration: none;
-	line-height: 40px;
-	margin-left: 10px;
-}
-
-#option {
-	float: right;
-	overflow: hidden;
-}
-
-.option {
-	float: left;
-	color: white;
-	line-height: 40px;
-	margin: 0 10px;
-	font-size: 14px;
-}
-
-.bi {
-	margin-top: 7px;
-}
-/* bar css end */
 #main_img {
 	width: 100%;
 	margin-top: 0;
@@ -63,6 +15,11 @@ a {
 	border: 1px solid black;
 	height: 1000px;
 	background-color: #31105E;
+	width: 100%;
+}
+
+#center2{
+	width: 100% auto;
 }
 
 #text1 {
@@ -82,8 +39,15 @@ a {
 }
 
 #video_pic_div {
-	width: 1300px;
+/* 	width: 1300px; */
+/* 	margin: 0 auto; */
+	/* 	max-width: 1600px; */
 	margin: 0 auto;
+	position: relative;
+    width: 100% auto;
+    height: 300px;
+/*     padding-bottom: 56.25%; */
+	padding-left: 5%;
 }
 
 .video_pic {
@@ -117,14 +81,27 @@ a {
 	color: #fff;
 }
 
-/* #coach_pic_div { */
-/* 	width: 1000px; */
-/* 	margin: 0 auto; */
-/* } */
 #coach_pic_div {
-	width: 1300px;
+/* 	max-width: 1600px; */
 	margin: 0 auto;
+	position: relative;
+    width: 100% auto;
+    height: 100px;
+/*     padding-bottom: 56.25%; */
+	padding-left: 5%;
 }
+
+/* .iframe { */
+/*     position: absolute; */
+/*     top: 0; */
+/*     left: 0; */
+/*     width: 100%; */
+/*     height: 100%; */
+/*     transform: scale(0.55); */
+/*     frameborder: 0;  */
+/*     scrolling: no; */
+/*     -webkit-transform: scale(0.8); //chrome */
+/* } */
 
 .coach_pic {
 	width: 250px;
@@ -153,6 +130,7 @@ a {
 	height: 250px;
 	background-color: #5C37A1;
 	padding-top: 80px;
+	width:100%;
 }
 
 p {
