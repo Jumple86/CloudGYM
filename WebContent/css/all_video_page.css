@@ -1,5 +1,5 @@
 body{
-    font-family: arial 微軟正黑體;
+    
 }
 
 #bar{
@@ -30,12 +30,23 @@ a{
     color: #fff;
     text-decoration: none;
     line-height: 40px;
-    margin-left: 10px;
+}
+
+a#CloudGYM{
+	margin-left: 10px;
+}
+
+i.bi-cart-fill span.-on{
+	display: none;
 }
  
 #option{
     float: right;
     overflow: hidden;
+}
+
+#option ul{
+    margin-right: 20px;
 }
  
 .option{
@@ -44,12 +55,14 @@ a{
     line-height: 40px;
     margin: 0 10px;
     font-size: 14px;
+    position: relative;
 }
 
-/* .bi{
+.bi{
     margin-top: 7px;
+}
 
-} */
+/***************************以上複製貼上****************************/
 
 #wrap{
     padding-top: 40px;
@@ -182,4 +195,33 @@ li.-on{
 
 i.-on{
     display: none;
+}
+
+/***************************以下複製貼上****************************/
+
+i.bi-cart-fill{
+    font-size: 25px;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+}
+
+i.bi-cart-fill span{
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    color:#ffffff;
+    font-size: 8px;
+    position: absolute;
+    top:0;
+    right:-3px;
+    font-family: arial;
+}
+
+i.bi:hover{
+    color:#bebebe;
 }

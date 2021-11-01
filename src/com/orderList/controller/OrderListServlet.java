@@ -20,7 +20,7 @@ public class OrderListServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
-		doPost(req, res);
+//		res.sendRedirect(req.getContextPath() + "/html/order/pay_page.jsp");
 	}
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
@@ -44,7 +44,7 @@ public class OrderListServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/html/back_end_order.jsp");
+							.getRequestDispatcher("/html/back_end/back_end_order.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -58,7 +58,7 @@ public class OrderListServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/html/back_end_order.jsp");
+							.getRequestDispatcher("/html/back_end/back_end_order.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -72,7 +72,7 @@ public class OrderListServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/html/back_end_order.jsp");
+							.getRequestDispatcher("/html/back_end/back_end_order.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -82,7 +82,7 @@ public class OrderListServlet extends HttpServlet {
 				System.out.println(orderNo);
 				req.setAttribute("orderNo", orderNo);
 				req.setAttribute("orderListVO", orderListVO);
-				String url = "/html/back_end_order_page.jsp";
+				String url = "/html/back_end/back_end_order_page.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -90,7 +90,7 @@ public class OrderListServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/html/back_end_order.jsp");
+						.getRequestDispatcher("/html/back_end/back_end_order.jsp");
 				failureView.forward(req, res);
 			}
 		}

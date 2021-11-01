@@ -31,12 +31,23 @@ a{
     color: #fff;
     text-decoration: none;
     line-height: 40px;
-    margin-left: 10px;
+}
+
+a#CloudGYM{
+	margin-left: 10px;
+}
+
+i.bi-cart-fill span.-on{
+	display: none;
 }
  
 #option{
     float: right;
     overflow: hidden;
+}
+
+#option ul{
+    margin-right: 20px;
 }
  
 .option{
@@ -45,11 +56,14 @@ a{
     line-height: 40px;
     margin: 0 10px;
     font-size: 14px;
+    position: relative;
 }
 
 .bi{
     margin-top: 7px;
 }
+
+/***************************以上複製貼上****************************/
 
 #main{
     padding-top: 40px;
@@ -119,7 +133,7 @@ div.comment h3{
 }
 
 span.star{
-    color: white;
+    color: black;
 }
 
 span.star:hover{
@@ -148,6 +162,18 @@ div.comment input{
     background-color: rgba(255, 255, 255, 0);
     border-radius: 0;
     outline: none;
+}
+
+div.disable{
+	width: 700px;
+    height: 395px;
+    position: absolute;
+    background-color: #272727;
+    text-align: center;
+}
+
+div.disable h3{
+	margin-top: 200px;
 }
 
 #right{
@@ -212,4 +238,66 @@ li.push a{
 .video_name{
     margin-top: 10px;
     font-size: 14px;
+}
+
+/***************************以下複製貼上****************************/
+
+i.-on{
+    display: none;
+}
+
+i.bi-cart-fill{
+    font-size: 25px;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+}
+
+i.bi-cart-fill span{
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    color:#ffffff;
+    font-size: 8px;
+    position: absolute;
+    top:0;
+    right:-3px;
+    font-family: arial;
+}
+
+i.bi:hover{
+    color:#bebebe;
+}
+
+/***********************/
+div.addmenu{
+    width: 230px;
+    position: absolute;
+    bottom: -130px;
+    left: 120px;
+    background-color: #EDE9F2;
+    color: black;
+    text-align: center;
+}
+
+div.addmenu h3{
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+div.addmenu ul{
+
+}
+
+div.addmenu li{
+    height: 30px;
+    line-height: 30px;
+}
+
+div.addmenu li:hover{
+    background-color: rgb(187, 187, 187);
 }
