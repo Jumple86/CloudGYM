@@ -234,15 +234,9 @@
 <%--                   <%@ include file="/pages/page2.file" %>                  --%>
                  <div class="page">
                   <%for(int i = 0; i < pageIndexArray.length; i++){%>
-<<<<<<< HEAD:WebContent/html/back_end_user.jsp
                   		<a href="<%=request.getContextPath()%>/html/back_end_user.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
                   	<%}%>
                   </div>    
-=======
-                    <a href="<%=request.getContextPath()%>/html/back_end_user.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
-                   <%}%>
-                  </div>   
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_user.jsp
             	</form>
             </div>
         </div>
