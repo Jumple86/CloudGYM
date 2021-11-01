@@ -88,13 +88,13 @@ public class AdminServlet extends HttpServlet {
 				System.out.println(vo.getVideoAuth());
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
-				String url = "/html/back_end_Admin.jsp";
+				String url = "/html/back_end/back_end_Admin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_Admin.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end/back_end_Admin.jsp");
 				failureView.forward(req, res);
 			}						
 		}
@@ -139,7 +139,7 @@ public class AdminServlet extends HttpServlet {
 				// 含有輸入格式錯誤的empVO物件,也存入req
 				if(!errorMsgs.isEmpty()) {
 					req.setAttribute("AdminVO" ,vo);
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_Admin_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end/back_end_Admin_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -149,14 +149,14 @@ public class AdminServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("adminVO", vo); // 資料庫取出的empVO物件,存入req
-				String url = "/html/back_end_Admin.jsp";
+				String url = "/html/back_end/back_end_Admin.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				/***************************其他可能的錯誤處理*************************************/
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_Admin_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end/back_end_Admin_page.jsp");
 				failureView.forward(req, res);
 			}
 		}

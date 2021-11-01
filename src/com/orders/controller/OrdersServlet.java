@@ -376,8 +376,8 @@ public class OrdersServlet extends HttpServlet {
 				UserService userSvc = new UserService();
 				UserVO userVO = userSvc.findByUserId(Integer.parseInt(userID));
 				String usermail = userVO.getUserAccount();
-				String subject = "購買成功通知";
-				String mailtext = "您已購買xxxxxxx";
+				String subject = "CloudGYM購買成功通知";
+				String mailtext = "您在CloudGYM的購買已完成，趕快一起動起來吧";
 				
 				sendMail(usermail, subject, mailtext);
 				

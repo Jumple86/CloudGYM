@@ -30,7 +30,10 @@ a{
     color: #fff;
     text-decoration: none;
     line-height: 40px;
-    margin-left: 10px;
+}
+
+a#CloudGYM{
+	margin-left: 10px;
 }
 
 i.bi-cart-fill span.-on{
@@ -87,7 +90,7 @@ i.bi-cart-fill span.-on{
 .info{
     display: inline-block;
     width: 800px;
-    height: 300px;
+    height: 200px;
     vertical-align: top;
     padding: 50px;
     box-sizing: border-box;
@@ -404,6 +407,10 @@ div.menu li.-on{
 
 i.-on{
     display: none;
+}
+
+i.bi:hover{
+    color:#bebebe;
 }
 
 i.bi-cart-fill{

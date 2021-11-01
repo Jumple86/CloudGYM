@@ -1,5 +1,6 @@
 body{
-    
+/*     color: white; */
+    background-color: #31105E;
 }
 
 #bar{
@@ -30,7 +31,14 @@ a{
     color: #fff;
     text-decoration: none;
     line-height: 40px;
-    margin-left: 10px;
+}
+
+a#CloudGYM{
+	margin-left: 10px;
+}
+
+i.bi-cart-fill span.-on{
+	display: none;
 }
  
 #option{
@@ -55,7 +63,7 @@ a{
     margin-top: 7px;
 }
 
-
+/***************************以上複製貼上****************************/
  
 #wrap{
     padding-top: 40px;
@@ -214,6 +222,12 @@ label{
     background-color: #5C37A1;
     color: #ffffff;
     margin: 15px 60px 0;
+}
+
+/***************************以下複製貼上****************************/
+
+i.-on{
+    display: none;
 }
 
 i.bi-cart-fill{

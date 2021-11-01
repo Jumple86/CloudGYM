@@ -96,7 +96,7 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 						System.out.println(message);
 					}
 					req.setAttribute("coachMenuVO", coachMenuVO);
-					RequestDispatcher failureView  = req.getRequestDispatcher("/html/buildMenu.jsp");
+					RequestDispatcher failureView  = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -113,13 +113,13 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/protected_coach/coach_overview.jsp");
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 				errorMsgs.add("資料有誤，無法新增菜單");
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/buildMenu.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
 				failureView.forward(req, res);
 			}
 		}

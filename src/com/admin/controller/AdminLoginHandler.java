@@ -43,7 +43,7 @@ public class AdminLoginHandler extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_admin.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_admin.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -56,7 +56,7 @@ public class AdminLoginHandler extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_admin.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_admin.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -72,7 +72,7 @@ public class AdminLoginHandler extends HttpServlet {
 					}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_admin.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_admin.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -97,12 +97,12 @@ public class AdminLoginHandler extends HttpServlet {
 				} catch (Exception ignored) {
 				}
 	
-				res.sendRedirect(req.getContextPath() + "/html/back_end_Admin.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+				res.sendRedirect(req.getContextPath() + "/html/back_end/back_end_Admin.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/login_admin.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_admin.jsp");
 				failureView.forward(req, res);
 			}
 		}

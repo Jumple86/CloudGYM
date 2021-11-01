@@ -10,6 +10,7 @@
 		<welcome-file>default.html</welcome-file>
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>main_page.jsp</welcome-file>
 	</welcome-file-list>
 
 	<servlet>
@@ -145,7 +146,7 @@
 		<servlet-name>SubListServlet</servlet-name>
 		<url-pattern>/html/sublist.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>VideoServleta</servlet-name>
 		<servlet-class>com.video.controller.VideoServlet</servlet-class>
@@ -172,7 +173,7 @@
 		<servlet-name>Reader</servlet-name>
 		<url-pattern>/Reader</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ReportServlet</servlet-name>
 		<servlet-class>com.report.controller.ReportServlet</servlet-class>
@@ -181,7 +182,7 @@
 		<servlet-name>ReportServlet</servlet-name>
 		<url-pattern>/report/report.do</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ReviewServlet</servlet-name>
 		<servlet-class>com.review.controller.ReviewServlet</servlet-class>
@@ -199,13 +200,67 @@
 		<url-pattern>/html/orderList.do</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>MenuAndVideoServlet</servlet-name>
+		<servlet-class>com.menuAndVideo.controller.MenuAndVideoServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MenuAndVideoServlet</servlet-name>
+		<url-pattern>/userMenuAndVideo/userMenu.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UserMainPageServlet</servlet-name>
+		<servlet-class>com.userMainPage.controller.UserMainPageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserMainPageServlet</servlet-name>
+		<url-pattern>/userMainPage/userInfo.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UserMenuListPageServlet</servlet-name>
+		<servlet-class>com.userMenuListPage.controller.UserMenuListPageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserMenuListPageServlet</servlet-name>
+		<url-pattern>/userMenuListPage/userMenuList.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>reader</servlet-name>
+		<servlet-class>com.menuAndVideo.controller.Reader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>reader</servlet-name>
+		<url-pattern>/reader</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>VideoReader</servlet-name>
+		<servlet-class>com.userMenuListPage.controller.VideoReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VideoReader</servlet-name>
+		<url-pattern>/VideoReader</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CustomMenuServlet</servlet-name>
+		<servlet-class>com.customMenu.controller.CustomMenuServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CustomMenuServlet</servlet-name>
+		<url-pattern>/customMenu/customMenu.do</url-pattern>
+	</servlet-mapping>
+
 	<filter>
 		<filter-name>loginFilterUser</filter-name>
 		<filter-class>filters.LoginFilterUser</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilterUser</filter-name>
-		<url-pattern>/protected_user/*</url-pattern>
+		<url-pattern>/html/user/protected_user/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
@@ -219,14 +274,14 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>loginFilterCoach</filter-name>
-		<url-pattern>/protected_coach/*</url-pattern>
+		<url-pattern>/html/coach/protected_coach/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 		<dispatcher>ASYNC</dispatcher>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>loginFilterAdmin</filter-name>
 		<filter-class>filters.LoginFilterAdmin</filter-class>

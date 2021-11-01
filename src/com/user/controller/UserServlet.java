@@ -128,7 +128,7 @@ public class UserServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("userVO", userVO); // 含有輸入格式錯誤的userVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/sign_up_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/sign_up_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -138,14 +138,14 @@ public class UserServlet extends HttpServlet {
 						userRegisterDate, userReportedTimes);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/html/login_user.jsp";
+				String url = "/html/login/login_user.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交login_user.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/sign_up_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/login/sign_up_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
