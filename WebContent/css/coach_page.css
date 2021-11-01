@@ -307,18 +307,18 @@ li.last{
     margin-right: 0;
 }
 
-sub{
+#fuck{
     margin-top: 30px;
 }
 
-.sub ul{
+#fuck ul{
     text-align: center;
     /* padding-left: 31px; */
     margin-top: 30px;
     margin-left: 49px;
 }
 
-.sub li{
+#fuck li{
     width: 300px;
     height: 350px;
     display: inline-block;
@@ -333,7 +333,7 @@ sub{
     text-align: center;
 }
 
-.sub p{
+#fuck p{
     margin-top: 20px;
     text-align: center;
 }

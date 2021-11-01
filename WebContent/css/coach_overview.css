@@ -104,6 +104,18 @@ div.left a{
     border-radius: 15px;
 }
 
+div.left span{
+	display: inline-block;
+    margin-top: 40px;
+    width: 100px;
+    height: 40px;
+    border: none;
+    background-color: rgb(143, 143, 143);
+    color: white;
+    border-radius: 15px;
+    line-height: 40px;
+}
+
 div.right{
     display: inline-block;
     padding-top: 50px;
