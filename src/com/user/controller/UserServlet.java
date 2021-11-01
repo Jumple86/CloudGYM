@@ -75,11 +75,13 @@ public class UserServlet extends HttpServlet {
 				}
 
 				String userPassword = req.getParameter("userPassword").trim();
-				String passwordReg = "^[(a-zA-Z0-9_)]{6}$";
+				String passwordReg = "^[(a-zA-Z0-9_)]{6,40}$";
 				if (userPassword == null || userPassword.trim().length() == 0) {
 					errorMsgs.add("密碼: 請勿空白!");
-				} else if (!userPassword.trim().matches(passwordReg)) {
+				} else if (!userPassword.trim().matches(passwordReg) && userPassword.trim().length() <= 40) {
 					errorMsgs.add("密碼只能是英文字母,數字,且長度不能小於6碼!");
+				} else if (!userPassword.trim().matches(passwordReg) && userPassword.trim().length() > 40) {
+					errorMsgs.add("密碼長度過長,請勿大於40碼");
 				}
 
 				String passwordConfirm = req.getParameter("passwordConfirm").trim();

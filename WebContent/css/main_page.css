@@ -75,6 +75,11 @@ i.bi-cart-fill span.-on{
 	border: 1px solid black;
 	height: 1000px;
 	background-color: #31105E;
+	width: 100%;
+}
+
+#center2{
+	width: 100% auto;
 }
 
 #text1 {
@@ -94,8 +99,15 @@ i.bi-cart-fill span.-on{
 }
 
 #video_pic_div {
-	width: 1300px;
+/* 	width: 1300px; */
+/* 	margin: 0 auto; */
+	/* 	max-width: 1600px; */
 	margin: 0 auto;
+	position: relative;
+    width: 100% auto;
+    height: 300px;
+/*     padding-bottom: 56.25%; */
+	padding-left: 5%;
 }
 
 .video_pic {
@@ -129,14 +141,27 @@ i.bi-cart-fill span.-on{
 	color: #fff;
 }
 
-/* #coach_pic_div { */
-/* 	width: 1000px; */
-/* 	margin: 0 auto; */
-/* } */
 #coach_pic_div {
-	width: 1300px;
+/* 	max-width: 1600px; */
 	margin: 0 auto;
+	position: relative;
+    width: 100% auto;
+    height: 100px;
+/*     padding-bottom: 56.25%; */
+	padding-left: 5%;
 }
+
+/* .iframe { */
+/*     position: absolute; */
+/*     top: 0; */
+/*     left: 0; */
+/*     width: 100%; */
+/*     height: 100%; */
+/*     transform: scale(0.55); */
+/*     frameborder: 0;  */
+/*     scrolling: no; */
+/*     -webkit-transform: scale(0.8); //chrome */
+/* } */
 
 .coach_pic {
 	width: 250px;
@@ -165,6 +190,7 @@ i.bi-cart-fill span.-on{
 	height: 250px;
 	background-color: #5C37A1;
 	padding-top: 80px;
+	width:100%;
 }
 
 p {
