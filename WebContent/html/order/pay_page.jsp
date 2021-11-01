@@ -16,11 +16,19 @@
 
 	String userID = null;
 	try{
+<<<<<<< HEAD:WebContent/html/pay_page.jsp
+		userID = session.getAttribute("userID").toString(); 
+	}catch(Exception e){
+		userID = null;
+	}
+
+=======
 		userID = session.getAttribute("userID").toString();
 	}catch(Exception e){
 		userID = null;
 	}
 			
+>>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/order/pay_page.jsp
 	List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
 	
 	int price = 0;
