@@ -76,4 +76,9 @@ public class VideoService {
 	public VideoVO findByPrimaryKeyNoVideo(Integer videoID) {
 		return dao.findByPrimaryKeyNoVideo(videoID);
 	}
+	
+	public List<VideoVO> getRecommendedVideos(){
+		return dao.recommendedVideos();
+	}
+	
 }
