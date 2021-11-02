@@ -549,6 +549,15 @@ i.bi:hover {
 			}
 
 		})
+		
+	    var cartCount = ${cartCount};
+	    if(cartCount == 0){
+	    	$("i.bi-cart-fill span").addClass("-on");
+	    	$("i.bi-cart-fill span").attr("style", "display:none");
+	    }else{
+	    	$("i.bi-cart-fill span").removeClass("-on");
+	    	$("i.bi-cart-fill span").attr("style", "");
+	    }
 	})
 </script>
 </body>
