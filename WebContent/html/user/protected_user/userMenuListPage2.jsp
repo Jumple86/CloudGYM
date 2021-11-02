@@ -301,6 +301,38 @@ i.bi:hover{
 #menu li {
 	list-style-type: none;
 }
+
+.return {
+	position: absolute;
+	bottom: 50px;
+	left: 150px;
+}
+
+.return:link, .return:visited {
+	background-color: none;
+	border: 1px solid white;
+	color: white;
+	padding: 3px 12px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 5.5%;
+}
+
+.return:hover, .return:active {
+	background-color: white;
+	color: #31105E;
+}
+
+.listeffect:hover, .listeffect:active{
+	background-color: white;
+	color: #31105E !important;
+}
+
+.active{
+ 	background-color: white !important;
+ 	color: #31105E !important;
+}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
@@ -396,13 +428,13 @@ i.bi:hover{
 				<p style="font-weight: bold;">${menuTitle}</p>
 				<ul class="nav flex-column nav-pills nav-fills">
 					<c:forEach var="list" items="${menulist}">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
+						<li class="nav-item"><a class="nav-link listeffect ${list.listID == listID ? "active": "" }" aria-current="page"
 							href="userMenuList.do?action=playVideo&id=${list.videoID}&menuTitle=${menuTitle}&listID=${list.listID}"
 							style="color: white;">${videoSvc.findByPrimaryKey(list.videoID).title}</a>
 						</li>
 					</c:forEach>
 				</ul>
-				<button type="button" class="btn btn-outline-light"><a href="userMenuListPage1.jsp">回菜單總覽</a></button>
+				<a class="return" href="userMenuListPage1.jsp">返回菜單總覽</a>
 			</div>
 			<div class="col-6 seperate">
 				<div>
@@ -417,23 +449,34 @@ i.bi:hover{
 							<p>${play.title}</p>
 						</div>
 						<p>${play.intro}</p>
-						${process}
 					</div>
 				</div>
 			</div>
-			<div class="col-3 right-zone">
+<div class="col-3 right-zone">
 				<br>
-				<c:forEach var="actions" items="${actions}">
-					<ul>
-						<li>${actions.action}</li>
-						<li><c:forEach begin="1" end="${actions.sets}">
-						
-								<input type="checkbox" style="width: 0; height: 0;">
-									<i class="far fa-check-circle"></i>${process[0].processNo}
+				<c:if test="${fn:length(actions) > 0}">
+				<c:forEach var="actions" items="${actions}" begin="0" end="${actions.size()-1}" varStatus="inputno">
+					<ul class="buttontest">
+						<li style="margin-bottom: 7px;">${actions.action}</li>
+						<li><c:forEach begin="0" end="${actions.sets-1}" varStatus="no">
+								<script>
+									var inputno = ${processSvc.getByActNo(actions.actNo).processNo}
+								</script>
+								<%-- <input value="${processSvc.getByActNo(actions.actNo).processNo}" id="${inputno.count}${processSvc.getByActNo(actions.actNo).processNo}" type="checkbox" style="width: 0; height: 0;"> --%>
+								
+								<input
+									value="${processSvc.getByListID(listID).get(inputno.index).processNo}"
+									id="${no.count}${processSvc.getByActNo(actions.actNo).processNo}"
+									type="checkbox" style="width: 0; height: 0;">
+								<label
+									for="${no.count}${processSvc.getByActNo(actions.actNo).processNo}">
+									<i class="far fa-check-circle"></i>
+								</label>
 								</input>
 							</c:forEach></li>
 					</ul>
 				</c:forEach>
+				</c:if>
 			</div>
 		</div>
 	</div>

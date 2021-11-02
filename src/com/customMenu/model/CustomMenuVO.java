@@ -9,7 +9,14 @@ public class CustomMenuVO {
 	private String content;
 	private String title;
 	private Timestamp buildTime;
+	private Integer completed;
 	
+	public Integer getCompleted() {
+		return completed;
+	}
+	public void setCompleted(Integer completed) {
+		this.completed = completed;
+	}
 	public Integer getMenuID() {
 		return menuID;
 	}

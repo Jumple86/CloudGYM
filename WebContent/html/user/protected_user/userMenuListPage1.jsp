@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="com.customMenu.model.*"%>
 
 <jsp:useBean id="menuSvc" scope="page"
 	class="com.customMenu.model.CustomMenuService" />
@@ -56,6 +57,15 @@
 /* 	List<CustomMenuListVO> menulist = (List<CustomMenuListVO>) request.getAttribute("menulist");
 	System.out.println("jsp" + menulist);
 	request.setAttribute("menulist", menulist); */
+	
+	CustomMenuService menusvc = new CustomMenuService();
+	List<CustomMenuVO> percentlist = menusvc.getAll(1003);
+	Integer percentlistsize = percentlist.size();
+	Integer total = 0;
+	for(int i = 0; i < percentlistsize; i++){
+		total += percentlist.get(i).getCompleted();
+	}
+	Integer percent = (total/percentlistsize);
 	
 %>
 <!DOCTYPE html>
@@ -278,6 +288,26 @@ i.bi-cart-fill span.-on{
 	list-style-type: none;
 }
 
+.listeffect{
+	color:white;
+}
+
+.listeffect:hover, .listeffect:active{
+	background-color: white;
+	color: #31105E;
+}
+
+}
+.listeffect-click:hover, .listeffect-click:active{
+	background-color: white;
+	color: #31105E;
+}
+
+.active{
+ 	background-color: white !important;
+ 	color: #31105E !important;
+}
+
 /****************** bar css end ******************/
 /***************************以下複製貼上****************************/
 
@@ -406,7 +436,7 @@ i.bi:hover{
 				<p style="font-weight: bold;">自訂菜單</p>
 				<ul class="nav flex-column nav-pills nav-fills">
 					<c:forEach var="customMenuVO" items="${menuSvc.getAll(userID)}">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
+						<li class="nav-item"><a class="nav-link listeffect ${customMenuVO.menuID == location ? "active": ""}" aria-current="page"
 							href="<%=request.getContextPath()%>/userMenuListPage/userMenuList.do?action=getAll&menuID=${customMenuVO.menuID}"
 							style="color: white;">${customMenuVO.title}</a></li>
 					</c:forEach>
@@ -419,7 +449,7 @@ i.bi:hover{
 							for (Integer itemid : itemIDs) {
 								if (itemid.toString().startsWith("6")) {
 					%>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link listeffect ${customMenuVO.menuID == location ? "active": ""}" aria-current="page"
 						href="userMenuList.do?action=getCoach&itemID=<%=itemid%>"
 						style="color: white;"><%=coachSvc.getByMenuID(itemid).getMenuName()%></a></li>
 					<%
@@ -439,7 +469,7 @@ i.bi:hover{
 						</div>
 						<div>
 							<p>Progress</p>
-							<span>20%</span> <span>1/5</span>
+							<span>${percent} %</span> 
 							<p>completed</p>
 						</div>
 					</div>
@@ -468,7 +498,7 @@ i.bi:hover{
 				</div>
 			</c:if>
 
-			<c:if test="${coachlist != null}">
+			<%-- <c:if test="${coachlist != null}">
 				<div class="col-4 seperate">
 					<div class="progress-section">
 						<div>
@@ -503,7 +533,7 @@ i.bi:hover{
 						</div>
 					</c:forEach>
 				</div>
-			</c:if>
+			</c:if> --%>
 		</div>
 	</div>
 <script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>

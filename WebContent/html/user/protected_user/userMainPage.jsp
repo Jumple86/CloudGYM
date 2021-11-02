@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="com.customMenu.model.*" %>
 <jsp:useBean id="menuSvc" scope="page" class="com.customMenu.model.CustomMenuService" />
 <jsp:useBean id="rightsSvc" scope="page" class="com.userRights.model.UserRightsService" />
 <jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService" />
@@ -51,6 +52,15 @@
 			itemIDs.add(itemID);
 		}
 	}
+	
+	CustomMenuService menusvc = new CustomMenuService();
+	List<CustomMenuVO> percentlist = menusvc.getAll(1003);
+	Integer percentlistsize = percentlist.size();
+	Integer total = 0;
+	for(int i = 0; i < percentlistsize; i++){
+		total += percentlist.get(i).getCompleted();
+	}
+	Integer percent = (total/percentlistsize);
 %>
 
 <!DOCTYPE html>
@@ -213,6 +223,10 @@ i.bi-cart-fill span.-on{
 
 .menu {
 	padding-bottom: 3%;
+}
+
+.general{
+	color: grey;
 }
 
 /***************************以下複製貼上****************************/
@@ -404,11 +418,11 @@ i.bi:hover{
 	</div>
 	<div class="container page">
 		<div class="row first-row">
-			<div class="col-4 overview">
+			<div class="col-4 overview rounded">
 				<h5>我的總覽</h5>
-				<p>菜單：10</p>
-				<p>運動歷程完成度:80%</p>
-				<p>收藏數：<%=collectionlist.size() %></p>
+				<p class="general">個人菜單數：${fn:length(menuSvc.getAll(userID))}</p>
+				<p class="general">運動歷程完成度:<%= percent%>%</p>
+				<p class="general">收藏數：<%=collectionlist.size() %></p>
 			</div>
 			<div class="col-8 info">
 				<ul>
@@ -432,13 +446,14 @@ i.bi:hover{
 						</FORM>
 					</li>
 					<li>
-						<FORM METHOD="post"
+						<%-- <FORM METHOD="post"
 							ACTION="<%=request.getContextPath()%>/userMainPage/userInfo.do"
 							style="margin-bottom: 0px;">
 							<input type="submit" value="我的文章" style="background-color: transparent; border: none; color: white;"> <input type="hidden"
 								name="user" value="${userID}"> <input
 								type="hidden" name="action" value="update_prepare">
-						</FORM>
+						</FORM> --%>
+						<a class="" href="/html/article/ArticleList_MyPost.jsp">我的文章</a>
 					</li>
 				</ul>
 			</div>
@@ -463,8 +478,8 @@ i.bi:hover{
 
 							<div class="progress bar">
 								<div class="progress-bar bg-warning" role="progressbar"
-									style="width: 75%;" aria-valuenow="75" aria-valuemin="0"
-									aria-valuemax="100">75%</div>
+									style="width: ${customMenuVO.completed}%;" aria-valuenow="75" aria-valuemin="0"
+									aria-valuemax="100">${customMenuVO.completed}%</div>
 							</div>
 
 						</li>
