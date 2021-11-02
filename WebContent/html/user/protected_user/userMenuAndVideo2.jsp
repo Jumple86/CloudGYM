@@ -543,10 +543,7 @@ div.item div.main:hover {
 	</div>
 	<script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
 	<script>
-		var cartCount = $
-		{
-			cartCount
-		};
+		var cartCount = ${cartCount};
 		if (cartCount == 0) {
 			$("i.bi-cart-fill span").addClass("-on");
 			$("i.bi-cart-fill span").attr("style", "display:none");

@@ -459,7 +459,7 @@ i.bi:hover{
 								type="hidden" name="action" value="update_prepare">
 						</FORM> --%>
 						<FROM>
-						<a class="" href="/html/article/ArticleList_MyPost.jsp">我的文章</a>
+						<a class="" href="<%=request.getContextPath() %>/html/article/ArticleList_MyPost.jsp">我的文章</a>
 						</FROM>
 					</li>
 				</ul>

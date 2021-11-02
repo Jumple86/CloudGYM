@@ -22,9 +22,9 @@
 	String publishTime = sd.format(date);
 	pageContext.setAttribute("publishTime", publishTime);
 	
-	List<VideoVO> list1 = videoSvc.getByPositionNo(3);
+	List<VideoVO> list1 = videoSvc.getByPositionNo(2);
 	request.setAttribute("list1", list1);
-	List<VideoVO> list2 = videoSvc.getByPositionNo(4);
+	List<VideoVO> list2 = videoSvc.getByPositionNo(5);
 	request.setAttribute("list2", list2);
 
 	String oneVideoPage = request.getRequestURI() + "?videoID=" + videoID;

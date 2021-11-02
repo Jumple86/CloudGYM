@@ -1,67 +1,7 @@
-body{
-    
+body {
+	font-family: 微軟正黑體;
 }
 
-#bar{
-    height: 40px;
-    background-color: #5C37A1;
-    overflow: hidden;
-    position:fixed;
-    width: 100%;
-    z-index: 10;
-}
- 
-#title{
-    float: left;
-    margin-left: 20px;
-    overflow: hidden;
-}
- 
-img{
-    width: 35px;
-    margin-top: 3px;
-}
- 
-.bar_li{
-    float: left;
-}
- 
-a{
-    color: #fff;
-    text-decoration: none;
-    line-height: 40px;
-}
-
-a#CloudGYM{
-	margin-left: 10px;
-}
-
-i.bi-cart-fill span.-on{
-	display: none;
-}
- 
-#option{
-    float: right;
-    overflow: hidden;
-}
-
-#option ul{
-    margin-right: 20px;
-}
- 
-.option{
-    float: left;
-    color: white;
-    line-height: 40px;
-    margin: 0 10px;
-    font-size: 14px;
-    position: relative;
-}
-
-.bi{
-    margin-top: 7px;
-}
-/* bar css end */
 #main_img {
 	width: 100%;
 	margin-top: 0;
@@ -84,12 +24,17 @@ i.bi-cart-fill span.-on{
 
 #text1 {
 	overflow: hidden;
-	width: 1000px;
+	max-width: 1200px;
 	margin: 50px auto 20px;
 }
 
 #hot_video {
 	float: left;
+	color: #fff;
+}
+
+#all_videos {
+	float: right;
 	color: #fff;
 }
 
@@ -136,7 +81,7 @@ i.bi-cart-fill span.-on{
 }
 
 #coach_rank {
-	width: 1000px;
+	width: 1200px;
 	margin: 50px auto 20px;
 	color: #fff;
 }
@@ -202,35 +147,4 @@ p {
 
 #address {
 	margin-top: 70px;
-}
-
-i.-on{
-    display: none;
-}
-
-i.bi-cart-fill{
-    font-size: 25px;
-    position: absolute;
-    top: -6px;
-    left: -6px;
-}
-
-i.bi-cart-fill span{
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    color:#ffffff;
-    font-size: 8px;
-    position: absolute;
-    top:0;
-    right:-3px;
-    font-family: arial;
-}
-
-i.bi:hover{
-    color:#bebebe;
 }

@@ -23,16 +23,16 @@
 <body>
 
 	<div id="login">
-		<form method="post" action="<%=request.getContextPath()%>/html/AdminLoginHandler">
-			<h2>ºÞ²zªÌµn¤J</h2>
-			<input type="text" name="adminNo" placeholder="½Ð¿é¤JºÞ²zªÌ±b¸¹" id="adminNo"
+		<form method="post" action="<%=request.getContextPath()%>/AdminLoginHandler">
+			<h2>ï¿½Þ²zï¿½Ìµnï¿½J</h2>
+			<input type="text" name="adminNo" placeholder="ï¿½Ð¿ï¿½Jï¿½Þ²zï¿½Ì±bï¿½ï¿½" id="adminNo"
 			value="9001"> 
 			<br> 
-			<input type="password" name="password" placeholder="½Ð¿é¤J±K½X" id="password"
+			<input type="password" name="password" placeholder="ï¿½Ð¿ï¿½Jï¿½Kï¿½X" id="password"
 			value="123"> 
 			<br> 
 			
-			<%-- ¿ù»~ªí¦C --%>
+			<%-- ï¿½ï¿½ï¿½~ï¿½ï¿½ï¿½C --%>
 				<c:if test="${not empty errorMsgs}">
 					<c:forEach var="message" items="${errorMsgs}">
 						<a id="errormsg">${message}</a>

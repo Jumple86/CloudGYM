@@ -203,19 +203,24 @@ public class UserAuthServlet extends HttpServlet {
 						userAuthVO.setStartTime(startTime);				
 						userAuthVO = userAuthSvc.updateUserAuth(userAuthVO);						
 					}
-				}
-
-				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				HttpSession session = req.getSession();
-				Integer whichPage = (Integer) session.getAttribute("whichPage");
-				RequestDispatcher successView = null;
-				String url = req.getParameter("page");
-				if ("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage=" + whichPage);
-					successView.forward(req, res);
-				} else {
-					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage=" + whichPage);
-					successView.forward(req, res);
+											
+					System.out.println(userAuthVO.getUserID());
+					System.out.println(userAuthVO.getBanShopping());
+				
+				}				
+			}
+											
+			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
+			RequestDispatcher successView = null;
+			String url = req.getParameter("page");
+				if("usermanager".equals(url)) {
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
+					successView.forward(req, res);					
+				}else {
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
+					successView.forward(req, res);					
 				}
 			
 			/***************************其他可能的錯誤處理*************************************/
@@ -264,19 +269,23 @@ public class UserAuthServlet extends HttpServlet {
 						userAuthVO.setStartTime(startTime);				
 						userAuthVO = userAuthSvc.updateUserAuth(userAuthVO);						
 					}
-				}
-
-				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
-				HttpSession session = req.getSession();
-				Integer whichPage = (Integer) session.getAttribute("whichPage");
-				RequestDispatcher successView = null;
-				String url = req.getParameter("page");
-				if ("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage=" + whichPage);
-					successView.forward(req, res);
-				} else {
-					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage=" + whichPage);
-					successView.forward(req, res);
+											
+					System.out.println(userAuthVO.getUserID());
+					System.out.println(userAuthVO.getBanVideo());				
+				}				
+			}
+											
+			/***************************3.修改完成,準備轉交(Send the Success view)*************/
+			HttpSession session = req.getSession();
+			Integer whichPage = (Integer)session.getAttribute("whichPage");
+			RequestDispatcher successView = null;
+			String url = req.getParameter("page");
+				if("usermanager".equals(url)) {
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
+					successView.forward(req, res);					
+				}else {
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
+					successView.forward(req, res);					
 				}
 			
 			/***************************其他可能的錯誤處理*************************************/
