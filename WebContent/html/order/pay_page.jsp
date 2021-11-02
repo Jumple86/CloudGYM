@@ -16,11 +16,11 @@
 
 	String userID = null;
 	try{
-		userID = session.getAttribute("userID").toString();
+		userID = session.getAttribute("userID").toString(); 
 	}catch(Exception e){
 		userID = null;
 	}
-			
+
 	List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
 	
 	int price = 0;

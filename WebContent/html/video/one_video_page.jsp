@@ -261,11 +261,14 @@
 <!--                         <input type="text"> -->
                     </form>
                 </div>
+                <%if(!videoSvc.findByPrimaryKey(videoID).getListed()){%>
+                	<div class="disable" style="z-index:8;"><h3>此影片已被下架</h3></div>
+                <%} else{%>
                 <%if(videoSvc.findByPrimaryKey(videoID).getPrice() != 0){
                 	if(items2.contains(videoID)){%>
                 	<%}else{%>
                 	<div class="disable" style="z-index:8;"><h3>需先購買此影片才可以觀看</h3></div>
-                <%}} %>
+                <%}}} %>
                 
 <!--                 <img src="../img/work_out_1.jpg" alt="" id="video_img"> -->
                 <video src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoID}" width="700" controls preload="metadata">
@@ -338,11 +341,19 @@
 
             <div id="right">
             <jsp:useBean id="coachSvc" scope="page" class="com.coach.model.CoachService"/>
-                <p id="coach_name">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachName }</p>
-                <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${videoSvc.findByPrimaryKey(videoID).userID}"
-                    alt="" id="coach_photo">
-                <div id="line"></div>
-                <p id="coach_info">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachDescription}</p>
+            	<form action="<%=request.getContextPath()%>/coach/coach.do?">
+            		<input type="submit" id="gotocoach" style="display:none;">
+            		<label for="gotocoach">
+            			<img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${videoSvc.findByPrimaryKey(videoID).userID}"
+	                   		alt="" id="coach_photo">
+            		</label>
+            		<p id="coach_name">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachName }</p>
+	                
+	                <div id="line"></div>
+	                <p id="coach_info">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachDescription}</p>
+	                <input type="hidden" name="action" value="gotocoach">
+	                <input type="hidden" name="userID" value="${videoSvc.findByPrimaryKey(videoID).userID}">
+            	</form>
             </div>
         </div>
 
