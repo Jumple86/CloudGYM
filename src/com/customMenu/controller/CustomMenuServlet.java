@@ -3,12 +3,14 @@ package com.customMenu.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.customMenu.model.*;
 import com.customMenuList.model.*;
 import com.google.gson.Gson;
 
@@ -54,6 +56,51 @@ public class CustomMenuServlet extends HttpServlet {
 				}
 			}
 			
+		}
+		
+		if("addmenu".equals(action)) {
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			
+			try {
+//				String str = req.getParameter("userID");
+//				System.out.println(str);
+				Integer userID = Integer.parseInt(req.getParameter("userID"));
+				String location = (String) req.getSession().getAttribute("oneVideoPage");
+				
+				String title = req.getParameter("title");
+				if(title.trim().length() == 0) {
+					errorMsgs.add("請輸入菜單名稱");
+				}
+				
+				String content = req.getParameter("content");
+				if(content.trim().length() == 0) {
+					errorMsgs.add("請輸入菜單簡介");
+				}
+				
+				
+				CustomMenuVO customMenuVO = new CustomMenuVO();
+				customMenuVO.setUserID(userID);
+				customMenuVO.setTitle(title);
+				customMenuVO.setContent(content);
+				
+				if(!errorMsgs.isEmpty()) {
+					req.setAttribute("customMenuVO", customMenuVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/video/addmenu.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+				
+				/*******************************************************************************/
+				
+				CustomMenuService custommenuSvc = new CustomMenuService();
+				custommenuSvc.add(userID, content, title);
+				res.sendRedirect(location);
+			}catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		}
 		
 	}

@@ -72,30 +72,10 @@ public class UserAuthServlet extends HttpServlet {
 
 //					System.out.println(vo.getUserID().getClass().getSimpleName());												
 
-<<<<<<< HEAD
-					System.out.println(userAuthVO.getUserID());
-					System.out.println(userAuthVO.getBanUsers());
-				
-				}				
-			}
-											
-			/***************************3.修改完成,準備轉交(Send the Success view)*************/
-			HttpSession session = req.getSession();
-			Integer whichPage = (Integer)session.getAttribute("whichPage");
-			RequestDispatcher successView = null;
-			String url = req.getParameter("page");
-				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-=======
 						System.out.println(userAuthVO.getUserID());
 						System.out.println(userAuthVO.getBanUsers());
 
 					}
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3
 				}
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -162,27 +142,6 @@ public class UserAuthServlet extends HttpServlet {
 						System.out.println(userAuthVO.getBanComment());
 
 					}
-<<<<<<< HEAD
-											
-					System.out.println(userAuthVO.getUserID());
-					System.out.println(userAuthVO.getBanComment());
-				
-				}				
-			}
-											
-			/***************************3.修改完成,準備轉交(Send the Success view)*************/
-			HttpSession session = req.getSession();
-			Integer whichPage = (Integer)session.getAttribute("whichPage");
-			RequestDispatcher successView = null;
-			String url = req.getParameter("page");
-				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-=======
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3
 				}
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -250,27 +209,6 @@ public class UserAuthServlet extends HttpServlet {
 						System.out.println(userAuthVO.getBanShopping());
 
 					}
-<<<<<<< HEAD
-											
-					System.out.println(userAuthVO.getUserID());
-					System.out.println(userAuthVO.getBanShopping());
-				
-				}				
-			}
-											
-			/***************************3.修改完成,準備轉交(Send the Success view)*************/
-			HttpSession session = req.getSession();
-			Integer whichPage = (Integer)session.getAttribute("whichPage");
-			RequestDispatcher successView = null;
-			String url = req.getParameter("page");
-				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-=======
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3
 				}
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
@@ -337,26 +275,6 @@ public class UserAuthServlet extends HttpServlet {
 						System.out.println(userAuthVO.getUserID());
 						System.out.println(userAuthVO.getBanVideo());
 					}
-<<<<<<< HEAD
-											
-					System.out.println(userAuthVO.getUserID());
-					System.out.println(userAuthVO.getBanVideo());				
-				}				
-			}
-											
-			/***************************3.修改完成,準備轉交(Send the Success view)*************/
-			HttpSession session = req.getSession();
-			Integer whichPage = (Integer)session.getAttribute("whichPage");
-			RequestDispatcher successView = null;
-			String url = req.getParameter("page");
-				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
-					successView.forward(req, res);					
-=======
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3
 				}
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
