@@ -72,7 +72,7 @@
 								<input type="hidden" name="id" value="${adminNo}">
 								<button class="confirm" type="submit" name="action"
 									value="update">確認</button>
-								<a href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">
+								<a href="<%=request.getContextPath()%>/html/back_end/back_end_Admin.jsp">
 									<button class="cancel" type="button">取消</button>
 								</a>
 							</div>

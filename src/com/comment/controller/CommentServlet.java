@@ -98,7 +98,7 @@ public class CommentServlet extends HttpServlet {
 					successView.forward(req, res);
 					return;
 				}else
-					successView = req.getRequestDispatcher("/html/back_end_post_page.jsp?postID="+ postID);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_post_page.jsp?postID="+ postID);
 					successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/

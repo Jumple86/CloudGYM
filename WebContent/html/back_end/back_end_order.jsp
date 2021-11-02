@@ -31,17 +31,10 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD:WebContent/html/back_end_order.jsp
 <title>訂單查詢</title>
-<link rel="stylesheet" href="../css/reset.css">
-<link rel="stylesheet" href="../css/back_end_index.css">
-<link rel="stylesheet" href="../css/back_end_order.css">
-=======
-<title>訂單明細管理</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back_end_index.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back_end_order.css">
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_order.jsp
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/datetimepicker/jquery.datetimepicker.css" />
 </head>
 <body>
@@ -77,13 +70,8 @@
 				</c:if>
 				</li>
 				<li>
-<<<<<<< HEAD:WebContent/html/back_end_order.jsp
-				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單查詢</span></a>
-=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_order.jsp
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
@@ -131,7 +119,7 @@
 				</li>
 			</ul>
 		</div>
-		<p>訂單明細管理</p>
+		<p>訂單查詢</p>
 		<div id="right">
 			<div class="main">
 			<%-- 錯誤表列 --%>
@@ -150,11 +138,7 @@
                   <input type="hidden" name="action" value="getbyOrderNO">
                   <input type="submit" value="查詢">
               </FORM>
-<<<<<<< HEAD:WebContent/html/back_end_order.jsp
-<!--               <FORM METHOD="post" ACTION="orderList.do"> -->
-=======
 <%--               <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/html/orderList.do"> --%>
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_order.jsp
 <!--                   <b>查詢訂單日期:</b> -->
 <!--                   <input id="start_date" type="text" name="builtDate"> -->
 <!--                   <input type="hidden" name="action" value="getbyDate"> -->
