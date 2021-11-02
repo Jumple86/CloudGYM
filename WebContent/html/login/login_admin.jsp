@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.user.model.*"%>
 <%
@@ -24,15 +25,15 @@
 
 	<div id="login">
 		<form method="post" action="<%=request.getContextPath()%>/AdminLoginHandler">
-			<h2>ºŞ²zªÌµn¤J</h2>
-			<input type="text" name="adminNo" placeholder="½Ğ¿é¤JºŞ²zªÌ±b¸¹" id="adminNo"
+			<h2>ç®¡ç†è€…ç™»å…¥</h2>
+			<input type="text" name="adminNo" placeholder="è«‹è¼¸å…¥ç®¡ç†è€…å¸³è™Ÿ" id="adminNo"
 			value="9001"> 
 			<br> 
-			<input type="password" name="password" placeholder="½Ğ¿é¤J±K½X" id="password"
+			<input type="password" name="password" placeholder="è«‹è¼¸å…¥å¯†ç¢¼" id="password"
 			value="123"> 
 			<br> 
 			
-			<%-- ¿ù»~ªí¦C --%>
+			<%-- éŒ¯èª¤è¡¨åˆ— --%>
 				<c:if test="${not empty errorMsgs}">
 					<c:forEach var="message" items="${errorMsgs}">
 						<a id="errormsg">${message}</a>
