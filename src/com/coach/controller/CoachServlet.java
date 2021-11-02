@@ -23,7 +23,6 @@ public class CoachServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		System.out.println(action);
 
 		if ("getOne_For_Display".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
@@ -36,11 +35,11 @@ public class CoachServlet extends HttpServlet {
 					errorMsgs.add("請輸入教練編號");
 				}
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/all_coach_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
-
+				
 				Integer userID = null;
 				try {
 					userID = new Integer(str);
@@ -49,7 +48,7 @@ public class CoachServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/all_coach_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -62,21 +61,21 @@ public class CoachServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/all_coach_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("coachVO", coachVO); // 資料庫取出的coachVO物件,存入req
-				String url = "/html/coach_page.jsp";
+				String url = "/html/coach/coach_page.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 listOneCoach.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/all_coach_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/all_coach_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -399,5 +398,27 @@ public class CoachServlet extends HttpServlet {
 //				failureView.forward(req, res);
 //			}
 //		}
+		
+		if ("gotocoach".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.��隢�� ****************************************/
+				Integer userID = new Integer(req.getParameter("userID"));
+
+				/*************************** 2.���閰Ｚ��� ****************************************/
+				CoachService coachSvc = new CoachService();
+				CoachVO coachVO = coachSvc.getByUserID(userID);
+
+				/*************************** 3.�閰Ｗ���,皞��漱(Send the Success view) *************/
+				req.setAttribute("coachVO", coachVO);
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/coach_page.jsp");
+				successView.forward(req, res);
+			} catch (Exception e) {
+
+			}
+		}
 	}
 }

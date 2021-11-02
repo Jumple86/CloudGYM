@@ -160,7 +160,7 @@ public class SubListServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("subListVO", subListVO); // 含有輸入格式錯誤的subscriptionVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/html/back_end_sublist_update.jsp");
+							.getRequestDispatcher("/html/back_end/back_end_sublist_update.jsp");
 					failureView.forward(req, res);
 					return; //程式中斷
 				}
@@ -171,7 +171,7 @@ public class SubListServlet extends HttpServlet {
 				
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				req.setAttribute("subListVO", subListVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/html/back_end_sublist.jsp";
+				String url = "/html/back_end/back_end_sublist.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -179,7 +179,7 @@ public class SubListServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/html/back_end_sublist_update.jsp");
+						.getRequestDispatcher("/html/back_end/back_end_sublist_update.jsp");
 				failureView.forward(req, res);
 					}
 				}

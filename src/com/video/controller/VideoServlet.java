@@ -59,13 +59,13 @@ public class VideoServlet extends HttpServlet {
 				/***************************3.修改完成,準備轉交(Send the Success view)*************/
 				HttpSession session = req.getSession();
 				Object whichPage = session.getAttribute("whichPage");
-				String url = "/html/back_end_video.jsp?whichPage="+whichPage;
+				String url = "/html/back_end/back_end_video.jsp?whichPage="+whichPage;
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:"+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_video.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end/back_end_video.jsp");
 				failureView.forward(req, res);
 			}						
 		}
@@ -196,7 +196,7 @@ public class VideoServlet extends HttpServlet {
 						System.out.println(message);
 					}
 					req.setAttribute("videoVO", videoVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/buildVideo.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/protected_coach/buildVideo.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -226,7 +226,7 @@ public class VideoServlet extends HttpServlet {
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)*************/
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/protected_coach/coach_overview.jsp");
 				successView.forward(req, res);
 				
 			}catch (Exception e) {

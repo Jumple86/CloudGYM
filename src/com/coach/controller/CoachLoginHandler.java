@@ -47,7 +47,7 @@ public class CoachLoginHandler extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_coach.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_coach.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -60,7 +60,7 @@ public class CoachLoginHandler extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_coach.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_coach.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -78,7 +78,7 @@ public class CoachLoginHandler extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/login_coach.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_coach.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -105,12 +105,12 @@ public class CoachLoginHandler extends HttpServlet {
 				} catch (Exception ignored) {
 				}
 	
-				res.sendRedirect(req.getContextPath() + "/html/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
+				res.sendRedirect(req.getContextPath() + "/main_page.jsp"); // *工作3: (-->如無來源網頁:則重導至login_success.jsp)
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/login_coach.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_coach.jsp");
 				failureView.forward(req, res);
 			}
 		}
