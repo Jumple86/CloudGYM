@@ -47,7 +47,7 @@
 			                        <source src="<%=request.getContextPath()%>/video/VideoOutputMain?videoID=${videoVO.videoID}" type="video/mp4" />
 			                        <source src="<%=request.getContextPath()%>/video/VideoOutputMain?videoID=${videoVO.videoID}" type="video/ogg" />
 		                        </video>
-					            <a href="<%=request.getContextPath()%>/html/one_video_page.jsp?videoID=${videoVO.videoID}" target="_blank">
+					            <a href="<%=request.getContextPath()%>/html/video/one_video_page.jsp?videoID=${videoVO.videoID}" target="_blank">
 			            		<p class="video_title">${videoVO.title}<span class="video_coach">${coachSvc.getByUserID(videoVO.userID).coachName}</sapn></p>
 		                        </a>
 <!-- 			                </label> -->
