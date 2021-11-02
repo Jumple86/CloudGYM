@@ -11,4 +11,6 @@ public interface VideoDAO_interface {
 	List<VideoVO> getAll2();
 	List<VideoVO> findByUserID(Integer userID);
 	List<VideoVO> findByPositionNo(Integer positionNo);
+	VideoVO findByPrimaryKeyNoVideo(Integer videoID);
+	List<VideoVO> recommendedVideos();
 }
