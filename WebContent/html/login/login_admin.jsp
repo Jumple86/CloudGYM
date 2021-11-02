@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.user.model.*"%>
 <%
@@ -24,15 +25,15 @@
 
 	<div id="login">
 		<form method="post" action="<%=request.getContextPath()%>/AdminLoginHandler">
-			<h2>�޲z�̵n�J</h2>
-			<input type="text" name="adminNo" placeholder="�п�J�޲z�̱b��" id="adminNo"
+			<h2>管理者登入</h2>
+			<input type="text" name="adminNo" placeholder="請輸入管理者帳號" id="adminNo"
 			value="9001"> 
 			<br> 
-			<input type="password" name="password" placeholder="�п�J�K�X" id="password"
+			<input type="password" name="password" placeholder="請輸入密碼" id="password"
 			value="123"> 
 			<br> 
 			
-			<%-- ���~���C --%>
+			<%-- 錯誤表列 --%>
 				<c:if test="${not empty errorMsgs}">
 					<c:forEach var="message" items="${errorMsgs}">
 						<a id="errormsg">${message}</a>
