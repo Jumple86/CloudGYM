@@ -59,13 +59,14 @@
 	request.setAttribute("menulist", menulist); */
 	
 	CustomMenuService menusvc = new CustomMenuService();
-	List<CustomMenuVO> percentlist = menusvc.getAll(1003);
+	List<CustomMenuVO> percentlist = menusvc.getAll(Integer.parseInt(userID));
 	Integer percentlistsize = percentlist.size();
 	Integer total = 0;
 	for(int i = 0; i < percentlistsize; i++){
 		total += percentlist.get(i).getCompleted();
 	}
 	Integer percent = (total/percentlistsize);
+	System.out.println(percent);
 	
 %>
 <!DOCTYPE html>
@@ -297,12 +298,6 @@ i.bi-cart-fill span.-on{
 	color: #31105E;
 }
 
-}
-.listeffect-click:hover, .listeffect-click:active{
-	background-color: white;
-	color: #31105E;
-}
-
 .active{
  	background-color: white !important;
  	color: #31105E !important;
@@ -438,7 +433,7 @@ i.bi:hover{
 					<c:forEach var="customMenuVO" items="${menuSvc.getAll(userID)}">
 						<li class="nav-item"><a class="nav-link listeffect ${customMenuVO.menuID == location ? "active": ""}" aria-current="page"
 							href="<%=request.getContextPath()%>/userMenuListPage/userMenuList.do?action=getAll&menuID=${customMenuVO.menuID}"
-							style="color: white;">${customMenuVO.title}</a></li>
+							>${customMenuVO.title}</a></li>
 					</c:forEach>
 				</ul>
 				<br>
@@ -449,9 +444,9 @@ i.bi:hover{
 							for (Integer itemid : itemIDs) {
 								if (itemid.toString().startsWith("6")) {
 					%>
-					<li class="nav-item"><a class="nav-link listeffect ${customMenuVO.menuID == location ? "active": ""}" aria-current="page"
+					<li class="nav-item"><a class="nav-link listeffect" aria-current="page"
 						href="userMenuList.do?action=getCoach&itemID=<%=itemid%>"
-						style="color: white;"><%=coachSvc.getByMenuID(itemid).getMenuName()%></a></li>
+						><%=coachSvc.getByMenuID(itemid).getMenuName()%></a></li>
 					<%
 						}
 							}
@@ -464,7 +459,7 @@ i.bi:hover{
 					<div class="progress-section">
 						<div>
 							<img
-								src="<%=request.getContextPath()%>/Reader?id=${menulist[0].videoID}"
+								src="<%=request.getContextPath()%>/reader?id=${menulist[0].videoID}"
 								class="img-size">
 						</div>
 						<div>
@@ -480,9 +475,9 @@ i.bi:hover{
 							style="max-width: 600px; background-color: #31105E;">
 							<div class="row g-0">
 								<div class="col-md-4">
-									<a href="userMenuList.do?action=goto&menuID=${list.menuID}&listID=${list.listID}">
+									<a href="<%=request.getContextPath() %>/userMenuListPage/userMenuList.do?action=goto&menuID=${list.menuID}&listID=${list.listID}">
 										<img
-										src="<%=request.getContextPath()%>/Reader?id=${list.videoID}"
+										src="<%=request.getContextPath()%>/reader?id=${list.videoID}"
 										class="img-fluid rounded-start" alt="請重新載入">
 									</a>
 								</div>
