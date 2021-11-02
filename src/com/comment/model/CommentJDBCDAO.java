@@ -20,7 +20,7 @@ public class CommentJDBCDAO implements CommentDAO_interface {
 	private static final String DELETE = "update comment set commentshow = 0 where commentid = ?";
 	private static final String FIND_PK = "SELECT * FROM COMMENT WHERE COMMENTID = ?";
 	private static final String FIND_ALL = "SELECT * FROM COMMENT where commentShow = 1";
-	private static final String FIND_COMMENT = "SELECT COUNT(*) FROM comment where postsid = ?";
+	private static final String FIND_COMMENT = "SELECT COUNT(*) FROM comment where postsid = ? and commentShow = 1";
 
 	static {
 		try {

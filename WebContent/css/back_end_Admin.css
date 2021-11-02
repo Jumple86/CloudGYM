@@ -5,23 +5,24 @@
 
 .main-out {
 	border: 3px solid black;
-	height: 120px;
+	height: 100%;
 	margin: 90px 50px 90px 50px;
+	position: relative;
 }
 
 .admin {
 	border-right: 1px solid black;
 	display: inline-block;
-	width: 200px;
+	width: 25%;
 	height: 100%;
 	line-height: 120px;
-	position: relative;
+/* 	position: relative; */
 	text-align: center;
 }
 
 .name {
 	display: inline-block;
-	height: 120px;
+	height: 100%;
 	position: absolute;
 }
 
