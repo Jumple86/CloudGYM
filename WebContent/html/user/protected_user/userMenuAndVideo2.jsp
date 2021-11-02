@@ -3,35 +3,39 @@
 
 <%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="redis.clients.jedis.Jedis"%>
 
-<jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService"/>
-<jsp:useBean id="menuSvc" scope="page" class="com.customMenu.model.CustomMenuService"/>
-<jsp:useBean id="listSvc" scope="page" class="com.customMenuList.model.CustomMenuListService"/>
-<jsp:useBean id="rightsSvc" scope="page" class="com.userRights.model.UserRightsService"/>
+<jsp:useBean id="videoSvc" scope="page"
+	class="com.video.model.VideoService" />
+<jsp:useBean id="menuSvc" scope="page"
+	class="com.customMenu.model.CustomMenuService" />
+<jsp:useBean id="listSvc" scope="page"
+	class="com.customMenuList.model.CustomMenuListService" />
+<jsp:useBean id="rightsSvc" scope="page"
+	class="com.userRights.model.UserRightsService" />
 
 <%
-	response.setHeader("Cache-Control","no-store"); //HTTP 1.1
-	response.setHeader("Pragma","no-cache");        //HTTP 1.0
-	response.setDateHeader ("Expires", 0);
-	
+	response.setHeader("Cache-Control", "no-store"); //HTTP 1.1
+	response.setHeader("Pragma", "no-cache"); //HTTP 1.0
+	response.setDateHeader("Expires", 0);
+
 	Jedis jedis = new Jedis("localhost", 6379);
 	pageContext.setAttribute("jedis", jedis);
 
 	String userID = null;
-	try{
+	try {
 		userID = session.getAttribute("userID").toString();
-	}catch(Exception e){
+	} catch (Exception e) {
 		userID = null;
 	}
-	
+
 	long cartCount = 0;
-	try{
+	try {
 		cartCount = jedis.hlen(userID);
-	}catch(Exception e){
+	} catch (Exception e) {
 		cartCount = 0;
 	}
-			
+
 	pageContext.setAttribute("cartCount", cartCount);
 %>
 <!DOCTYPE html>
@@ -118,68 +122,67 @@ body {
 	display: inline-block;
 }
 
-#bar{
-    height: 40px;
-    background-color: #5C37A1;
-    overflow: hidden;
-    position:fixed;
-    width: 100%;
-    z-index: 10;
-}
- 
-#title{
-    float: left;
-    margin-left: 20px;
-    overflow: hidden;
-}
- 
-img{
-    width: 35px;
-    margin-top: 3px;
-}
- 
-.bar_li{
-    float: left;
-}
- 
-a{
-    color: #fff;
-    text-decoration: none;
-    line-height: 40px;
+#bar {
+	height: 40px;
+	background-color: #5C37A1;
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
+	z-index: 10;
 }
 
-a#CloudGYM{
+#title {
+	float: left;
+	margin-left: 20px;
+	overflow: hidden;
+}
+
+img {
+	width: 35px;
+	margin-top: 3px;
+}
+
+.bar_li {
+	float: left;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+	line-height: 40px;
+}
+
+a#CloudGYM {
 	margin-left: 10px;
 }
 
-i.bi-cart-fill span.-on{
+i.bi-cart-fill span.-on {
 	display: none;
 }
- 
-#option{
-    float: right;
-    overflow: hidden;
+
+#option {
+	float: right;
+	overflow: hidden;
 }
 
-#option ul{
-    margin-right: 20px;
-}
- 
-.option{
-    float: left;
-    color: white;
-    line-height: 40px;
-    margin: 0 10px;
-    font-size: 14px;
-    position: relative;
+#option ul {
+	margin-right: 20px;
 }
 
-.bi{
-    margin-top: 7px;
+.option {
+	float: left;
+	color: white;
+	line-height: 40px;
+	margin: 0 10px;
+	font-size: 14px;
+	position: relative;
+}
+
+.bi {
+	margin-top: 7px;
 }
 
 /***************************以上複製貼上****************************/
-
 #option img {
 	color: white;
 }
@@ -233,36 +236,35 @@ i.bi-cart-fill span.-on{
 }
 
 /***************************以下複製貼上****************************/
-
-i.-on{
-    display: none;
+i.-on {
+	display: none;
 }
 
-i.bi-cart-fill{
-    font-size: 25px;
-    position: absolute;
-    top: -6px;
-    left: -6px;
+i.bi-cart-fill {
+	font-size: 25px;
+	position: absolute;
+	top: -6px;
+	left: -6px;
 }
 
-i.bi-cart-fill span{
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    color:#ffffff;
-    font-size: 8px;
-    position: absolute;
-    top:0;
-    right:-3px;
-    font-family: arial;
+i.bi-cart-fill span {
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: red;
+	color: #ffffff;
+	font-size: 8px;
+	position: absolute;
+	top: 0;
+	right: -3px;
+	font-family: arial;
 }
 
-i.bi:hover{
-    color:#bebebe;
+i.bi:hover {
+	color: #bebebe;
 }
 
 #menu {
@@ -271,7 +273,7 @@ i.bi:hover{
 }
 
 div.item div.main {
-	background-color:#5C37A1;
+	background-color: #5C37A1;
 	color: white;
 	font-size: 14px;
 	cursor: pointer;
@@ -288,7 +290,7 @@ div.item div.main a {
 	margin: auto;
 }
 
-#logout{
+#logout {
 	width: 100%;
 }
 
@@ -301,7 +303,7 @@ div.item div.main:hover {
 }
 
 .sub {
-	position:fixed;
+	position: fixed;
 	cursor: pointer;
 	background-color: #4d4949;
 	color: white;
@@ -332,10 +334,12 @@ div.item div.main:hover {
 
 /****************** bar css end ******************/
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
-	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
 		$("#menu").css("width", $(".main").length * 200)
 		$(document).ready(function() {
@@ -365,9 +369,11 @@ div.item div.main:hover {
 	<div id="bar">
 		<div id="title">
 			<ul>
-				<li class="bar_li"><img src="<%=request.getContextPath()%>/img/logo.png" alt=""
+				<li class="bar_li"><img
+					src="<%=request.getContextPath()%>/img/logo.png" alt=""
 					for="#CloudGYM"></li>
-				<li class="bar_li"><a href="<%=request.getContextPath()%>/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
+				<li class="bar_li"><a
+					href="<%=request.getContextPath()%>/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
 			</ul>
 		</div>
 		<div id="option">
@@ -401,14 +407,18 @@ div.item div.main:hover {
 					</div>
 				</c:if>
 				<c:if test="${not empty userID}">
-				<div class="item">
-					<div class="main" id="logout"><a href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name} 登出</a></div>
+					<div class="item">
+						<div class="main" id="logout">
+							<a
+								href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name}
+								登出</a>
+						</div>
 						<div class="sub"></div>
 					</div>
 				</c:if>
 				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
-						<i class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
+					href="<%=request.getContextPath()%>/html/order/pay_page.jsp"> <i
+						class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
 								<span>${hlen}</span>
 							</c:if> <c:if test="${hlen == 0}">
 								<span>${cartCount}</span>
@@ -449,45 +459,55 @@ div.item div.main:hover {
 						<div class="card card-zone">
 							<div class="card-body">
 								<h5 class="card-title">${customMenuVO.title}</h5>
-								
+
 								<p class="card-text">
 									<small class="text-muted">${customMenuVO.content}</small>
 								</p>
 								<hr>
 								<!-- eachlist -->
-								 <c:forEach var="customMenuListVO" items="${listSvc.getAll(customMenuVO.menuID)}" varStatus="i">
-								 
+								<c:forEach var="customMenuListVO"
+									items="${listSvc.getAll(customMenuVO.menuID)}" varStatus="i">
+
 									<p class="card-text">
 									<div class="row">
 										<div class="col-8">
-										${videoSvc.findByPrimaryKey(customMenuListVO.videoID).title} 
-										<%-- ${customMenuListVO.listID} --%>
+											${videoSvc.findByPrimaryKey(customMenuListVO.videoID).title}
+											<%-- ${customMenuListVO.listID} --%>
 											<%-- <c:forEach var="videoVO" items="${videoSvc.findByPrimaryKey(customMenuListVO.videoID)}">
 												<small class="text-muted">${videoVO.title}</small>
 											</c:forEach>  --%>
 										</div>
 										<div class="col-4">
-											<FORM class="delete_post1" METHOD="post" class="form-inline form-display" ACTION="<%=request.getContextPath()%>/userMenuAndVideo/userMenu.do">
-												<input type="hidden" name="listID" value="${customMenuListVO.listID}"> 
-												<input type="hidden" name="action" value="delete_list">
-												<button type="submit" class="btn btn-secondary btn-sm delete-btn">刪除</button>
+											<FORM class="delete_post1" METHOD="post"
+												class="form-inline form-display"
+												ACTION="<%=request.getContextPath()%>/userMenuAndVideo/userMenu.do">
+												<input type="hidden" name="listID"
+													value="${customMenuListVO.listID}"> <input
+													type="hidden" name="action" value="delete_list">
+												<button type="submit"
+													class="btn btn-secondary btn-sm delete-btn">刪除</button>
 											</FORM>
 										</div>
 									</div>
 									</p>
 								</c:forEach>
 								<br>
-								<FORM class="update_post_menu" METHOD="post" class="form-inline" ACTION="<%=request.getContextPath()%>/userMenuAndVideo/userMenu.do"  style="display:inline-block;">
-									<input type="hidden" name="menuID" value="${customMenuVO.menuID}"> 
-									<input type="hidden" name="action" value="update_prepare">
+								<FORM class="update_post_menu" METHOD="post" class="form-inline"
+									ACTION="<%=request.getContextPath()%>/userMenuAndVideo/userMenu.do"
+									style="display: inline-block;">
+									<input type="hidden" name="menuID"
+										value="${customMenuVO.menuID}"> <input type="hidden"
+										name="action" value="update_prepare">
 									<button type="submit"
 										class="btn btn-outline-secondary btn-sm delete-btn btn-block">修改</button>
 								</FORM>
 
 
-								<FORM class="delete_post_menu" METHOD="post" class="form-inline form-display" style="display:inline-block;">
-									<input type="hidden" name="menuID" value="${customMenuVO.menuID}"> 
-									<input type="hidden" name="action" value="delete_menu">
+								<FORM class="delete_post_menu" METHOD="post"
+									class="form-inline form-display" style="display: inline-block;">
+									<input type="hidden" name="menuID"
+										value="${customMenuVO.menuID}"> <input type="hidden"
+										name="action" value="delete_menu">
 									<button type="submit"
 										class="btn btn-secondary btn-sm delete-btn btn-block">刪除</button>
 								</FORM>
@@ -500,31 +520,40 @@ div.item div.main:hover {
 			<div class="row video">
 				<p class="title-video title">影片</p>
 				<div class="row row-cols-1 row-cols-md-3 g-4">
-				<c:forEach var="userRightsVO" items="${rightsSvc.getAll(userID)}">
-					<div class="col">
-						<div class="card">
-							<img src="<%=request.getContextPath()%>/reader?id=${userRightsVO.videoID}" class="card-img-top">
-							<div class="card-body">
-								<h5 class="card-title">${videoSvc.findByPrimaryKey(userRightsVO.videoID).title}</h5>
-								<p class="card-text">${videoSvc.findByPrimaryKey(userRightsVO.videoID).intro}</p>
+					<c:forEach var="userRightsVO" items="${rightsSvc.getAll(userID)}">
+						<div class="col">
+							<div class="card">
+								<a
+									href="<%=request.getContextPath()%>/html/video/one_video_page.jsp?videoID=${userRightsVO.videoID}">
+									<img
+									src="<%=request.getContextPath()%>/reader?id=${userRightsVO.videoID}"
+									class="card-img-top">
+								</a>
+								<div class="card-body">
+									<h5 class="card-title">${videoSvc.findByPrimaryKey(userRightsVO.videoID).title}</h5>
+									<p class="card-text">${videoSvc.findByPrimaryKey(userRightsVO.videoID).intro}</p>
+								</div>
+
 							</div>
 						</div>
-					</div>
-				</c:forEach>
+					</c:forEach>
 				</div>
 			</div>
 		</div>
 	</div>
 	<script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
 	<script>
-	    var cartCount = ${cartCount};
-	    if(cartCount == 0){
-	    	$("i.bi-cart-fill span").addClass("-on");
-	    	$("i.bi-cart-fill span").attr("style", "display:none");
-	    }else{
-	    	$("i.bi-cart-fill span").removeClass("-on");
-	    	$("i.bi-cart-fill span").attr("style", "");
-	    }
+		var cartCount = $
+		{
+			cartCount
+		};
+		if (cartCount == 0) {
+			$("i.bi-cart-fill span").addClass("-on");
+			$("i.bi-cart-fill span").attr("style", "display:none");
+		} else {
+			$("i.bi-cart-fill span").removeClass("-on");
+			$("i.bi-cart-fill span").attr("style", "");
+		}
 	</script>
 </body>
 </html>
