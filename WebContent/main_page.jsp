@@ -262,7 +262,7 @@
 											type="hidden" name="userID" value="${coachVO.userID}">
 										<label for="${coachVO.userID }"> <img
 											src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}"
-											alt="" class="pic">
+											alt="" class="pic" target="_blank">
 											<p class="coach_list">${coachVO.coachName}</p>
 										</label>
 									</form>

@@ -73,14 +73,14 @@ public class ResetPassword extends HttpServlet {
 			    mailService.sendMail(userAccount, subject, messageText);
 				
 				req.setAttribute("userVO", userVO);
-				String url = "/html/forget_email_success.jsp";
+				String url = "/html/login/forget_email_success.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/html/forget_password.jsp");
+						.getRequestDispatcher("/html/login/forget_password.jsp");
 				failureView.forward(req, res);
 			}				
 			

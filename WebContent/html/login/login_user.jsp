@@ -50,7 +50,7 @@
 					</c:forEach>
 				</c:if>
 			
-			<a id="forget" href="./forget_password.jsp">忘記密碼</a>
+			<a id="forget" href="<%=request.getContextPath()%>/html/login/forget_password.jsp">忘記密碼</a>
 			
 			
 			
@@ -58,7 +58,7 @@
 			<input type="hidden" name="action" value="login">
 			<button type="submit">Login</button>
 			<br> 
-			<a href="./sign_up_page.jsp" id="sign_up">新來的?註冊帳號</a>
+			<a href="<%=request.getContextPath()%>/html/login/sign_up_page.jsp" id="sign_up">新來的?註冊帳號</a>
 		</form>
 	</div>
 
