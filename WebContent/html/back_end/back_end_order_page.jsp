@@ -23,7 +23,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>訂單明細管理</title>
+<title>訂單查詢</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back_end_index.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/back_end_order.css">
@@ -61,13 +61,8 @@
 				</c:if>
 				</li>
 				<li>
-<<<<<<< HEAD:WebContent/html/back_end_order_page.jsp
-				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單查詢</span></a>
-=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_order_page.jsp
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
@@ -115,7 +110,7 @@
 				</li>
 			</ul>
 		</div>
-		<p>訂單明細管理</p>
+		<p>訂單查詢</p>
 		<div id="right">
 			<div class="main">
 			<%-- 錯誤表列 --%>

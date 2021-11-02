@@ -42,10 +42,11 @@ html {
 
 .video_title {
 	color: #fff;
-	text-align: left;
+	text-align: center;
 	font-size: 12px;
 	width: 270px;
-	margin-left: 3px;
+	margin-left: 10px;
+	text-decoration:none;
 }
 
 .video_coach{

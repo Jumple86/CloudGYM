@@ -23,7 +23,7 @@
 <body>
 
 	<div id="login">
-		<form method="post" action="AdminLoginHandler">
+		<form method="post" action="<%=request.getContextPath()%>/html/AdminLoginHandler">
 			<h2>管理者登入</h2>
 			<input type="text" name="adminNo" placeholder="請輸入管理者帳號" id="adminNo"
 			value="9001"> 
