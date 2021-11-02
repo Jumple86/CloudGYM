@@ -29,6 +29,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	private static final String GET_BY_USERID = "SELECT * FROM video WHERE userID = ?";
 	private static final String FIND_BY_POSITIONNO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video WHERE thePosition=?";
 	private static final String GET_ONE_STMT_NOVIDEO = "SELECT userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video where videoID=?";
+	private static final String RECOMMENDED_VIDEOS = "select * from video order by rand() limit 3";
 	
 	static {
 		try {
@@ -63,7 +64,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 
 			pstmt.executeUpdate();
 
-			// 取得自增主鍵
+			// ���憓蜓�
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);
@@ -549,20 +550,81 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 		return fis;
 	}
 
+	@Override
+	public List<VideoVO> recommendedVideos() {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<VideoVO> list3 = new ArrayList<VideoVO>();
+		VideoVO videoVO = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(RECOMMENDED_VIDEOS);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				videoVO = new VideoVO();
+				videoVO.setVideoID(rs.getInt("videoID"));
+				videoVO.setUserID(rs.getInt("userID"));
+				videoVO.setTitle(rs.getString("title"));
+				videoVO.setDuration(rs.getInt("duration"));
+				videoVO.setPrice(rs.getInt("price"));
+				videoVO.setIntro(rs.getString("intro"));
+				videoVO.setImg(rs.getBytes("img"));
+				videoVO.setContent(rs.getBytes("content"));
+				videoVO.setReview(rs.getInt("review"));
+				videoVO.setPublishTime(rs.getTimestamp("publishTime"));
+				videoVO.setLevel(rs.getString("level"));
+				videoVO.setListed(rs.getBoolean("listed"));
+				videoVO.setReportedTimes(rs.getInt("reportedTimes"));
+				videoVO.setThePosition(rs.getInt("thePosition"));
+
+				list3.add(videoVO);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list3;
+	}
+
 	public static void main(String[] args) throws IOException {
 		VideoJDBCDAO dao = new VideoJDBCDAO();
 
-		// add listed, reportedtimes預設true, 0 之後再由管理員修改
+		// add listed, reportedtimes��身true, 0 銋��蝞∠�靽格
 //		VideoVO video = new VideoVO();
 //		video.setUserID(2005);
-//		video.setTitle("居家瘦身");
+//		video.setTitle("撅振�頨�");
 //		video.setPrice(20);
-//		video.setIntro("居家防疫期間，是否也讓你的瘦身、健身計劃泡湯了呢？別擔心，在家也能有完美的運動健身計畫！");
+//		video.setIntro("撅振�������銋���頨怒�頨怨��部皝臭�嚗����摰嗡��������頨怨�嚗�");
 //		byte[] pic = getPictureByteArray("items/example6.jpg");
 //		video.setImg(pic);
 //		InputStream is = getPictureStream("items/test.mp4");
 //		video.setContent(is);
-//		video.setLevel("中");
+//		video.setLevel("銝�");
 //		video.setDuration(20);
 //		video.setListed(true);
 //		video.setReportedTimes(0);
@@ -574,14 +636,14 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 
 		// update
 //		VideoVO video = new VideoVO();
-//		video.setTitle("基礎知識");
+//		video.setTitle("�蝷霅�");
 //		byte[] pic = getPictureByteArray("items/example6.jpg");
 //		video.setImg(pic);
 //		video.setPrice(50);
-//		video.setIntro("講解關於健身的基礎知識，包括需要注意的事項以及設備介紹");
+//		video.setIntro("雓圾���頨怎�蝷霅����閬釣�����誑��身���晶");
 //		InputStream is = getPictureStream("items/test2.mp4");
 //		video.setContent(is);
-//		video.setLevel("弱");
+//		video.setLevel("撘�");
 //		video.setVideoID(3001);
 //		dao.update(video);
 //		is.close();
