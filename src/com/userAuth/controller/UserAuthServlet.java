@@ -85,10 +85,10 @@ public class UserAuthServlet extends HttpServlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -150,10 +150,10 @@ public class UserAuthServlet extends HttpServlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -216,10 +216,10 @@ public class UserAuthServlet extends HttpServlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
@@ -281,10 +281,10 @@ public class UserAuthServlet extends HttpServlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 				if("usermanager".equals(url)) {
-					successView = req.getRequestDispatcher("/html/back_end_user.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_user.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}else {
-					successView = req.getRequestDispatcher("/html/back_end_coach.jsp?whichPage="+whichPage);
+					successView = req.getRequestDispatcher("/html/back_end/back_end_coach.jsp?whichPage="+whichPage);
 					successView.forward(req, res);					
 				}
 			
