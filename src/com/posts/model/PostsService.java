@@ -2,7 +2,7 @@ package com.posts.model;
 
 import java.sql.Timestamp;
 import java.util.List;
- 
+
 public class PostsService {
 
 	private PostsDAO_interface dao;
@@ -24,7 +24,8 @@ public class PostsService {
 		return postsVO;
 	}
 
-	public PostsVO updatePosts(String postsTitle, String postsContent, byte[] postsImg,	Integer tagID, Integer postsID) {
+	public PostsVO updatePosts(String postsTitle, String postsContent, byte[] postsImg, Integer tagID,
+			Integer postsID) {
 		PostsVO postsVO = new PostsVO();
 		postsVO.setPostsTitle(postsTitle);
 		postsVO.setPostsContent(postsContent);
@@ -52,15 +53,19 @@ public class PostsService {
 		return dao.findByTopPost();
 	}
 
+	public List<PostsVO> getMorePost() {
+		return dao.findMore();
+	}
+
 	public List<PostsVO> getAll() {
 		return dao.findAll();
 	}
-	
+
 	public List<PostsVO> getAll2() {
 		return dao.findAll2();
 	}
-	
-	public List<PostsVO> search(String str){
+
+	public List<PostsVO> search(String str) {
 		return dao.findKeyword(str);
 	}
 }

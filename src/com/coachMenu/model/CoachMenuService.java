@@ -28,16 +28,19 @@ public class CoachMenuService {
 		return coachMenuVO;
 	}
 	
-	public CoachMenuVO updateCoachMenu(Integer userID, String menuName, Integer price, Boolean isPublic, Integer positionNo, Integer menuID){
-		CoachMenuVO coachMenuVO = new CoachMenuVO();
-		
-		coachMenuVO.setUserID(userID);
-		coachMenuVO.setMenuName(menuName);
-		coachMenuVO.setPublishDate(ts);
-		coachMenuVO.setPrice(price);
-		coachMenuVO.setIsPublic(isPublic);
-		coachMenuVO.setPositionNo(positionNo);
-		coachMenuVO.setMenuID(menuID);
+//	public CoachMenuVO updateCoachMenu(Integer menuID, String menuName, Integer price, Integer positionNo){
+//		
+//		CoachMenuVO coachMenuVO = new CoachMenuVO();
+//		
+//		coachMenuVO.setUserID(menuID);
+//		coachMenuVO.setMenuName(menuName);
+//		coachMenuVO.setPrice(price);
+//		coachMenuVO.setPositionNo(positionNo);
+//		dao.update(coachMenuVO);
+//		return coachMenuVO;
+//	}
+	
+	public CoachMenuVO updateCoachMenu(CoachMenuVO coachMenuVO) {
 		dao.update(coachMenuVO);
 		return coachMenuVO;
 	}
@@ -56,5 +59,9 @@ public class CoachMenuService {
 	
 	public List<CoachMenuVO> getAll(){
 		return dao.findAll();
+	}
+	
+	public List<CoachMenuVO> findMenuIDByUserID(Integer userID) {
+		return dao.findMenuIDByUserID(userID);
 	}
 }

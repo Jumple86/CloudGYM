@@ -4,7 +4,7 @@
 <%@ page import="com.customMenuList.model.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="redis.clients.jedis.Jedis"%>
 
 <jsp:useBean id="menuSvc" scope="page"
 	class="com.customMenu.model.CustomMenuService" />
@@ -18,33 +18,35 @@
 	class="com.process.model.ProcessService" />
 <jsp:useBean id="actionSvc" scope="page"
 	class="com.videoAction.model.VideoActionService" />
-	
+
 <%
-	response.setHeader("Cache-Control","no-store"); //HTTP 1.1
-	response.setHeader("Pragma","no-cache");        //HTTP 1.0
-	response.setDateHeader ("Expires", 0);
-	
+	response.setHeader("Cache-Control", "no-store"); //HTTP 1.1
+	response.setHeader("Pragma", "no-cache"); //HTTP 1.0
+	response.setDateHeader("Expires", 0);
+
 	Jedis jedis = new Jedis("localhost", 6379);
 	pageContext.setAttribute("jedis", jedis);
 
 	String userID = null;
-	try{
+	try {
 		userID = session.getAttribute("userID").toString();
-	}catch(Exception e){
+	} catch (Exception e) {
 		userID = null;
 	}
-	
+
 	long cartCount = 0;
-	try{
+	try {
 		cartCount = jedis.hlen(userID);
-	}catch(Exception e){
+	} catch (Exception e) {
 		cartCount = 0;
 	}
-			
+
 	pageContext.setAttribute("cartCount", cartCount);
 %>
 
 <%
+	Integer listID = (Integer) request.getAttribute("listID");
+	request.setAttribute("listID", listID);
 	/* List<CustomMenuListVO> menulist = (List<CustomMenuListVO>) request.getAttribute("menulist");
 	System.out.println("jsp" + menulist);
 	request.setAttribute("menulist", menulist); */
@@ -59,7 +61,8 @@
 <link rel="stylesheet" href="./css/style.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- bootstrap -->
 <link
@@ -80,73 +83,72 @@ li {
 	list-style-type: none;
 }
 
-body{
-/*     color: white; */
-    background-color: #31105E;
+body {
+	/*     color: white; */
+	background-color: #31105E;
 }
 
-#bar{
-    height: 40px;
-    background-color: #5C37A1;
-    overflow: hidden;
-    position:fixed;
-    width: 100%;
-    z-index: 10;
-}
- 
-#title{
-    float: left;
-    margin-left: 20px;
-    overflow: hidden;
-}
- 
-img{
-    width: 35px;
-    margin-top: 3px;
-}
- 
-.bar_li{
-    float: left;
-}
- 
-a{
-    color: #fff;
-    text-decoration: none;
-    line-height: 40px;
+#bar {
+	height: 40px;
+	background-color: #5C37A1;
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
+	z-index: 10;
 }
 
-a#CloudGYM{
+#title {
+	float: left;
+	margin-left: 20px;
+	overflow: hidden;
+}
+
+img {
+	width: 35px;
+	margin-top: 3px;
+}
+
+.bar_li {
+	float: left;
+}
+
+a {
+	color: #fff;
+	text-decoration: none;
+	line-height: 40px;
+}
+
+a#CloudGYM {
 	margin-left: 10px;
 }
 
-i.bi-cart-fill span.-on{
+i.bi-cart-fill span.-on {
 	display: none;
 }
- 
-#option{
-    float: right;
-    overflow: hidden;
+
+#option {
+	float: right;
+	overflow: hidden;
 }
 
-#option ul{
-    margin-right: 20px;
-}
- 
-.option{
-    float: left;
-    color: white;
-    line-height: 40px;
-    margin: 0 10px;
-    font-size: 14px;
-    position: relative;
+#option ul {
+	margin-right: 20px;
 }
 
-.bi{
-    margin-top: 7px;
+.option {
+	float: left;
+	color: white;
+	line-height: 40px;
+	margin: 0 10px;
+	font-size: 14px;
+	position: relative;
+}
+
+.bi {
+	margin-top: 7px;
 }
 
 /***************************以上複製貼上****************************/
-
 .content {
 	padding: 30px;
 	width: 70%;
@@ -205,36 +207,35 @@ i.bi-cart-fill span.-on{
 }
 
 /***************************以下複製貼上****************************/
-
-i.-on{
-    display: none;
+i.-on {
+	display: none;
 }
 
-i.bi-cart-fill{
-    font-size: 25px;
-    position: absolute;
-    top: -6px;
-    left: -6px;
+i.bi-cart-fill {
+	font-size: 25px;
+	position: absolute;
+	top: -6px;
+	left: -6px;
 }
 
-i.bi-cart-fill span{
-    border-radius: 50%;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    color:#ffffff;
-    font-size: 8px;
-    position: absolute;
-    top:0;
-    right:-3px;
-    font-family: arial;
+i.bi-cart-fill span {
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: red;
+	color: #ffffff;
+	font-size: 8px;
+	position: absolute;
+	top: 0;
+	right: -3px;
+	font-family: arial;
 }
 
-i.bi:hover{
-    color:#bebebe;
+i.bi:hover {
+	color: #bebebe;
 }
 
 #menu {
@@ -243,7 +244,7 @@ i.bi:hover{
 }
 
 .main {
-	background-color:#5C37A1;
+	background-color: #5C37A1;
 	color: white;
 	font-size: 14px;
 	cursor: pointer;
@@ -260,7 +261,7 @@ i.bi:hover{
 	margin: auto;
 }
 
-#logout{
+#logout {
 	width: 100%;
 }
 
@@ -273,7 +274,7 @@ i.bi:hover{
 }
 
 .sub {
-	position:fixed;
+	position: fixed;
 	cursor: pointer;
 	background-color: #4d4949;
 	color: white;
@@ -301,12 +302,46 @@ i.bi:hover{
 #menu li {
 	list-style-type: none;
 }
+
+.return {
+	position: absolute;
+	bottom: 50px;
+	left: 150px;
+}
+
+.return:link, .return:visited {
+	background-color: none;
+	border: 1px solid white;
+	color: white;
+	padding: 3px 12px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 5.5%;
+}
+
+.return:hover, .return:active {
+	background-color: white;
+	color: #31105E;
+}
+
+.listeffect:hover, .listeffect:active {
+	background-color: white;
+	color: #31105E !important;
+}
+
+.active {
+	background-color: white !important;
+	color: #31105E !important;
+}
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 
 <body>
-	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
 		$("#menu").css("width", $(".main").length * 200)
 		$(document).ready(function() {
@@ -372,14 +407,18 @@ i.bi:hover{
 					</div>
 				</c:if>
 				<c:if test="${not empty userID}">
-				<div class="item">
-					<div class="main" id="logout"><a href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name} 登出</a></div>
+					<div class="item">
+						<div class="main" id="logout">
+							<a
+								href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name}
+								登出</a>
+						</div>
 						<div class="sub"></div>
 					</div>
 				</c:if>
 				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
-						<i class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
+					href="<%=request.getContextPath()%>/html/order/pay_page.jsp"> <i
+						class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
 								<span>${hlen}</span>
 							</c:if> <c:if test="${hlen == 0}">
 								<span>${cartCount}</span>
@@ -396,13 +435,16 @@ i.bi:hover{
 				<p style="font-weight: bold;">${menuTitle}</p>
 				<ul class="nav flex-column nav-pills nav-fills">
 					<c:forEach var="list" items="${menulist}">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
+						<li class="nav-item"><a
+							class="nav-link listeffect ${list.listID == listID ? "
+							active": "" }" aria-current="page"
 							href="userMenuList.do?action=playVideo&id=${list.videoID}&menuTitle=${menuTitle}&listID=${list.listID}"
 							style="color: white;">${videoSvc.findByPrimaryKey(list.videoID).title}</a>
 						</li>
 					</c:forEach>
 				</ul>
-				<button type="button" class="btn btn-outline-light"><a href="userMenuListPage1.jsp">回菜單總覽</a></button>
+				<a class="return"
+					href="<%=request.getContextPath()%>/html/user/protected_user/userMenuListPage1.jsp">返回菜單總覽</a>
 			</div>
 			<div class="col-6 seperate">
 				<div>
@@ -417,36 +459,97 @@ i.bi:hover{
 							<p>${play.title}</p>
 						</div>
 						<p>${play.intro}</p>
-						${process}
 					</div>
 				</div>
 			</div>
 			<div class="col-3 right-zone">
 				<br>
-				<c:forEach var="actions" items="${actions}">
-					<ul>
-						<li>${actions.action}</li>
-						<li><c:forEach begin="1" end="${actions.sets}">
-						
-								<input type="checkbox" style="width: 0; height: 0;">
-									<i class="far fa-check-circle"></i>${process[0].processNo}
-								</input>
-							</c:forEach></li>
-					</ul>
-				</c:forEach>
+				<c:if test="${fn:length(actions) > 0}">
+					<c:forEach var="actions" items="${actions}" begin="0" end="${actions.size()-1}" varStatus="inputno">
+						<ul class="buttontest">
+							<li style="margin-bottom: 7px;">${actions.action}</li>
+							<li><c:forEach begin="0" end="${actions.sets-1}" varStatus="no">
+									<input
+										value="${processSvc.getByListID(listID).get(inputno.index).processNo}"
+										id="${no.count}${processSvc.getByActNo(actions.actNo).processNo}"
+										type="checkbox" style="width: 0; height: 0;">
+									<label
+										for="${no.count}${processSvc.getByActNo(actions.actNo).processNo}">
+										<i style="font-size: 33px; margin-right: 5px;" class="far fa-check-circle"></i>
+									</label>
+									</input>
+								</c:forEach></li>
+						</ul>
+					</c:forEach>
+				</c:if>
 			</div>
 		</div>
 	</div>
-<script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
-<script>
-var cartCount = ${cartCount};
-	if(cartCount == 0){
-		$("i.bi-cart-fill span").addClass("-on");
-		$("i.bi-cart-fill span").attr("style", "display:none");
-	}else{
-		$("i.bi-cart-fill span").removeClass("-on");
-		$("i.bi-cart-fill span").attr("style", "");
+	<script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
+	<script>
+		var cartCount = $
+		{
+			cartCount
+		};
+		if (cartCount == 0) {
+			$("i.bi-cart-fill span").addClass("-on");
+			$("i.bi-cart-fill span").attr("style", "display:none");
+		} else {
+			$("i.bi-cart-fill span").removeClass("-on");
+			$("i.bi-cart-fill span").attr("style", "");
+		}
+	</script>
+	<script>
+	var listID = ${listID}
+	console.log(listID);
+	function init() {
+		$.ajax({
+			url : "userMenuList.do?action=init",
+			dataType : "json",
+			type : "POST",
+			data : { 
+				"listID" : listID
+			},
+				
+			success : function(data) {
+				var setsarr = [];
+				console.log(data);
+				for (var i = 0; i < data.length; i++) {
+					setsarr.push(data[i].sets);
+ 					$(".buttontest").eq(i).find("li").find("label").children("i").slice(0, data[i].sets).removeClass("far"); 
+ 					$(".buttontest").eq(i).find("li").find("label").children("i").slice(0, data[i].sets).addClass("fas"); 
+				}
+				console.log(setsarr);
+			}
+		})
 	}
+
+	$(function() {
+		init();
+		$('input').on('change', function() {
+			$(this).next("label").children("i").toggleClass("fas");
+			/* 			console.log(this.id, this.checked); */
+			if (this.checked) {
+				console.log(this.id + "checked");
+				/* 				console.log(this.value); */
+				var processNo = this.value;
+				console.log(processNo)
+				$.ajax({
+					url : "userMenuList.do?action=changeProcess",
+					data : {
+						"processNo" : processNo
+					},
+					type : "POST",
+					dataType : "json",
+					success : function(data) {
+						console.log(data);
+					}
+				})
+
+			}
+
+		})
+	})
 </script>
 </body>
 </html>

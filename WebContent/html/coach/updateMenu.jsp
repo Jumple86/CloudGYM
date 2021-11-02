@@ -4,8 +4,32 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.thePosition.model.*" %>
 <%@ page import="com.coachMenu.model.*" %>
+<%@ page import="com.coachMenuList.model.*"%>
+
+<%
+Integer userID = Integer.parseInt(request.getParameter("userID"));
+request.setAttribute("userID", userID);
 
 
+String location = request.getRequestURI();
+request.setAttribute("location", location);
+
+CoachMenuVO coachMenuVO = (CoachMenuVO) request.getAttribute("coachMenuVO");
+
+List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
+%>
+
+<%
+	response.setHeader("Cache-Control", "no-store");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", 0);
+%>
+
+<jsp:useBean id="coachMenuSvc" scope="page" class="com.coachMenu.model.CoachMenuService" />
+<jsp:useBean id="positionSvc" scope="page" class="com.thePosition.model.ThePositionService"/>
+<jsp:useBean id="videoSvc" scope="page"
+	class="com.video.model.VideoService" />
+<jsp:useBean id="coachMenuListSvc" scope="page" class="com.coachMenuList.model.CoachMenuListService"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -175,58 +199,115 @@
     </div>
 <!-- bar公版 end -->
 
-    <div id="main">
+   <div id="main">
         <div id="form">
             <div id="box1">
-                <ul>
-                    <h3 id="form_title">編輯菜單</h3>
-                </ul>
+                <h3 id="form_title">更新菜單</h3>
             </div>
+				
+            <form action="<%=request.getContextPath()%>/coachMenu/coachMenu.do" method="post">
             <div id="box2">
                 <ul>
-                    <li id="menu_name">菜單名稱:<input id="name_input" type="text" placeholder="輸入菜單名稱" aria-label="default input example"></li><br>
-                </ul>
-                <br>
-                <ul>
-                    <li>價錢:<input id="price" type="number" placeholder="選擇價格" aria-label="default input example"></li>
+						<li id="menu_name">想更改的菜單：
+  	                    <select name="menuID">
+	                        <option selected disabled></option>
+	                        <c:forEach var="coachMenuVO" items="${coachMenuSvc.getByUserID(userID)}">
+	                        <option value="${coachMenuVO.menuID}">${coachMenuVO.menuName}</option>
+	                        </c:forEach>
+	                    </select><br><br>
+	                    
+	                    <li>更改後的名稱：
+	                    <input id="name_input" type="text" placeholder="輸入菜單名稱" aria-label="default input example" 
+                    	name="menuName" value="<%=(coachMenuVO == null) ? "" : coachMenuVO.getMenuName()%>"><br><br>
+                    	<%if(errorMsgs != null){if(errorMsgs.contains("請輸入菜單名稱")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入菜單名稱</span>
+                    <%}} %>
+
+                    <li>價錢：
+                    
+                    <input id="price" type="number" placeholder="選擇價格" aria-label="default input example" 
+                    	name="price" value="<%=(coachMenuVO == null) ? "" : coachMenuVO.getPrice()%>"><br><br>
+                    	 <%if(errorMsgs != null){if(errorMsgs.contains("請輸入菜單價格")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入菜單價格</span>
+                    <%}} %>
+                    </li>
+
+                	<li>部位選擇：
+	                    <select name="positionNo">
+	                        <option selected disabled></option>
+	                        <c:forEach var="positionVO" items="${positionSvc.all}">
+	                        <option value="${positionVO.positionNo}">${positionVO.positionName}</option>
+	                        </c:forEach>
+	                    </select>
+	                   <%if(errorMsgs != null){if(errorMsgs.contains("請選擇部位")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請選擇部位</span>
+                   		 <%}} %>
+                    </li>
                 </ul>
                 <br><br>
-                <ul>部位選擇:</ul>
-                <br>
-                <ul>
-                    <select>
-                        <option>請選擇部位</option>
-                        <option>部位1</option>
-                        <option>部位2</option>
-                        <option>部位3</option>
-                        <option>部位4</option>
-                        <option>部位5</option>
-                        <option>部位6</option>
-                    </select>
-                </ul>
-                <br><br>
-                <ul>
-                    <input type="radio" id="userGender_01" name="userGender" value="0" checked="checked" />公開  
-                    <input type="radio" id="userGender_02" name="userGender" value="1" />不公開
-                </ul>
+                
+                    
             </div>
             <div id="post_box">
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
+
+            	<ul>
+            		<li class="post_name">
+                        <p>參考影片:</p>
+                        <select name="refVideo1">
+                            <c:forEach var="videoVO" items="${videoSvc.getByUserID(userID)}">
+                            <option value="${videoVO.videoID}">${videoVO.title}</option>
+                            </c:forEach>
+                        </select>
+
+                    </li><br>
+                    <li class="post_name">
+                        <p>參考影片:</p>
+                        <select name="refVideo2">
+                            <c:forEach var="videoVO" items="${videoSvc.getByUserID(userID)}">
+                            <option value="${videoVO.videoID}">${videoVO.title}</option>
+                            </c:forEach>
+                        </select>
+                        
+                    </li><br>
+                    <li class="post_name">
+                        <p>參考影片:</p>
+                        <select name="refVideo3">
+                            <c:forEach var="videoVO" items="${videoSvc.getByUserID(userID)}">
+                            <option value="${videoVO.videoID}">${videoVO.title}</option>
+                            </c:forEach>
+                        </select>
+
+                    </li>
+            	</ul>
+                        
             </div>
             <div id="button_area">
-                <button type="button" id="button" class="btn btn-primary btn-lg">確認</button>
-                <button type="button" id="button" class="btn btn-primary btn-lg">取消</button>
-                <button type="button" id="button" class="btn btn-primary btn-lg">刪除菜單</button>
+                <button type="submit" id="button" class="btn btn-primary btn-lg">確認</button>
+				<button id="cancel" type="button" class="btn btn-outline-danger">取消</button>
             </div>
+            <input type="hidden" name="action"  value="update">
+            <input type="hidden" name="userID" value="${userID}">
+            </form>
         </div>
     </div>
+    
+    	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+	<script>
+
+		$("#cancel").click(function() {
+			console.log("cancel");
+
+			var yes = confirm('你確定要取消嗎?');
+			if (yes) {
+				console.log("yse");
+				alert("按是返回"); 
+				window.history.back(-1); 
+			} else {
+				console.log("no");
+			}
+		});
+	</script>
 </body>
 </html>

@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="com.customMenu.model.*"%>
 
 <jsp:useBean id="menuSvc" scope="page"
 	class="com.customMenu.model.CustomMenuService" />
@@ -56,6 +57,16 @@
 /* 	List<CustomMenuListVO> menulist = (List<CustomMenuListVO>) request.getAttribute("menulist");
 	System.out.println("jsp" + menulist);
 	request.setAttribute("menulist", menulist); */
+	
+	CustomMenuService menusvc = new CustomMenuService();
+	List<CustomMenuVO> percentlist = menusvc.getAll(Integer.parseInt(userID));
+	Integer percentlistsize = percentlist.size();
+	Integer total = 0;
+	for(int i = 0; i < percentlistsize; i++){
+		total += percentlist.get(i).getCompleted();
+	}
+	Integer percent = (total/percentlistsize);
+	System.out.println(percent);
 	
 %>
 <!DOCTYPE html>
@@ -278,6 +289,20 @@ i.bi-cart-fill span.-on{
 	list-style-type: none;
 }
 
+.listeffect{
+	color:white;
+}
+
+.listeffect:hover, .listeffect:active{
+	background-color: white;
+	color: #31105E;
+}
+
+.active{
+ 	background-color: white !important;
+ 	color: #31105E !important;
+}
+
 /****************** bar css end ******************/
 /***************************以下複製貼上****************************/
 
@@ -406,9 +431,9 @@ i.bi:hover{
 				<p style="font-weight: bold;">自訂菜單</p>
 				<ul class="nav flex-column nav-pills nav-fills">
 					<c:forEach var="customMenuVO" items="${menuSvc.getAll(userID)}">
-						<li class="nav-item"><a class="nav-link" aria-current="page"
+						<li class="nav-item"><a class="nav-link listeffect ${customMenuVO.menuID == location ? "active": ""}" aria-current="page"
 							href="<%=request.getContextPath()%>/userMenuListPage/userMenuList.do?action=getAll&menuID=${customMenuVO.menuID}"
-							style="color: white;">${customMenuVO.title}</a></li>
+							>${customMenuVO.title}</a></li>
 					</c:forEach>
 				</ul>
 				<br>
@@ -419,9 +444,9 @@ i.bi:hover{
 							for (Integer itemid : itemIDs) {
 								if (itemid.toString().startsWith("6")) {
 					%>
-					<li class="nav-item"><a class="nav-link" aria-current="page"
+					<li class="nav-item"><a class="nav-link listeffect" aria-current="page"
 						href="userMenuList.do?action=getCoach&itemID=<%=itemid%>"
-						style="color: white;"><%=coachSvc.getByMenuID(itemid).getMenuName()%></a></li>
+						><%=coachSvc.getByMenuID(itemid).getMenuName()%></a></li>
 					<%
 						}
 							}
@@ -434,12 +459,12 @@ i.bi:hover{
 					<div class="progress-section">
 						<div>
 							<img
-								src="<%=request.getContextPath()%>/Reader?id=${menulist[0].videoID}"
+								src="<%=request.getContextPath()%>/reader?id=${menulist[0].videoID}"
 								class="img-size">
 						</div>
 						<div>
 							<p>Progress</p>
-							<span>20%</span> <span>1/5</span>
+							<span>${percent} %</span> 
 							<p>completed</p>
 						</div>
 					</div>
@@ -450,9 +475,9 @@ i.bi:hover{
 							style="max-width: 600px; background-color: #31105E;">
 							<div class="row g-0">
 								<div class="col-md-4">
-									<a href="userMenuList.do?action=goto&menuID=${list.menuID}&listID=${list.listID}">
+									<a href="<%=request.getContextPath() %>/userMenuListPage/userMenuList.do?action=goto&menuID=${list.menuID}&listID=${list.listID}">
 										<img
-										src="<%=request.getContextPath()%>/Reader?id=${list.videoID}"
+										src="<%=request.getContextPath()%>/reader?id=${list.videoID}"
 										class="img-fluid rounded-start" alt="請重新載入">
 									</a>
 								</div>
@@ -468,7 +493,7 @@ i.bi:hover{
 				</div>
 			</c:if>
 
-			<c:if test="${coachlist != null}">
+			<%-- <c:if test="${coachlist != null}">
 				<div class="col-4 seperate">
 					<div class="progress-section">
 						<div>
@@ -503,7 +528,7 @@ i.bi:hover{
 						</div>
 					</c:forEach>
 				</div>
-			</c:if>
+			</c:if> --%>
 		</div>
 	</div>
 <script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>

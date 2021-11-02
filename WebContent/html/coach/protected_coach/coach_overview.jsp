@@ -6,6 +6,7 @@
 <%@ page import="com.coachMenu.model.*" %>
 <%@ page import="com.video.model.*" %>
 <%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="com.userAuth.model.*" %>
 
 <%
 	response.setHeader("Cache-Control","no-store"); //HTTP 1.1
@@ -45,6 +46,14 @@
 	}
 			
 	pageContext.setAttribute("cartCount", cartCount);
+	
+	Integer banVideo = 0;
+	UserAuthService userauthSvc = new UserAuthService();
+	UserAuthVO userAuthVO = userauthSvc.getUserID(Integer.parseInt(userID));
+	if(userAuthVO != null){
+		banVideo = userAuthVO.getBanVideo();
+	}
+	 
 %>
 
 <!DOCTYPE html>
@@ -219,8 +228,11 @@
         <div class="left">
 
 			<a href="<%=request.getContextPath()%>/html/coach/protected_coach/buildMenu.jsp?userID=${userID}">建立菜單</a><br>
-			
+			<%if(banVideo == 1){%>
+				<span>影片上傳</span>
+			<%}else{%>
             <a href="<%=request.getContextPath()%>/html/coach/protected_coach/buildVideo.jsp?userID=${userID}">影片上傳</a>
+            <%} %>
         </div>
         <div class="right">
             <div class="my_menu">

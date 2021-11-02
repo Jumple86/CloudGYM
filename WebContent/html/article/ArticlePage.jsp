@@ -6,6 +6,7 @@
 <%@ page import="com.comment.model.*"%>
 <%@ page import="com.user.model.*"%>
 <%@ page import="com.coach.model.*"%>
+<%@ page import="com.video.model.*"%>
 <%@ page import="com.report.model.*" %>
 <%@ page import="redis.clients.jedis.Jedis" %>
 
@@ -18,7 +19,11 @@
 	response.setDateHeader ("Expires", 0);
 %>
 
-<%
+<%	
+	VideoService videoSvc = new VideoService();
+	List<VideoVO> video = videoSvc.getRecommendedVideos();
+	pageContext.setAttribute("video", video);
+	
 	PostsService postsSvc = new PostsService();
 	PostsVO postsVO = postsSvc.getByPostsID(new Integer(request.getParameter("postsID")));
 	pageContext.setAttribute("postsVO", postsVO);
@@ -32,6 +37,9 @@
 
 	CoachService coachSvc1 = new CoachService();
 	CoachVO coachVO = coachSvc1.getByUserID(postsVO.getUserID());
+	
+	List<PostsVO> more = postsSvc.getMorePost();
+	pageContext.setAttribute("more", more);
 	
 	Jedis jedis = new Jedis("localhost", 6379);
 	pageContext.setAttribute("jedis", jedis);
@@ -54,8 +62,8 @@
 
 // 	Integer userid = 1005;
 // 	session.setAttribute("userID", userID);
-	UserVO userVO1 = userSvc.findByUserId(Integer.parseInt(userID));
-	String username = userVO1.getUserName();
+		UserVO userVO1 = userSvc.findByUserId(Integer.parseInt(userID));
+		String username = userVO1.getUserName();
 	
 	ReportService reportSvc = new ReportService();
 	List<ReportVO> reports = reportSvc.getByUser(Integer.parseInt(userID));
@@ -195,8 +203,7 @@ div.sub ul{
 	<div id="bar">
 		<div id="title">
 			<ul>
-				<li class="bar_li"><img src="<%=request.getContextPath()%>/img/logo.png" alt=""
-					for="#CloudGYM"></li>
+				<li class="bar_li"><img src="<%=request.getContextPath()%>/img/logo.png" alt="" for="#CloudGYM"></li>
 				<li class="bar_li"><a href="<%=request.getContextPath()%>/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
 			</ul>
 		</div>
@@ -251,6 +258,7 @@ div.sub ul{
 	<!-- header_end -->
 
 	<!-- main -->
+	<c:if test="${userID == postsVO.getUserID()}">
 	<div id="updatearticle">
 		<div class="container">
 			<div class="row">
@@ -269,8 +277,9 @@ div.sub ul{
 			</div>
 		</div>
 	</div>
+	</c:if>
 
-	<div class="container mt-4">
+	<div class="container pt-5">
 		<div class="row">
 
 			<div class="col-8">
@@ -298,28 +307,26 @@ div.sub ul{
 					<!-- 按讚按鈕 -->
 					<form id="addlikes"> <!--<form METHOD="post" action="likes.do">-->
 						<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>">
-	<!-- ===========================================================更改使用者=========================================================== -->
-						<input type="hidden" name="userid" value="1005"> 
+						<input type="hidden" name="userid" value="${userID}"> 
 						<input type="hidden" value="insert" name="action">
 						<button id="aa" class="far fa-thumbs-up" type="button"></button>
 					</form>
 					
 					<!-- 收藏按鈕 -->
 					<form id="addcollection">
-	<!-- ===========================================================更改使用者=========================================================== -->
-						<input type="hidden" name="userid" value="1006">
+						<input type="hidden" name="userid" value="${userID}">
 						<input type="hidden" name="itemid" value="<%=postsVO.getPostsID()%>">
 						<input type="hidden" name="action" value="insert">
 						<button id="bb" class="far fa-bookmark" type="button"></button>
 					</form>
 					
 					<!-- 分享按鈕 -->
-						<button id="cc" class="fas fa-share-alt" data-clipboard-text="http://localhost:8081<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=<%=postsVO.getPostsID()%>"></button>
+						<button id="cc" class="fas fa-share-alt" data-clipboard-text="http://localhost:8081<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=<%=postsVO.getPostsID()%>"></button>
 					<!-- 檢舉按鈕 -->
 						
 					<form>
 						<%if(!items.contains(postsVO.getPostsID())){%>
-							<button id="dd" type="button" class="btn btn-outline-dark" style="">檢舉</button>
+							<button id="dd" type="button" class="btn btn-outline-danger" style="">檢舉</button>
 							<input class="postsAction" type="hidden" name="action" value="addreport">
 						<%}else{%>
 							<button id="dd" type="button" class="btn btn-outline-dark" style="background-color:gray; color:white; border:none;">已檢舉</button>
@@ -330,6 +337,18 @@ div.sub ul{
 					</form>
 				</div>
 				<hr>
+				<!-- 相似文章 -->
+				<div class="mt-3 mb-4">
+					<h5 style="font-weight:bold;">相似文章</h5>
+					<ol class="more">
+						<c:forEach var="PostsVO" items="${more}" begin="0" end="15">
+						<c:if test="${PostsVO.tagID == postsVO.getTagID() && PostsVO.postsID != postsVO.getPostsID()}">
+							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+						</c:if>
+						</c:forEach>
+					</ol>				
+				</div>
+				
 				
 				<!-- 留言區塊 -->
 				<section class="mb-5">
@@ -338,7 +357,7 @@ div.sub ul{
 							<!-- 發文表單 -->
 							<form id="add"><!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
 								<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>"> 
-									<input type="hidden" name="userid" value="${userID }"> 
+									<input type="hidden" name="userid" value="${userID}"> 
 									<input type="hidden" value="insert" name="action">
 								<textarea class="form-control" name="commentcontent" rows="2" placeholder="撰寫公開留言..."></textarea>
 								<button id="newcomment" type="button" class="btn btn-secondary">新增留言</button>
@@ -354,11 +373,11 @@ div.sub ul{
 											${userSvc.findByUserId(commentVO.userID).userName}
 											<form>
 											<c:if test="${!items.contains(commentVO.commentID) }">
-												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px;">檢舉</button>
+												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; position: absolute; right: 27px;">檢舉</button>
 												<input class="commentAction" type="hidden" name="action" value="addreport">
 											</c:if>
 											<c:if test="${items.contains(commentVO.commentID) }">
-												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; margin-left: 675px; background-color:red; color:white;">已檢舉</button>
+												<button id="ff" type="button" class="btn btn-outline-danger" style="font-size: 10px; position: absolute; right: 27px; background-color:red; color:white;">已檢舉</button>
 												<input class="commentAction" type="hidden" name="action" value="deleteReport">
 											</c:if>
 												
@@ -368,14 +387,17 @@ div.sub ul{
 											</div>					
 											${commentVO.commentContent}
 											<br> <!-- <form class="mb-2" METHOD="post" action="comment.do"> -->
-											<form METHOD="post" action="comment.do">
+<!-- 											<form METHOD="post" action="comment.do"> -->
+											<form METHOD="post" action="<%=request.getContextPath()%>/html/comment.do">
 												<span style="font-size: 10px; color: rgb(155, 151, 151);">
 													<fmt:formatDate value="${commentVO.commentPublishDate}" pattern="yyyy-MM-dd HH:mm:ss" />
 												</span>
 <!-- 												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button> -->
 												<input type="hidden" name="page" value="APG">
 												<input type="hidden" name="commentid" value="${commentVO.commentID}">
+												<c:if test="${userID == commentVO.getUserID()}">
 												<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 628px;" value="delete" name="action">刪除</button>
+												</c:if>
 											</form>
 										</div>
 									</div>
@@ -399,7 +421,7 @@ div.sub ul{
 					<form METHOD="post" ACTION="Article.do">
 						<div class="card-body">
 							<div class="input-group">
-								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" />
+								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" autocomplete="off" />
 								<button class="btn btn-outline-dark" id="button-search" type="submit" name="action" value="search">搜尋</button>
 							</div>
 						</div>
@@ -418,6 +440,20 @@ div.sub ul{
 						<a href="ArticleList_E.jsp"><button type="button" class="btn btn-outline-secondary">綜合閒聊</button></a>
 					</div>
 				</div>
+				<!-- 影片推薦 -->
+				<div class="card mb-4">
+                    <div class="card-header mb-4"><i class="fas fa-dumbbell me-2"></i>課程推薦</div>
+                    <c:forEach var="VideoVO" items="${video}" begin="0" end="2">
+                    <a href="<%=request.getContextPath()%>/html/video/one_video_page.jsp?videoID=${VideoVO.videoID}" class="mx-4 mb-4">
+                        <div class="card bg-dark text-white">
+                            <video src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${VideoVO.videoID}" width="100%" height="100%"></video>
+                            <div class="card-img-overlay">
+                                <h5 class="card-title">${VideoVO.title}</h5>
+                            </div>
+                        </div>
+                    </a>
+                    </c:forEach>
+                </div>	
 			</div>
 			<!-- 右側區塊end -->
 		</div>

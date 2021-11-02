@@ -1,5 +1,5 @@
 package com.posts.model;
- 
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,16 +18,14 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String PASSWORD = "123456";
 	private static final String INSERT = "insert into posts(userID, postsTitle, postsContent, postsImg, postsPublishDate, tagID) values(?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "update posts set postsTitle=?, postsContent=?, postsImg=?, tagID=? where postsID=?";
-	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?";    //更改狀態
+	private static final String DELETE = "update posts set postsshow = 0 where postsid = ?";
 	private static final String FIND_PK = "select * from posts where postsid = ?";
 	private static final String FIND_TOP = "select * from posts where postsshow = 1 order by postsLikes desc";
+	private static final String FIND_MORE = "SELECT * FROM posts ORDER BY rand() LIMIT 15";
 	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
 	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
-	private static final String FIND_KEYWORD = 
-//			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or postsContent or username like '%?%' and postsShow = 1";
-//			"select * from posts as p1 	join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle or username or postsContent like '%?%'";
-			"select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle like CONCAT('%',?,'%') or username like CONCAT('%',?,'%') or postsContent like CONCAT('%',?,'%')";
-
+	private static final String FIND_KEYWORD = "select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle like CONCAT('%',?,'%') or username like CONCAT('%',?,'%') or postsContent like CONCAT('%',?,'%')";
+	
 	static {
 		try {
 			Class.forName(DRIVER);
@@ -249,6 +247,61 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	}
 
 	@Override
+	public List<PostsVO> findMore() {
+		List<PostsVO> more = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(FIND_MORE);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				PostsVO postsVO = new PostsVO();
+				postsVO.setPostsID(rs.getInt("postsid"));
+				postsVO.setUserID(rs.getInt("userid"));
+				postsVO.setPostsTitle(rs.getString("poststitle"));
+				postsVO.setPostsContent(rs.getString("postscontent"));
+				postsVO.setPostsImg(rs.getBytes("postsimg"));
+				postsVO.setPostsPublishDate(rs.getTimestamp("postspublishdate"));
+				postsVO.setTagID(rs.getInt("tagid"));
+				postsVO.setPostsLikes(rs.getInt("postslikes"));
+				postsVO.setPostsReportedTimes(rs.getInt("postsreportedtimes"));
+				postsVO.setPostsShow(rs.getBoolean("postsshow"));
+				more.add(postsVO);
+			}
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
+		return more;
+	}
+
+	@Override
 	public List<PostsVO> findAll() {
 		List<PostsVO> list = new ArrayList<>();
 		Connection con = null;
@@ -373,7 +426,7 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			pstmt.setString(2, str);
 			pstmt.setString(3, str);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				PostsVO postsVO = new PostsVO();
 				postsVO.setPostsID(rs.getInt("postsid"));
@@ -417,10 +470,16 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 		return keyword;
 	}
 
-	public static void main(String[] args) throws IOException {
-		PostsJDBCDAO dao = new PostsJDBCDAO();
+//	@Override
+//	public List<PostsVO> findMyPost() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
-//		�憓�
+//	public static void main(String[] args) throws IOException {
+//		PostsJDBCDAO dao = new PostsJDBCDAO();
+//
+//		嚙踐��蕭
 //		PostsVO postsVO = new PostsVO();
 //		postsVO.setPostsID(40011);
 //		postsVO.setUserID(1002);
@@ -431,9 +490,9 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		postsVO.setTagID(20);
 //		postsVO.setPostsShow(true);
 //		dao.insert(postsVO);
-//		System.out.println("�憓���");
-
-//		靽格
+//		System.out.println("嚙踐��等嚙踐�蕭嚙�");
+//
+//		�����
 //		PostsVO postsVO = new PostsVO();
 //		postsVO.setPostsTitle("ABCDAAAAA");
 //		postsVO.setPostsContent("DCBAAAAA");
@@ -443,30 +502,30 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		postsVO.setPostsShow(false);
 //		postsVO.setPostsID(40011);
 //		dao.update(postsVO);
-//		System.out.println("靽格����");
-
-//		��
+//		System.out.println("����蕭嚙踐�蕭嚙�");
+//
+//		嚙踝�蕭謒�
 //		dao.delete(40011);
-//		System.out.println("������");
-
-//		�閰㎜K
+//		System.out.println("嚙踝�蕭謒蕭嚙踐�蕭嚙�");
+//
+//		嚙踐���
 //		PostsVO PK = dao.findByPrimaryKey(40003);
 //		System.out.println(PK);
-
-//		�閰∕ll
+//
+//		嚙踐���l
 //		List<PostsVO> list = dao.findAll();
 //		for (PostsVO all : list) {
 //			System.out.println(all);
 //		}
-
-		// 關鍵字
-		String str = "美";
-		List<PostsVO> keyword = dao.findKeyword(str);
-		for (PostsVO Kw : keyword) {
-			System.out.println(Kw);
-		}
-	}
-
+//
+//		 ��摮�
+//		String str = "蝢�";
+//		List<PostsVO> keyword = dao.findKeyword(str);
+//		for (PostsVO Kw : keyword) {
+//			System.out.println(Kw);
+//		}
+//}
+//	
 //	public static byte[] getPictureByteArray(String path) throws IOException {
 //		FileInputStream fis = new FileInputStream(path);
 //		byte[] buffer = new byte[fis.available()];
@@ -474,5 +533,6 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 //		fis.close();
 //		return buffer;
 //	}
+//	
 
 }

@@ -9,4 +9,5 @@ public interface CoachMenuDAO_interface {
 	public CoachMenuVO findByMenuID(Integer menuID);
 	public List<CoachMenuVO> findByUserID(Integer userID);
 	public List<CoachMenuVO> findAll();
+	public List<CoachMenuVO> findMenuIDByUserID(Integer userID);
 }

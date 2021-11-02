@@ -8,6 +8,7 @@ public interface PostsDAO_interface {
 	public void delete(Integer postsID);
 	public PostsVO findByPrimaryKey(Integer postsID);
 	public List<PostsVO> findByTopPost();
+	public List<PostsVO> findMore();
 	public List<PostsVO> findAll();
 	public List<PostsVO> findAll2();
 	public List<PostsVO> findKeyword(String str);

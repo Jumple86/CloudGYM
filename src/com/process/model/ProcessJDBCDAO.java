@@ -21,6 +21,7 @@ public class ProcessJDBCDAO implements ProcessDAO_interface{
 	private static final String FIND_BY_PROCESSNO = "SELECT * FROM process WHERE processNo=?";
 	private static final String FIND_BY_USERID = "SELECT * FROM process WHERE userID=?";
 	private static final String FIND_BY_LISTID = "SELECT * FROM process WHERE listID=?";
+	private static final String FIND_BY_ACTNO = "SELECT * FROM process WHERE actNo=?";
 	private static final String GET_ALL = "SELECT * FROM process";
 	
 	static {
@@ -30,6 +31,57 @@ public class ProcessJDBCDAO implements ProcessDAO_interface{
 			ce.printStackTrace();
 		}
 	}
+	
+	@Override
+	public ProcessVO findByActNo(Integer actNo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ProcessVO processVO = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(FIND_BY_ACTNO);
+			pstmt.setInt(1, actNo);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				processVO = new ProcessVO();
+				processVO.setProcessNo(rs.getInt("processNo"));
+				processVO.setUserID(rs.getInt("userID"));
+				processVO.setListID(rs.getInt("listID"));
+				processVO.setAction(rs.getString("action"));
+				processVO.setSets(rs.getInt("sets"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return processVO;
+	}
+
 
 	@Override
 	public void insert(ProcessVO processVO) {

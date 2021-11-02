@@ -49,4 +49,8 @@ public class ProcessService {
 	public List<ProcessVO> getAll(){
 		return dao.getAll();
 	}
+	
+	public ProcessVO getByActNo(Integer actNo) {
+		return dao.findByActNo(actNo);
+	}
 }

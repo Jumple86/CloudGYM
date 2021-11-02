@@ -27,6 +27,8 @@
 	List<VideoVO> list2 = videoSvc.getByPositionNo(4);
 	request.setAttribute("list2", list2);
 
+	String oneVideoPage = request.getRequestURI() + "?videoID=" + videoID;
+	session.setAttribute("oneVideoPage", oneVideoPage);
 %>
 
 <%
@@ -229,15 +231,15 @@
 						<div class="sub"></div>
 					</div>
 				</c:if>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
+				<li class="option">
+					<a href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
 						<i class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
 								<span>${hlen}</span>
 							</c:if> <c:if test="${hlen == 0}">
 								<span>${cartCount}</span>
-							</c:if> <span>${cartCount}</span>
-					</i>
-				</a></li>
+							</c:if> <span>${cartCount}</span></i>
+					</a>
+				</li>
 			</ul>
         </div>
     </div>
@@ -261,11 +263,14 @@
 <!--                         <input type="text"> -->
                     </form>
                 </div>
+                <%if(!videoSvc.findByPrimaryKey(videoID).getListed()){%>
+                	<div class="disable" style="z-index:8;"><h3>此影片已被下架</h3></div>
+                <%} else{%>
                 <%if(videoSvc.findByPrimaryKey(videoID).getPrice() != 0){
                 	if(items2.contains(videoID)){%>
                 	<%}else{%>
                 	<div class="disable" style="z-index:8;"><h3>需先購買此影片才可以觀看</h3></div>
-                <%}} %>
+                <%}}} %>
                 
 <!--                 <img src="../img/work_out_1.jpg" alt="" id="video_img"> -->
                 <video src="<%=request.getContextPath()%>/html/VideoOutput?videoID=${videoID}" width="700" controls preload="metadata">
@@ -302,13 +307,12 @@
                         		</li>
                         	</c:forEach>
                             	<hr>
-                            	<li class="addmenu">新增菜單
+                            	
+                            	<li class="addmenu"><a href="<%=request.getContextPath()%>/html/video/addmenu.jsp?userID=${userID}">新增菜單</a>
                             	</li>
 								                            	
                         	</ul>
                     	</div>
-                    	
-                		
                 		</c:if>
                 	<form style="display:inline-block;">
                 	<i class="bi bi-exclamation-circle-fill"></i>
@@ -338,11 +342,19 @@
 
             <div id="right">
             <jsp:useBean id="coachSvc" scope="page" class="com.coach.model.CoachService"/>
-                <p id="coach_name">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachName }</p>
-                <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${videoSvc.findByPrimaryKey(videoID).userID}"
-                    alt="" id="coach_photo">
-                <div id="line"></div>
-                <p id="coach_info">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachDescription}</p>
+            	<form action="<%=request.getContextPath()%>/coach/coach.do?">
+            		<input type="submit" id="gotocoach" style="display:none;">
+            		<label for="gotocoach">
+            			<img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${videoSvc.findByPrimaryKey(videoID).userID}"
+	                   		alt="" id="coach_photo">
+            		</label>
+            		<p id="coach_name">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachName }</p>
+	                
+	                <div id="line"></div>
+	                <p id="coach_info">${coachSvc.getByUserID(videoSvc.findByPrimaryKey(videoID).userID).coachDescription}</p>
+	                <input type="hidden" name="action" value="gotocoach">
+	                <input type="hidden" name="userID" value="${videoSvc.findByPrimaryKey(videoID).userID}">
+            	</form>
             </div>
         </div>
 
@@ -464,9 +476,23 @@
 	    		  });
     		  });
     		
-    		$("span.addmenu").on("click", function(){
-    			$("div.addmenu").css("display", "");
-    		})
+    		$("span.addmenu").click(function (event) { 
+    			//取消事件冒泡 
+    			event.stopPropagation(); 
+    			//按鈕的toggle,如果div是可見的,點選按鈕切換為隱藏的;如果是隱藏的,切換為可見的。 
+    			$('div.addmenu').toggle('slow'); 
+    			return false;
+    			}); 
+    		
+    		$(document).click(function(event){
+    			  var _con = $('div.addmenu');   // 設定目標區域
+    			  if(!_con.is(event.target) && _con.has(event.target).length === 0){ // Mark 1
+    				//$('#divTop').slideUp('slow');   //滑動消失
+    				$('div.addmenu').hide();          //淡出消失
+    			  }
+    		});
+    		
+    		
     		
     		// 加入菜單Ajax
     		$("div.addmenu li").on("click", function(){
