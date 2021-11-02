@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.admin.model.*;
 
-@WebServlet("/html/AdminLoginHandler")
+@WebServlet("/AdminLoginHandler")
 public class AdminLoginHandler extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

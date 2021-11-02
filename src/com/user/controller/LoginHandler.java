@@ -1,18 +1,21 @@
 package com.user.controller;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.admin.model.AdminService;
-import com.admin.model.AdminVO;
-import com.coach.model.CoachService;
-import com.coach.model.CoachVO;
-import com.user.model.*;
+import com.user.model.UserService;
+import com.user.model.UserVO;
+import com.userAuth.model.UserAuthService;
+import com.userAuth.model.UserAuthVO;
 
 @WebServlet("/loginhandler")
 public class LoginHandler extends HttpServlet {
@@ -69,12 +72,24 @@ public class LoginHandler extends HttpServlet {
 				/*************************** 2.開始查詢資料 *****************************************/
 				UserService userSvc = new UserService();
 				UserVO userVO = userSvc.findByUserAccount(userAccount);
-				
-				if(userVO == null) {
+
+				if (userVO == null) {
 					errorMsgs.add("查無資料");
-				} else if (!password.equals(userVO.getUserPassword())) {
-					errorMsgs.add("密碼錯誤");
+				} else {
+					if (!password.equals(userVO.getUserPassword())) {
+						errorMsgs.add("密碼錯誤");
+					} else {
+						UserAuthService userAuthSvc = new UserAuthService();
+						UserAuthVO userAuthVO = userAuthSvc.getUserID(userVO.getUserID());
+						if (userAuthVO != null) {
+							Integer banUser = userAuthVO.getBanUsers();
+							if (banUser == 1) {
+								errorMsgs.add("此帳號已被停權");
+							}
+						}
+					}
 				}
+				
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
