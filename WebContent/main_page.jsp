@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=BIG5" pageEncoding="BIG5"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.coach.model.*"%>
@@ -55,10 +55,11 @@
 <title>CloudGYM</title>
 <link rel="stylesheet" href="css/reset.css">
 <link rel="stylesheet" href="css/main_page.css">
+<link rel="stylesheet" href="css/bar.css">
 
 <!-- Mutislider CSS -->
 <link href="css/main_coach.css" rel="stylesheet">
-<link href="css/main_video.css" rel="stylesheet">
+<!-- <link href="css/main_video.css" rel="stylesheet"> -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <!-- Font Awesome -->
@@ -107,7 +108,7 @@
 	background-color: #4d4949;
 	color: white;
 	font-size: 12px;
-	font-family: ·L³n¥¿¶ÂÅé;
+	font-family: å¾®è»Ÿæ­£é»‘é«”;
 	text-align: center;
 	width: 70px;
 }
@@ -141,11 +142,11 @@
 	<script>
 		$("#menu").css("width", $(".main").length * 200)
 		$(document).ready(function() {
-			//  ¤@¶i¤Jµe­±®É¦¬¦X¿ï³æ
+			//  ä¸€é€²å…¥ç•«é¢æ™‚æ”¶åˆé¸å–®
 			$(".sub").slideUp(0);
 
 			for (i = 0; i < $(".main").length; i++) {
-				//  ÂI¿ï«ö§á®É¦¬¦X©Î®i¶}¿ï³æ
+				//  é»é¸æŒ‰æ‰­æ™‚æ”¶åˆæˆ–å±•é–‹é¸å–®
 				$(".main:eq(" + i + ")").on("click", {
 					id : i
 				}, function(e) {
@@ -177,36 +178,36 @@
 		<div id="option">
 			<ul>
 				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/video/all_video_page.jsp">¹B°ÊÃş«¬</a></li>
+					href="<%=request.getContextPath()%>/html/video/all_video_page.jsp">é‹å‹•é¡å‹</a></li>
 				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/coach/all_coach_page.jsp">±Ğ½m</a></li>
+					href="<%=request.getContextPath()%>/html/coach/all_coach_page.jsp">æ•™ç·´</a></li>
 				<li class="option"><c:if test="${not empty userID}">
 						<a
-							href="<%=request.getContextPath()%>/html/user/protected_user/userMainPage.jsp?userID=${userID}">­Ó¤H±M°Ï</a>
-					</c:if> <c:if test="${ empty userID}">­Ó¤H±M°Ï</c:if></li>
+							href="<%=request.getContextPath()%>/html/user/protected_user/userMainPage.jsp?userID=${userID}">å€‹äººå°ˆå€</a>
+					</c:if> <c:if test="${ empty userID}">å€‹äººå°ˆå€</c:if></li>
 				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">°Q½×°Ï</a></li>
+					href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">è¨è«–å€</a></li>
 				<c:if test="${empty userID}">
 					<div class="item">
-						<div class="main">µù¥U/µn¤J</div>
+						<div class="main">è¨»å†Š/ç™»å…¥</div>
 						<div class="sub">
 							<ul>
 								<li><a
-									href="${pageContext.request.contextPath}/html/login/sign_up_page.jsp">·|­ûµù¥U</a></li>
+									href="${pageContext.request.contextPath}/html/login/sign_up_page.jsp">æœƒå“¡è¨»å†Š</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/html/login/login_user.jsp">·|­ûµn¤J</a></li>
+									href="${pageContext.request.contextPath}/html/login/login_user.jsp">æœƒå“¡ç™»å…¥</a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/html/login/login_coach.jsp">±Ğ½mµn¤J</a></li>
+									href="${pageContext.request.contextPath}/html/login/login_coach.jsp">æ•™ç·´ç™»å…¥</a></li>
 								<li><a
 									href="${pageContext.request.contextPath}/html/login/login_admin.jsp"
-									target="_blank">«á¥xºŞ²z</a></li>
+									target="_blank">å¾Œå°ç®¡ç†</a></li>
 							</ul>
 						</div>
 					</div>
 				</c:if>
 				<c:if test="${not empty userID}">
 				<div class="item">
-					<div class="main" id="logout"><a href="javascript:if (confirm('½T»{µn¥X?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name} µn¥X</a></div>
+					<div class="main" id="logout"><a href="javascript:if (confirm('ç¢ºèªç™»å‡º?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">${name} ç™»å‡º</a></div>
 						<div class="sub"></div>
 					</div>
 				</c:if>
@@ -230,34 +231,21 @@
 	</div>
 
 	<div id="center">
-		<div>
+		<div id="center2">
 			<div id="text1">
 				<ul>
-					<li id="hot_video">¼öªù¼v¤ù</li>
+					<li id="hot_video">ç†±é–€å½±ç‰‡</li>
+					<li id="all_videos"><a href="<%=request.getContextPath()%>/html/video/all_video_page.jsp">é¡¯ç¤ºæ›´å¤š</a></li>
 				</ul>
 			</div>
 
 			<div id="video_pic_div">
-				<iframe src="main_video.jsp" width="1500" height="300"
-					frameborder="0" scrolling="no"></iframe>
+				<iframe src="main_video.jsp" width="100%;" height="400" frameborder="0" scrolling="no"></iframe>
 			</div>
 
 
-			<div id="coach_rank">±Ğ½mª÷º]</div>
+			<div id="coach_rank">æ•™ç·´é‡‘æ¦œ</div>
 			<div id="coach_pic_div">
-
-				<%--             <c:forEach var="coachVO" items="${list}" begin="0" end="${list.size()}"> --%>
-				<%-- 	            <img src="<%=request.getContextPath()%>/coachImg/coachImg.do?userID=${coachVO.userID}" alt="" class="coach_pic"> --%>
-				<%--             </c:forEach> --%>
-
-				<%--             <c:forEach var="coachVO" items="${list}" begin="0" end="${list.size()}"> --%>
-				<%-- 	            <p class="coach_list">${coachVO.coachName}</p> --%>
-				<%--             </c:forEach> --%>
-
-
-
-
-				<!-- 		    <iframe src="main_coach.jsp" width="1500" height="300" frameborder="0" scrolling="no"> ></iframe> -->
 
 				<div id="exampleSlider">
 					<div class="MS-content">
@@ -301,9 +289,9 @@
 
 
 	<div id="bottom">
-		<p id="about">Ãö©ó§Ú­Ì</p>
-		<p id="contact">Ápµ¸§Ú­Ì</p>
-		<p id="address">¥xÆW¥x¥_¥««H¸q°Ï«H¸q¸ô¤­¬q7¸¹</p>
+		<p id="about">é—œæ–¼æˆ‘å€‘</p>
+		<p id="contact">è¯çµ¡æˆ‘å€‘</p>
+		<p id="address">å°ç£å°åŒ—å¸‚ä¿¡ç¾©å€ä¿¡ç¾©è·¯äº”æ®µ7è™Ÿ</p>
 		<p>029484184</p>
 	</div>
 
