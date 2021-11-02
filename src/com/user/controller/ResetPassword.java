@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.user.model.UserService;
 import com.user.model.UserVO;
 
-@WebServlet("/html/ResetPassword")
+@WebServlet("/ResetPassword")
 public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public class ResetPassword extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("userVO", userVO); 
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/html/forget_password.jsp");
+							.getRequestDispatcher("/html/login/forget_password.jsp");
 					failureView.forward(req, res);
 					return;
 				}	
