@@ -9,20 +9,24 @@
 <%@ page import="com.video.model.*"%>
 <%@ page import="com.orders.model.*"%>
 <%@ page import="com.orderList.model.*"%>
+<%@ page import="com.userAuth.model.*" %>
 
 
 <%
-	Integer coachID = null;
-	CoachVO coachVO = null;
-	try {
-		coachVO = (CoachVO) request.getAttribute("coachVO");
-		coachID = coachVO.getUserID();
-		request.setAttribute("coachID", coachID);
-	} catch (Exception e) {
-		coachVO = new CoachService().getByUserID(2004);
-		pageContext.setAttribute("coachVO", coachVO);
-		coachID = 2004;
-	}
+
+// 	CoachVO coachVO = null;
+	Integer coachID = Integer.parseInt(request.getParameter("userID"));
+	System.out.println(coachID);
+	request.setAttribute("coachID", coachID);
+// 	try {
+// 		coachVO = (CoachVO) request.getAttribute("coachVO");
+// 		coachID = coachVO.getUserID();
+// 		request.setAttribute("coachID", coachID);
+// 	} catch (Exception e) {
+// 		coachVO = new CoachService().getByUserID(2004);
+// 		pageContext.setAttribute("coachVO", coachVO);
+// 		coachID = 2004;
+// 	}
 
 	CoachMenuService svc = new CoachMenuService();
 	List<CoachMenuVO> menuList = svc.getByUserID(coachID);
@@ -44,8 +48,9 @@
 // 	Integer userID = 1003;
 // 	session.setAttribute("userID", userID);
 	Integer userID = (Integer)session.getAttribute("userID");
+	System.out.println(userID);
 	List<Integer> itemIDs = null;
-	if(userID != null){
+	if(userID != null && userID.toString().startsWith("1")){
 		List<OrdersVO> orders = new OrdersService().getOrdersByUserID(userID);
 		OrderListService orderlistSvc = new OrderListService();
 		itemIDs = new ArrayList<>();
@@ -74,6 +79,16 @@
 	response.setHeader("Cache-Control", "no-store"); //HTTP 1.1
 	response.setHeader("Pragma", "no-cache"); //HTTP 1.0
 	response.setDateHeader("Expires", 0);
+	
+	Integer banShopping = 0;
+	if(userID != null){
+		UserAuthService userauthSvc = new UserAuthService();
+		UserAuthVO userAuthVO = userauthSvc.getUserID(userID);
+		if(userAuthVO != null){
+			banShopping = userAuthVO.getBanShopping();
+		}
+	}
+	
 %>
 
 
@@ -278,10 +293,16 @@ div.menu input:disabled {
 		<div class="video">
 			<i class="bi bi-chevron-compact-left left"></i>
 			<ul>
-				<c:forEach var="video" items="${videoList}">
+				<c:forEach var="video" items="${videoList}" varStatus="i">
 					<li><img
-						src="<%=request.getContextPath() %>/img/man-weight-lifting-training-workout-gym.jpg" alt="">
+						src="<%=request.getContextPath() %>/img/menu${i.count }.jpg" alt="">
 						<h4 class="video_name">${video.title}</h4>
+						<%if(banShopping == 1){ %>
+							<button type="button" value="加入購物車" disabled>無法購買</button>
+							<c:if test="${itemIDs.contains(video.videoID) }">
+								<button type="button" value="加入購物車" disabled>已購買</button>
+							</c:if>
+						<%}else{ %>
 						<form id="add_cart" method="post">
 							<!-- 	                        <input type="submit" value="加入購物車"> -->
 							<c:if test="${video.price == 0}">
@@ -290,13 +311,18 @@ div.menu input:disabled {
 							<c:if test="${video.price != 0}">
 								<button type="button" value="加入購物車">加入購物車</button>
 							</c:if>
-							<c:if test="${itemIDs.contains(video.videoID) }">
-								<button type="button" value="加入購物車" disabled>已購買</button>
-							</c:if>
+							<%if(itemIDs != null){%>
+								<c:if test="${itemIDs.contains(video.videoID) }">
+									<button type="button" value="加入購物車" disabled>已購買</button>
+								</c:if>
+							<%} %>
+							
 							<input type="hidden" name="videoID" value="${video.videoID}">
 							<input type="hidden" name="videoPrice" value="${video.price}">
 							<input type="hidden" name="action" value="addCart">
-						</form></li>
+						</form>
+						<%} %>
+					</li>
 				</c:forEach>
 			</ul>
 			<i class="bi bi-chevron-compact-right right"></i>
@@ -337,7 +363,7 @@ div.menu input:disabled {
 			</ul>
 			<i class="bi bi-chevron-compact-right right"></i>
 		</div>
-		<div class="sub">
+		<div id="fuck">
 			<ul>
 				<c:forEach var="subscription" items="${subList}">
 					<jsp:useBean id="sub" scope="page"

@@ -67,8 +67,14 @@
 								<c:if test="${commentVO.postsID == postsVO.postsID}">
 									<ul class="com_ul">
 										<span>${commentVO.userID} -
+<<<<<<< HEAD:WebContent/html/back_end_post_page.jsp
+											${userSvc.findByUserId(commentVO.userID).userName}
+											${coachSvc.getByUserID(commentVO.userID).coachName}</span>
+										<form method="post" action="comment.do">
+=======
 											${userSvc.findByUserId(commentVO.userID).userName}</span>
 										<form method="post" action="<%=request.getContextPath()%>/html/comment.do">
+>>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_post_page.jsp
 											<input type="hidden" name="commentid" value="${commentVO.commentID}">
 											<button type="submit" name="action" value="delete">
 												<i class="bi bi-trash-fill"></i>

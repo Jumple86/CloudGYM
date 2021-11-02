@@ -61,8 +61,13 @@
 				</c:if>
 				</li>
 				<li>
+<<<<<<< HEAD:WebContent/html/back_end_Admin.jsp
+				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
+					<span class="li_btn">訂單查詢</span></a>
+=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
 					<span class="li_btn">訂單明細管理</span></a>
+>>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_Admin.jsp
 				</li>
 				<li>
 				<c:if test="<%=adminSvc.getOneAdmin(adminNo).getCommentAuth() == 1 %>">

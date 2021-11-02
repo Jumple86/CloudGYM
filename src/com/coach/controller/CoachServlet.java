@@ -417,7 +417,7 @@ public class CoachServlet extends HttpServlet {
 				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/coach_page.jsp");
 				successView.forward(req, res);
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
 		}
 	}

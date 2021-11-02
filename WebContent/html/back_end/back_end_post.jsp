@@ -6,6 +6,7 @@
 <jsp:useBean id="userSvc" scope="page" class="com.user.model.UserService" />
 <jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
 <jsp:useBean id="coachSvc" scope="page"	class="com.coach.model.CoachService" />
+<jsp:useBean id="commSvc" scope="page"	class="com.comment.model.CommentService" />
 <%
   response.setHeader("Cache-Control","no-store"); //HTTP 1.1
   response.setHeader("Pragma","no-cache");        //HTTP 1.0
@@ -61,8 +62,13 @@
 				</c:if>
 				</li>
 				<li>
+<<<<<<< HEAD:WebContent/html/back_end_post.jsp
+				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
+					<span class="li_btn">訂單查詢</span></a>
+=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
 					<span class="li_btn">訂單明細管理</span></a>
+>>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_post.jsp
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
@@ -122,6 +128,7 @@
 							<th scope="col">上傳者</th>
 							<th scope="col">上傳時間</th>
 							<th scope="col">被檢舉次數</th>
+							<th scope="col">文章留言數</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -186,7 +193,7 @@
 									</c:otherwise>
 								</c:choose>
 								</td>
-								<td style="text-align: left; font-size: 15px">
+								<td style="text-align: left">
 								<c:choose>
 									<c:when test="${postsVO.postsReportedTimes > 2 && postsVO.postsShow == true}">
 										<font style="color: red">${postsVO.postsTitle}</font>
@@ -204,7 +211,7 @@
 									</font>
 									</c:when>
 									<c:otherwise>
-										${postsVO.userID} -
+										${postsVO.userID}-
 										${userSvc.findByUserId(postsVO.userID).userName}
 										${coachSvc.getByUserID(postsVO.userID).coachName}
 									</c:otherwise>
@@ -230,6 +237,7 @@
 									</c:otherwise>
 								</c:choose>
 								</td>
+								<td>${commSvc.getCountComment(postsVO.postsID)}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

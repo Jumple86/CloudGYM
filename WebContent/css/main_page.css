@@ -1,7 +1,3 @@
-body {
-	font-family: 微軟正黑體;
-}
-
 body{
     
 }
@@ -88,17 +84,12 @@ i.bi-cart-fill span.-on{
 
 #text1 {
 	overflow: hidden;
-	max-width: 1200px;
+	width: 1000px;
 	margin: 50px auto 20px;
 }
 
 #hot_video {
 	float: left;
-	color: #fff;
-}
-
-#all_videos {
-	float: right;
 	color: #fff;
 }
 
@@ -145,7 +136,7 @@ i.bi-cart-fill span.-on{
 }
 
 #coach_rank {
-	width: 1200px;
+	width: 1000px;
 	margin: 50px auto 20px;
 	color: #fff;
 }
