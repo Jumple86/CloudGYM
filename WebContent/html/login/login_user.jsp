@@ -12,6 +12,16 @@
   UserVO userVO = (UserVO) request.getAttribute("userVO");
 %>
 
+<%
+	Object newUserLogin = session.getAttribute("newUserLogin");              // 從 session內取出 (key) newUserLogin的值
+	if (newUserLogin != null) {                                              // 若非 null, 代表是new user剛註冊成功,才跳出註冊成功alert
+		out.println("<script type=\"text/javascript\">");
+		out.println("alert('註冊成功! 請重新登入!');");
+		out.println("</script>");
+		session.removeAttribute("newUserLogin");                             // 移除new user標誌
+	}
+%>
+
 <html>
 <head>
 <meta charset="BIG5">
@@ -40,7 +50,7 @@
 					</c:forEach>
 				</c:if>
 			
-			<a id="forget" href="./forget_password.jsp">忘記密碼了?笑你</a>
+			<a id="forget" href="./forget_password.jsp">忘記密碼</a>
 			
 			
 			

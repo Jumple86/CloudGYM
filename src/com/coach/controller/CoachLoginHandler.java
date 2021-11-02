@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import com.coach.model.CoachService;
 import com.coach.model.CoachVO;
 import com.user.model.*;
+import com.userAuth.model.UserAuthService;
+import com.userAuth.model.UserAuthVO;
 
 @WebServlet("/html/coachloginhandler")
 public class CoachLoginHandler extends HttpServlet {
@@ -71,11 +73,22 @@ public class CoachLoginHandler extends HttpServlet {
 				
 				if (coachVO == null) {
 					errorMsgs.add("查無資料");
-				}else  {
-					if(!password.equals(coachVO.getCoachPassword())) {
+				} else {
+					if (!password.equals(coachVO.getCoachPassword())) {
 						errorMsgs.add("密碼錯誤");
+					} else {
+						UserAuthService userAuthSvc = new UserAuthService();
+						UserAuthVO userAuthVO = userAuthSvc.getUserID(coachVO.getUserID());
+						if (userAuthVO != null) {
+							Integer banUser = userAuthVO.getBanUsers();
+							if (banUser == 1) {
+								errorMsgs.add("此帳號已被停權");
+							}
+						}
 					}
 				}
+				
+
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/login_coach.jsp");
