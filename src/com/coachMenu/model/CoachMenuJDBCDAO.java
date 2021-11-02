@@ -13,12 +13,13 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 	private static final String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO coachMenu(userID, menuName, price, isPublic, positionNo) VALUES(?, ?, ?, ?, ?);";
-	private static final String UPDATE_STMT = "UPDATE coachMenu SET userID=?, menuName=?, publishDate=?, price=?, isPublic=?, positionNo=? WHERE menuID=?";
-	private static final String DELETE_STMT = "DELETE FROM coachMenu WHERE menuID=?";
+	private static final String UPDATE_STMT = "UPDATE coachMenu SET menuName=? ,price=?,positionNo=? WHERE menuID=?";
+	private static final String DELETE_STMT = "UPDATE coachMenu SET isPublic = 0 where menuID = ?";    //�������
 	private static final String FIND_BY_MENUID = "SELECT * FROM coachMenu WHERE menuID=?";
 	private static final String FIND_BY_USERID = "SELECT * FROM coachMenu WHERE userID=?";
 	private static final String FIND_ALL = "SELECT * FROM coachMenu";
-
+	private static final String FIND_MENUID_BY_USERID= "SELECT menuID FROM coachMenu where userID=? ";
+	
 	static {
 		try {
 			Class.forName(driver);
@@ -45,7 +46,7 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 			pstmt.setInt(5, coachMenuVO.getPositionNo());
 			pstmt.executeUpdate();
 
-			// 取得自增主鍵
+			// ���憓蜓�
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				primaryKey = rs.getInt(1);
@@ -82,13 +83,11 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 
-			pstmt.setInt(1, coachMenuVO.getUserID());
-			pstmt.setString(2, coachMenuVO.getMenuName());
-			pstmt.setTimestamp(3, coachMenuVO.getPublishDate());
-			pstmt.setInt(4, coachMenuVO.getPrice());
-			pstmt.setBoolean(5, coachMenuVO.getIsPublic());
-			pstmt.setInt(6, coachMenuVO.getPositionNo());
-			pstmt.setInt(7, coachMenuVO.getMenuID());
+			pstmt.setString(1, coachMenuVO.getMenuName());
+			pstmt.setInt(2, coachMenuVO.getPrice());
+//			pstmt.setBoolean(3, coachMenuVO.getIsPublic());
+			pstmt.setInt(3, coachMenuVO.getPositionNo());
+			pstmt.setInt(4, coachMenuVO.getMenuID());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,7 +111,6 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 
 	@Override
 	public void delete(Integer menuID) {
-
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -121,21 +119,21 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 			pstmt = con.prepareStatement(DELETE_STMT);
 			pstmt.setInt(1, menuID);
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException se) {
+			se.printStackTrace();
 		} finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (SQLException se) {
+					se.printStackTrace();
 				}
 			}
 			if (con != null) {
 				try {
 					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
+				} catch (Exception se) {
+					se.printStackTrace();
 				}
 			}
 		}
@@ -302,7 +300,57 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 
 		return list;
 	}
+	
+	@Override
+	public List<CoachMenuVO> findMenuIDByUserID(Integer userID) {
+		List<CoachMenuVO> list = new ArrayList<CoachMenuVO>();
+		CoachMenuVO coachMenuVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 
+		try {
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(FIND_MENUID_BY_USERID);
+
+			pstmt.setInt(1, userID);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				coachMenuVO = new CoachMenuVO();
+//				coachMenuVO.setUserID(rs.getInt("userID"));
+				coachMenuVO.setMenuID(rs.getInt("menuID"));
+				list.add(coachMenuVO);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		CoachMenuJDBCDAO dao = new CoachMenuJDBCDAO();
 
@@ -316,28 +364,28 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 		System.out.println(builtDate);
 		System.out.println(date);
 
-		// 新增
+		// �憓�
 //		CoachMenuVO coachMenuVO1 = new CoachMenuVO();
 //		coachMenuVO1.setMenuID(60012);
 //		coachMenuVO1.setUserID(2006);
-//		coachMenuVO1.setMenuName("����2");
+//		coachMenuVO1.setMenuName("嚙踝蕭嚙踝蕭2");
 //		coachMenuVO1.setPublishDate(ts);
 //		coachMenuVO1.setPrice(50);
 //		dao.insert(coachMenuVO1);
 
-		// 修改
-//		CoachMenuVO coachMenuVO2 = new CoachMenuVO();
-//		coachMenuVO2.setMenuID(60012);
-//		coachMenuVO2.setUserID(2006);
-//		coachMenuVO2.setMenuName("���մ���");
+		// 靽格
+		CoachMenuVO coachMenuVO2 = new CoachMenuVO();
+		coachMenuVO2.setMenuName("擳狩");
 //		coachMenuVO2.setPublishDate(ts);
-//		coachMenuVO2.setPrice(100);
-//		dao.update(coachMenuVO2);
+		coachMenuVO2.setPrice(100);
+		coachMenuVO2.setPositionNo(1);
+		coachMenuVO2.setMenuID(60004);
+		dao.update(coachMenuVO2);
 
-		// 刪除
+		// ��
 //		dao.delete(60011);
 
-		// 用菜單編號查詢
+		// ���蝺刻�閰�
 //		CoachMenuVO cmvo = dao.findByMenuID(60005);
 //		System.out.print(cmvo.getMenuID() + ", ");
 //		System.out.print(cmvo.getUserID() + ", ");
@@ -346,7 +394,7 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //		System.out.print(cmvo.getPrice());
 //		System.out.println();
 
-		// 用會員編號查詢
+		// ���蝺刻�閰�
 //		List<CoachMenuVO> list = dao.findByUserID(2001);
 //		for(CoachMenuVO menu : list) {
 //			System.out.print(menu.getMenuID() + ", ");
@@ -358,7 +406,7 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //			System.out.println();
 //		}
 
-		// 查詢全部
+		// �閰Ｗ�
 //		List<CoachMenuVO> list2 = dao.findAll();
 //		for(CoachMenuVO menu : list2) {
 //			System.out.print(menu.getMenuID() + ",\t");
@@ -367,6 +415,13 @@ public class CoachMenuJDBCDAO implements CoachMenuDAO_interface {
 //			System.out.print(menu.getPublishDate() + ",\t");
 //			System.out.print(menu.getPrice() + ",\t");
 //			System.out.print(menu.getIsPublic());
+//			System.out.println();
+//		}
+		
+		//���蝺刻���蝺刻��
+//		List<CoachMenuVO> list = dao.findMenuIDByUserID(2005);
+//		for(CoachMenuVO menu : list) {
+//			System.out.print(menu.getMenuID());
 //			System.out.println();
 //		}
 	}

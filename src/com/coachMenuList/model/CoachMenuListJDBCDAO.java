@@ -12,7 +12,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 	private static final String passwd = "123456";
 	
 	private static final String INSERT_STMT = "INSERT INTO coachMenuList(menuID, videoID) VALUES(?, ?);";
-	private static final String UPDATE_STMT = "UPDATE coachMenuList SET menuID=?, videoID=? WHERE menuNo=?";
+	private static final String UPDATE_STMT = "UPDATE coachMenuList SET videoID=? WHERE menuNo=?";
 	private static final String DELETE_STMT = "DELETE FROM coachMenuList WHERE menuNo=?";
 	private static final String FIND_BY_MENUNO = "SELECT * FROM coachMenuList WHERE menuNo=?";
 	private static final String FIND_BY_MENUID = "SELECT * FROM coachMenuList WHERE menuID=?";
@@ -70,9 +70,9 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			
-			pstmt.setInt(1, coachMenuListVO.getMenuID());
-			pstmt.setInt(2, coachMenuListVO.getVideoID());
-			pstmt.setInt(5, coachMenuListVO.getMenuNo());
+			pstmt.setInt(1, coachMenuListVO.getVideoID());
+//			pstmt.setInt(2, coachMenuListVO.getMenuID());
+			pstmt.setInt(2, coachMenuListVO.getMenuNo());
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -253,30 +253,30 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 	public static void main(String[] arg) {
 		CoachMenuListJDBCDAO dao = new CoachMenuListJDBCDAO();
 		
-		// 新增
+		// �憓�
 //		CoachMenuListVO cml = new CoachMenuListVO();
 //		cml.setMenuID(60001);
 //		cml.setVideoID(30005);
 //		dao.insert(cml);
 		
-		// 修改
+		// 靽格
 //		CoachMenuListVO cml2 = new CoachMenuListVO();
 //		cml2.setMenuNo(21);
 //		cml2.setMenuID(60002);
 //		cml2.setVideoID(30005);
 //		dao.update(cml2);
 		
-		// 刪除
+		// ��
 		dao.delete(21);
 
-		// 用菜單明細編號查詢
+		// �����敦蝺刻�閰�
 //		CoachMenuListVO cml = dao.findByMenuNo(01);
 //		System.out.print(cml.getMenuNo() + ", ");
 //		System.out.print(cml.getMenuID() + ", ");
 //		System.out.print(cml.getVideoID());
 //		System.out.println();
 		
-		// 用菜單編號查詢
+		// ���蝺刻�閰�
 //		List<CoachMenuListVO> list1 = dao.findByMenuID(60001);
 //		for(CoachMenuListVO cmlvo : list1) {
 //			System.out.print(cmlvo.getMenuNo() + ", ");
@@ -284,7 +284,7 @@ public class CoachMenuListJDBCDAO implements CoachMenuListDAO_interface{
 //			System.out.print(cmlvo.getVideoID());
 //		}
 		
-		// 查詢全部
+		// �閰Ｗ�
 		List<CoachMenuListVO> list2 = dao.findAll();
 		for(CoachMenuListVO cmlvo2 : list2) {
 			System.out.print(cmlvo2.getMenuNo() + ", ");

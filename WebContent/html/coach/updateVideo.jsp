@@ -3,11 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
 <%@ page import="redis.clients.jedis.Jedis" %>
+<%@ page import="com.video.model.*"%>
+<%@ page import="com.videoAction.model.*"%>
 
 <%
 	response.setHeader("Cache-Control","no-store"); //HTTP 1.1
 	response.setHeader("Pragma","no-cache");        //HTTP 1.0
 	response.setDateHeader ("Expires", 0);
+	
+	VideoVO videoVO = (VideoVO) request.getAttribute("VideoVO");
 	
 	Jedis jedis = new Jedis("localhost", 6379);
 	pageContext.setAttribute("jedis", jedis);
@@ -27,8 +31,12 @@
 	}
 			
 	pageContext.setAttribute("cartCount", cartCount);
+	
+	List<String> errorMsgs = (List<String>) request.getAttribute("errorMsgs");
 %>
 
+<jsp:useBean id="videoSvc" scope="page" class="com.video.model.VideoService"/>
+<jsp:useBean id="videoActionSvc" scope="page" class="com.videoAction.model.VideoActionService"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -198,61 +206,109 @@
         </div>
     </div>
 <!-- bar公版 end -->
-    <div id="main">
-        <div id="form">
-            <div id="box1">
-                <ul>
-                    <h3 id="form_title">編輯教練影片</h3>
-                </ul>
-            </div>
-            <div id="box2">
-                <ul>
-                    <li id="video_name">影片名稱:<input id="name_input" type="text" placeholder="輸入影片名稱" aria-label="default input example"></li><br>
-                    
-                    <li id="video_intro">影片簡介:</li><br>
-                    <textarea id="intro_input" rows="3"></textarea>
-                    <div id="post_box">
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
-                        <li id="post_name">動作名稱:<br><br>
-                            <input id="post_input" type="text" placeholder="輸入動作名稱" aria-label="default input example"><input id="set" type="number" placeholder="幾組" aria-label="default input example">
-                        </li>
-                        <div id="button_area">
-                            <button type="button" id="button" class="btn btn-primary btn-lg">確認</button>
-                            <button type="button" id="button" class="btn btn-primary btn-lg">取消</button>
-                            <button type="button" id="button" class="btn btn-primary btn-lg">刪除影片</button>
-                        </div>
-                    </div>
-                </ul>
-            </div>
-            <div id="box3">
-                <img src="../img/work_out_2.jpg" alt="" class="video_pic">
-                <div id="public_box">
-                    <input type="radio" id="userGender_01" name="userGender" value="0" checked="checked" />公開  
-                    <input type="radio" id="userGender_02" name="userGender" value="1" />不公開
-                    <br><br><br>
-                    <h3>價錢:<input id="price" type="number" placeholder="選擇價格" aria-label="default input example"></h3>
-                    <br><br>
-                    <h3><input type="file" id="file-uploader"></h3>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-<script src="<%=request.getContextPath()%>/js/jquery-3.6.0.min.js"></script>
-<script>
-	var cartCount = ${cartCount};
-	if(cartCount == 0){
-		$("i.bi-cart-fill span").addClass("-on");
-		$("i.bi-cart-fill span").attr("style", "display:none");
-	}else{
-		$("i.bi-cart-fill span").removeClass("-on");
-		$("i.bi-cart-fill span").attr("style", "");
-	}
-</script>
+	<div id="main">
+		<div id="form">
+			<form action="<%=request.getContextPath()%>/video/video.do" method="post" enctype="multipart/form-data">
+				<div id="box1">
+					<ul>
+						<h3 id="form_title">更新教練影片</h3>
+					</ul>
+				</div>
+				<div id="box2">
+					<ul>
+						<li id="video_name">想更改的影片：
+  	                    <select name="videoID">
+	                        <option selected disabled></option>
+	                        <c:forEach var="videoVO" items="${videoSvc.getByUserID(userID)}">
+	                        <option value="${videoVO.videoID}">${videoVO.title}</option>
+	                        </c:forEach>
+	                    </select><br><br>
+					
+	                    <li>更改後的名稱：
+	                    <input id="name_input" type="text" placeholder="輸入影片名稱" aria-label="default input example" 
+                    	name="title" value="<%=(videoVO == null) ? "" : videoVO.getTitle()%>"><br><br>
+                    	<%if(errorMsgs != null){if(errorMsgs.contains("請輸入影片名稱")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入菜單名稱</span>
+                    <%}} %>
+						<br>
+
+						<li id="video_intro">影片簡介:</li>
+						<br>
+						<textarea id="intro_input" rows="3" name="intro"></textarea>
+						<div id="post_box">
+							<li id="post_name">動作名稱:<br>
+							<br> <input id="post_input" type="text" placeholder="輸入動作名稱"
+								aria-label="default input example" name="actionname1">
+								<input name="times1" placeholder="次數">
+								<input id="set"
+								type="number" placeholder="幾組" name="set1"
+								aria-label="default input example">
+							</li>
+							<li id="post_name">動作名稱:<br>
+							<br> <input id="post_input" type="text" placeholder="輸入動作名稱"
+								aria-label="default input example" name="actionname2">
+								<input name="times2" placeholder="次數">
+								<input id="set"
+								type="number" placeholder="幾組" name="set2"
+								aria-label="default input example">
+							</li>
+							<li id="post_name">動作名稱:<br>
+							<br> <input id="post_input" type="text" placeholder="輸入動作名稱"
+								aria-label="default input example" name="actionname3">
+								<input name="times3" placeholder="次數">
+								<input id="set" type="number" placeholder="幾組" name="set3"
+								aria-label="default input example">
+							</li>
+							<div id="button_area">
+								<button type="submit" id="button" class="btn btn-primary btn-lg">確認</button>
+								<button type="button" id="button" class="btn btn-primary btn-lg">取消</button>
+							</div>
+						</div>
+					</ul>
+				</div>
+				<div id="box3">
+					<img src="../img/work_out_1.jpg" alt="" class="video_pic">
+					<div id="public_box">
+						<h3>
+							價錢:
+                    <input id="price" type="number" placeholder="輸入價格" aria-label="default input example" 
+                    	name="price" value="<%=(videoVO == null) ? "" : videoVO.getPrice()%>"><br><br>
+                    	 <%if(errorMsgs != null){if(errorMsgs.contains("請輸入影片價格")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請輸入價格</span>
+                    <%}} %>
+						</h3>
+						<br>
+						<h3>
+							強度:
+							<select name="level">
+								<option value="弱">弱</option>
+								<option value="中">中</option>
+								<option value="強">強</option>
+							</select>
+	                   <%if(errorMsgs != null){if(errorMsgs.contains("請選擇強度")) {%>
+                        <span style="color:red; margin-left:10px; font-size:10px">請選擇強度</span>
+                   		 <%}} %>
+						</h3>
+						<br>
+						<h3>
+							部位:
+							<jsp:useBean id="position" scope="page" class="com.thePosition.model.ThePositionService"/>
+							<select name="thePosition">
+							<c:forEach var="thePosition" items="${position.all}">
+								<option value="${thePosition.positionNo}">${thePosition.positionName}</option>
+							</c:forEach>
+							</select>
+						</h3>
+						<br>
+						<h3>
+							<input type="file" id="file-uploader" name="video">
+						</h3>
+					</div>
+				</div>
+				<input type="hidden" name="action" value="update">
+				<input type="hidden" name="userID" value="${userID}">
+			</form>
+		</div>
+	</div>
 </body>
 </html>

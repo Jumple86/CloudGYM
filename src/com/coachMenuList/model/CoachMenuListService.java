@@ -18,12 +18,13 @@ public class CoachMenuListService {
 		return coachMenuListVO;
 	}
 
-	public CoachMenuListVO updateCoachMenuList(Integer menuID, Integer videoID, Integer menuNo) {
+	public CoachMenuListVO updateCoachMenuList(Integer menuNo,Integer videoID) {
 		CoachMenuListVO coachMenuListVO = new CoachMenuListVO();
 
-		coachMenuListVO.setMenuID(menuID);
-		coachMenuListVO.setVideoID(videoID);
+//		coachMenuListVO.setMenuID(menuID);
 		coachMenuListVO.setMenuNo(menuNo);
+		coachMenuListVO.setVideoID(videoID);
+
 		dao.update(coachMenuListVO);
 		return coachMenuListVO;
 	}

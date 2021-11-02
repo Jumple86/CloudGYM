@@ -1,6 +1,8 @@
 package com.coachMenu.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.coachMenu.model.*;
 import com.coachMenuList.model.CoachMenuListJDBCDAO;
 import com.coachMenuList.model.CoachMenuListService;
+import com.coachMenuList.model.CoachMenuListVO;
+import com.posts.model.PostsService;
+import com.posts.model.PostsVO;
 
 public class CoachMenuServlet extends HttpServlet implements Servlet {
 	private static final long serialVersionUID = 1L;
@@ -30,36 +35,40 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 		
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		System.out.println(action);
 		
 		if ("addmenu".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
-				/*********************** 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				/*********************** 1.��隢�� - 頛詨�撘�隤方��� *************************/
 				Integer userID = Integer.parseInt(req.getParameter("userID"));
 //				try {
 //					userID = Integer.parseInt(req.getParameter("userID"));
 //				} catch (NumberFormatException ne) {
 //					
 //				}
-
+				System.out.println(userID);
+				
 				String menuName = req.getParameter("menuName");
 				if (menuName.trim().length() == 0) {
-					errorMsgs.add("請輸入菜單名稱");
+					errorMsgs.add("隢撓�����迂");
 				}
-
+				System.out.println(menuName);
+				
 				String priceStr = req.getParameter("price");
 				Integer price = null;
 				if (priceStr.trim().length() == 0) {
-					errorMsgs.add("請輸入菜單價格");
+					errorMsgs.add("隢撓�����");
 				}else {
 					try {
 						price = Integer.parseInt(priceStr);
 					} catch (NumberFormatException ne) {
-						errorMsgs.add("價格格式錯誤");
+						errorMsgs.add("���撘隤�");
 					}
 				}
+				System.out.println(price);
 				
 				Boolean isPublic = true;
 				if(price != null) {
@@ -68,11 +77,13 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 					}
 				}
 				
+				System.out.println(isPublic);
+				
 				Integer positionNo = null;
 				try {
 					positionNo = Integer.parseInt(req.getParameter("positionNo"));
 				} catch (Exception e) {
-					errorMsgs.add("請選擇部位");
+					errorMsgs.add("隢��雿�");
 				}
 				System.out.println(positionNo);
 
@@ -91,17 +102,19 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 				coachMenuVO.setIsPublic(isPublic);
 				coachMenuVO.setPositionNo(positionNo);
 				
+//				System.out.println("ok");
+				
 				if(!errorMsgs.isEmpty()) {
 					for(String message : errorMsgs) {
 						System.out.println(message);
 					}
 					req.setAttribute("coachMenuVO", coachMenuVO);
-					RequestDispatcher failureView  = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
+					RequestDispatcher failureView  = req.getRequestDispatcher("/html/buildMenu.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				
-				/*************************** 2.開始新增資料 ***************************************/
+				/*************************** 2.���憓��� ***************************************/
 				
 				CoachMenuService coachmenuSvc = new CoachMenuService();
 				CoachMenuVO coachmenu = coachmenuSvc.addCoachMenu(userID, menuName, price, isPublic, positionNo);
@@ -110,19 +123,158 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 				for(Integer videoID : refVideos) {
 					coachmenulistSvc.addCoachMenuList(menuID, videoID);
 				}
-
-				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/protected_coach/coach_overview.jsp");
+//				System.out.println("ok2");
+
+				/*************************** 3.�憓���,皞��漱(Send the Success view) ***********/
+				
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach_overview.jsp");
 				successView.forward(req, res);
+				
+//				System.out.println("ok3");
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				errorMsgs.add("資料有誤，無法新增菜單");
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
+				errorMsgs.add("鞈��炊嚗瘜憓�");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/buildMenu.jsp");
 				failureView.forward(req, res);
+				System.out.println("fail");
 			}
 		}
-	}
+		
+		if ("update".equals(action)) {
 
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/*************************** 1.��隢�� - 頛詨�撘�隤方��� **********************/
+				Integer userID = new Integer(req.getParameter("userID"));
+				System.out.println(userID);
+				
+				Integer menuID = new Integer(req.getParameter("menuID"));
+				System.out.println(menuID);
+				
+				String menuName = req.getParameter("menuName");
+				if (menuName.trim().length() == 0) {
+					errorMsgs.add("隢撓�����迂");
+				}
+				System.out.println(menuName);
+				
+				String priceStr = req.getParameter("price");
+				Integer price = null;
+				if (priceStr.trim().length() == 0) {
+					errorMsgs.add("隢撓�����");
+				}else {
+					try {
+						price = Integer.parseInt(priceStr);
+					} catch (NumberFormatException ne) {
+						errorMsgs.add("���撘隤�");
+					}
+				}
+				System.out.println(price);
+				
+//				Boolean isPublic = true;
+//				if(price != null) {
+//					if (price != 0) {
+//						isPublic = false;
+//					}
+//				}
+//				System.out.println(isPublic);
+
+				Integer positionNo = null;
+				try {
+					positionNo = Integer.parseInt(req.getParameter("positionNo"));
+				} catch (Exception e) {
+					errorMsgs.add("隢��雿�");
+				}
+				System.out.println(positionNo);
+				
+				List<Integer> refVideos = new ArrayList<Integer>();
+				Integer refVideo1 = Integer.parseInt(req.getParameter("refVideo1"));
+				System.out.println(refVideo1);
+				refVideos.add(refVideo1);
+				Integer refVideo2 = Integer.parseInt(req.getParameter("refVideo2"));
+				System.out.println(refVideo2);
+				refVideos.add(refVideo2);
+				Integer refVideo3 = Integer.parseInt(req.getParameter("refVideo3"));
+				System.out.println(refVideo3);
+				refVideos.add(refVideo3);
+				System.out.println(refVideos);
+
+				CoachMenuVO coachMenuVO = new CoachMenuVO();
+				coachMenuVO.setMenuID(userID);
+				coachMenuVO.setMenuID(menuID);
+				coachMenuVO.setMenuName(menuName);
+				coachMenuVO.setPrice(price);
+//				coachMenuVO.setIsPublic(isPublic);
+				coachMenuVO.setPositionNo(positionNo);
+				System.out.println("ok");
+
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("coachMenuVO", coachMenuVO);
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/updateMenu.jsp");
+					failureView.forward(req, res);
+					System.out.println("fail");
+					return;
+				}
+
+				/*************************** 2.���耨�鞈�� *****************************************/
+				CoachMenuService coachmenuSvc = new CoachMenuService();
+				CoachMenuVO coachmenu = coachmenuSvc.updateCoachMenu(coachMenuVO);
+				System.out.println("ok2");
+				
+//				Integer menuNo = coachlistmenu.getMenuNo();
+				CoachMenuListService coachmenulistSvc = new CoachMenuListService();
+				List<CoachMenuListVO> coachmenulist = coachmenulistSvc.getByMenuID(menuID);
+				List<Integer> menuNos = new ArrayList<Integer>();
+				for(CoachMenuListVO coachMenuListVO : coachmenulist) {
+					menuNos.add(coachMenuListVO.getMenuNo());
+				}
+				for(int i = 0; i < refVideos.size(); i++) {
+					coachmenulistSvc.updateCoachMenuList(menuNos.get(i), refVideos.get(i));
+				}
+				System.out.println("ok3");
+				/*************************** 3.靽格摰��,皞��漱(Send the Success view) *************/
+				req.setAttribute("coachMenuVO", coachMenuVO);
+				String url = "/html/coach_overview.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 靽格�����,頧漱listOneEmp.jsp
+				successView.forward(req, res);
+				System.out.println("ok4");
+				/*************************** �隞���隤方��� *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("靽格鞈�仃���:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/updateMenu.jsp");
+				failureView.forward(req, res);
+				System.out.println("fail2");
+				e.printStackTrace();
+			}
+		}
+		
+		if ("delete".equals(action)) {
+			/*************************** 1.��隢�� ***************************************/
+			Integer menuID = new Integer(req.getParameter("menuID"));
+
+			/*************************** 2.����鞈�� ***************************************/
+			CoachMenuService coachMenuSvc = new CoachMenuService();
+			coachMenuSvc.deleteCoachMenu(menuID);
+
+			/*************************** 3.��摰��,皞��漱(Send the Success view) ***********/
+//				String url = "/html/ArticleList.jsp";
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, res);
+
+			RequestDispatcher successView = null;
+			String url = req.getParameter("page");
+			if ("APG".equals(url)) {
+				successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				successView.forward(req, res);
+			} else {
+				successView = req.getRequestDispatcher("/html/updateMenu.jsp" );
+				successView.forward(req, res);
+			}
+
+		}
+		
+	}
 }

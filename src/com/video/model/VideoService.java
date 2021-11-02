@@ -30,21 +30,21 @@ public class VideoService {
 		return videoVO;
 	}
 
-	public VideoVO update(String title, Integer price, String intro, byte[] img, byte[] content, String level , Integer videoID, Integer thePosition) {
-		VideoVO videoVO = new VideoVO();
-		videoVO.setTitle(title);
-		videoVO.setPrice(price);
-		videoVO.setIntro(intro);
-		videoVO.setImg(img);
-		videoVO.setContent(content);
-		videoVO.setLevel(level);
-		videoVO.setVideoID(videoID);
-		videoVO.setThePosition(thePosition);
-		dao.update(videoVO);
-		return videoVO;
-	}
+//	public VideoVO update(String title, Integer price, String intro, byte[] img, byte[] content, String level , Integer videoID, Integer thePosition) {
+//		VideoVO videoVO = new VideoVO();
+//		videoVO.setTitle(title);
+//		videoVO.setPrice(price);
+//		videoVO.setIntro(intro);
+//		videoVO.setImg(img);
+//		videoVO.setContent(content);
+//		videoVO.setLevel(level);
+//		videoVO.setVideoID(videoID);
+//		videoVO.setThePosition(thePosition);
+//		dao.update(videoVO);
+//		return videoVO;
+//	}
 	
-	public VideoVO update(VideoVO videoVO) {
+	public VideoVO updateVideo(VideoVO videoVO) {
 		dao.update(videoVO);
 		return videoVO;
 	}
