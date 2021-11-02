@@ -229,6 +229,11 @@ i.bi-cart-fill span.-on{
 	color: grey;
 }
 
+.listeffect:hover, .listeffect:active{
+	background-color: #31105E;
+	color: white !important;
+}
+
 /***************************以下複製貼上****************************/
 
 i.-on{
@@ -453,7 +458,9 @@ i.bi:hover{
 								name="user" value="${userID}"> <input
 								type="hidden" name="action" value="update_prepare">
 						</FORM> --%>
+						<FROM>
 						<a class="" href="/html/article/ArticleList_MyPost.jsp">我的文章</a>
+						</FROM>
 					</li>
 				</ul>
 			</div>
@@ -462,19 +469,19 @@ i.bi:hover{
 
 		<div class="row gx-5 second-row ">
 			<div class="col menu">
-				<h5 onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuAndVideo2.jsp'">我的菜單</h5>
+				<h5 style="cursor:pointer" onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuAndVideo2.jsp'">我的菜單</h5>
 				<ul class="list-group">
 					<c:forEach var="customMenuVO" items="${menuSvc.getAll(userID)}">
-						<li class="list-group-item">${customMenuVO.title}</li>
+						<li class="list-group-item listeffect" style="cursor:pointer" onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuAndVideo2.jsp'">${customMenuVO.title}</li>
 					</c:forEach>
 				</ul>
 			</div>
 			<div class="col menu">
-				<h5 onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuListPage1.jsp'">我的運動歷程</h5>
+				<h5 style="cursor:pointer" onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuListPage1.jsp'">我的運動歷程</h5>
 
 				<ul class="list-group">
 					<c:forEach var="customMenuVO" items="${menuSvc.getAll(userID)}">
-						<li class="list-group-item">${customMenuVO.title}
+						<li class="list-group-item listeffect" style="cursor:pointer" onclick="javascript:location.href='<%=request.getContextPath()%>/html/user/protected_user/userMenuListPage1.jsp'">${customMenuVO.title}
 
 							<div class="progress bar">
 								<div class="progress-bar bg-warning" role="progressbar"
@@ -500,10 +507,10 @@ i.bi:hover{
 					<%if(itemIDs != null){
 						for(Integer itemid : itemIDs){
 							if(itemid.toString().startsWith("3")){ %>
-								<li class="list-group-item"><%=videoSvc.findByPrimaryKey(itemid).getTitle() %></li>
+								<li class="list-group-item listeffect"><%=videoSvc.findByPrimaryKey(itemid).getTitle() %></li>
 					<%		}
 							if(itemid.toString().startsWith("6")){ %>
-								<li class="list-group-item"><%=coachSvc.getByMenuID(itemid).getMenuName() %></li>
+								<li class="list-group-item listeffect"><%=coachSvc.getByMenuID(itemid).getMenuName() %></li>
 					<%		}
 						}
 					}%>
@@ -534,13 +541,13 @@ i.bi:hover{
 						Integer itemID = collectionVO.getItemID();
 						String str = itemID.toString();
 						if(str.startsWith("3")){ %>
-							<li class="list-group-item"><%=videoSvc.findByPrimaryKey(itemID).getTitle() %></li>
+							<li class="list-group-item listeffect"><%=videoSvc.findByPrimaryKey(itemID).getTitle() %></li>
 					<%	} %>
 					  <%if(str.startsWith("4")){ %>
-							<li class="list-group-item"><%=postsSvc.getByPostsID(itemID).getPostsTitle() %></li>
+							<li class="list-group-item listeffect"><%=postsSvc.getByPostsID(itemID).getPostsTitle() %></li>
 					  <%} %>
 					  <%if(str.startsWith("6")){ %>
-					  		<li class="list-group-item"><%=coachSvc.getByMenuID(itemID).getMenuName() %></li>
+					  		<li class="list-group-item listeffect"><%=coachSvc.getByMenuID(itemID).getMenuName() %></li>
 					  <%} %>
 					<%}
 					

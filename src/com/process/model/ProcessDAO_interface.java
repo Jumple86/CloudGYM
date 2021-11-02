@@ -9,5 +9,6 @@ public interface ProcessDAO_interface {
 	public ProcessVO findByProcessNo(Integer processNo);
 	public List<ProcessVO> findBuUserID(Integer userID);
 	public List<ProcessVO> findByListID(Integer listID);
+	public ProcessVO findByActNo(Integer actNo);
 	public List<ProcessVO> getAll();
 }
