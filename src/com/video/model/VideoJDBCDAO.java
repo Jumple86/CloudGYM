@@ -579,15 +579,6 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 //		video.setContent(is);
 //		video.setLevel("強");
 //		video.setVideoID(300025);
-//		video.setTitle("�蝷霅�");
-//		byte[] pic = getPictureByteArray("items/example6.jpg");
-//		video.setImg(pic);
-//		video.setPrice(50);
-//		video.setIntro("雓圾���頨怎�蝷霅����閬釣�����誑��身���晶");
-//		InputStream is = getPictureStream("items/test2.mp4");
-//		video.setContent(is);
-//		video.setLevel("撘�");
-//		video.setVideoID(3001);
 //		dao.update(video);
 //		is.close();
 
