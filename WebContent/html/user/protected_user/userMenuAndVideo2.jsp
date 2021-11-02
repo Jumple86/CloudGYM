@@ -204,6 +204,9 @@ i.bi-cart-fill span.-on{
 
 .title {
 	color: white;
+	font-weigth: bold;
+	font-size: 20px;
+	text-align: center;
 }
 
 .title-video {
@@ -449,7 +452,6 @@ div.item div.main:hover {
 								
 								<p class="card-text">
 									<small class="text-muted">${customMenuVO.content}</small>
-									${customMenuVO.menuID}
 								</p>
 								<hr>
 								<!-- eachlist -->
@@ -459,7 +461,7 @@ div.item div.main:hover {
 									<div class="row">
 										<div class="col-8">
 										${videoSvc.findByPrimaryKey(customMenuListVO.videoID).title} 
-										${customMenuListVO.listID}
+										<%-- ${customMenuListVO.listID} --%>
 											<%-- <c:forEach var="videoVO" items="${videoSvc.findByPrimaryKey(customMenuListVO.videoID)}">
 												<small class="text-muted">${videoVO.title}</small>
 											</c:forEach>  --%>
@@ -479,7 +481,7 @@ div.item div.main:hover {
 									<input type="hidden" name="menuID" value="${customMenuVO.menuID}"> 
 									<input type="hidden" name="action" value="update_prepare">
 									<button type="submit"
-										class="btn btn-outline-secondary btn-sm delete-btn btn-block">${customMenuVO.menuID}</button>
+										class="btn btn-outline-secondary btn-sm delete-btn btn-block">修改</button>
 								</FORM>
 
 
@@ -496,7 +498,7 @@ div.item div.main:hover {
 				</div>
 			</div>
 			<div class="row video">
-				<p class="title-video">影片</p>
+				<p class="title-video title">影片</p>
 				<div class="row row-cols-1 row-cols-md-3 g-4">
 				<c:forEach var="userRightsVO" items="${rightsSvc.getAll(userID)}">
 					<div class="col">

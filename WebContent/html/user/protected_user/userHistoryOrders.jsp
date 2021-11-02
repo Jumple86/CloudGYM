@@ -132,6 +132,22 @@ i.bi-cart-fill span.-on{
     margin-top: 7px;
 }
 
+.return:link, .return:visited {
+	background-color: none;
+	border: 1px solid white;
+	color: white;
+	padding: 3px 12px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	border-radius: 5.5%;
+}
+
+.return:hover, .return:active {
+	background-color: white;
+	color: #31105E;
+}
+
 /***************************以上複製貼上****************************/
 
 .content {
@@ -336,6 +352,7 @@ i.bi:hover{
 	</div>
 
 	<div class="container page">
+	<a class= "return" style="text-align:left;" href="<%=request.getContextPath()%>/html/user/protected_user/userMainPage.jsp">返回個人總覽</a>
 		<h5 style="text-align: center;">歷史訂單</h5>
 		<br>
 		<c:forEach var="orders" items="${orders}">
