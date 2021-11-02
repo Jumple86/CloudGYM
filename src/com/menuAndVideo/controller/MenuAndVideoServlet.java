@@ -29,12 +29,12 @@ public class MenuAndVideoServlet extends HttpServlet {
 				CustomMenuListService cmlSvc = new CustomMenuListService();
 				cmlSvc.delete(listID);
 				
-				String url = "/userMenuAndVideo/userMenuAndVideo2.jsp";
+				String url = "/html/user/protected_user/userMenuAndVideo2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("刪除項目失敗："+ e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/userMenuAndVideo/userMenuAndVideo2.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/userMenuAndVideo2.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -49,12 +49,12 @@ public class MenuAndVideoServlet extends HttpServlet {
 				CustomMenuService cmlSvc = new CustomMenuService();
 				cmlSvc.delete(menuID);
 				
-				String url = "/userMenuAndVideo/userMenuAndVideo2.jsp";
+				String url = "/html/user/protected_user/userMenuAndVideo2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("刪除菜單失敗："+ e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/userMenuAndVideo/userMenuAndVideo2.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/userMenuAndVideo2.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -71,13 +71,13 @@ public class MenuAndVideoServlet extends HttpServlet {
 				
 				req.setAttribute("customMenuVO", customMenuVO);
 				
-				String url = "/userMenuAndVideo/updateMenu.jsp";
+				String url = "/html/user/protected_user/updateMenu.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/userMenuAndVideo/userMenuAndVideo2.jsp");
+						.getRequestDispatcher("/html/user/protected_user/userMenuAndVideo2.jsp");
 				failureView.forward(req, res);
 			}
 			
@@ -104,7 +104,7 @@ public class MenuAndVideoServlet extends HttpServlet {
 				
 				if(!errorMsgs.isEmpty()) {
 					req.setAttribute("customMenuVO", customMenuVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/userMenuAndVideo/updateMenu.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/updateMenu.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -113,13 +113,13 @@ public class MenuAndVideoServlet extends HttpServlet {
 				customMenuVO = cmSvc.update(menuID, content, title);
 				
 				req.setAttribute("customMenuVO", customMenuVO);
-				String url = "/userMenuAndVideo/userMenuAndVideo2.jsp";
+				String url = "/html/user/protected_user/userMenuAndVideo2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗："+ e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/userMenuAndVideo/updateMenu.jsp");
+						.getRequestDispatcher("/html/user/protected_user/updateMenu.jsp");
 				failureView.forward(req, res);
 			}
 		}

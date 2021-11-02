@@ -45,8 +45,8 @@ public class UserMenuListPageServlet extends HttpServlet {
 				
 				HttpSession session = req.getSession();
 				session.setAttribute("menulist", list1);
-
-				String url = "/userMenuListPage/userMenuListPage1.jsp";
+				
+				String url = "/html/user/protected_user/userMenuListPage1.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
@@ -62,7 +62,7 @@ public class UserMenuListPageServlet extends HttpServlet {
 				
 				req.setAttribute("coachlist", list);
 				
-				String url = "/userMenuListPage/userMenuListPage2.jsp";
+				String url = "/html/user/protected_user/userMenuListPage2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			}catch(Exception e){
@@ -83,7 +83,7 @@ public class UserMenuListPageServlet extends HttpServlet {
 				req.setAttribute("menuTitle", menuTitle);
 				req.setAttribute("menuID", menuID);
 				
-				String url = "/userMenuListPage/userMenuListPage2.jsp";
+				String url = "/html/user/protected_user/userMenuListPage2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
@@ -110,7 +110,7 @@ public class UserMenuListPageServlet extends HttpServlet {
 				req.setAttribute("process", process);
 				req.setAttribute("menuTitle", menuTitle);
 				req.setAttribute("play", play);
-				String url = "/userMenuListPage/userMenuListPage2.jsp";
+				String url = "/html/user/protected_user/userMenuListPage2.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			}catch(Exception e){

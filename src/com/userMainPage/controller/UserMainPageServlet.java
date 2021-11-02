@@ -49,14 +49,14 @@ public class UserMainPageServlet extends HttpServlet {
 				
 				req.setAttribute("orders", orders);
 
-				String url = "/userHistoryOrders/userHistoryOrders.jsp";
+				String url = "/html/user/protected_user/userHistoryOrders.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				
 			}catch(Exception e){
 				errorMsgs.add("無法取得歷史訂單資料:" + e.getMessage());
 				System.out.println(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/userMainPage/userMainPage.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/userMainPage.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -76,13 +76,13 @@ public class UserMainPageServlet extends HttpServlet {
 				UserVO userVO = userSvc.findByUserId(userID);
 
 				req.setAttribute("userVO", userVO);
-
-				String url = "/modifyUserInfo/modifyUserInfo.jsp";
+				
+				String url = "/html/user/protected_user/modifyUserInfo.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 			} catch (Exception e) {
 				errorMsgs.add("無法取得要修改的資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/userMainPage/userMainPage.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/userMainPage.jsp");
 				failureView.forward(req, res);
 			}
 
@@ -158,7 +158,7 @@ public class UserMainPageServlet extends HttpServlet {
 				
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("userVO", userVO); 
-					RequestDispatcher failureView = req.getRequestDispatcher("/modifyUserInfo/modifyUserInfo.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/modifyUserInfo.jsp");
 					failureView.forward(req, res);
 					return; 
 				}
@@ -168,13 +168,13 @@ public class UserMainPageServlet extends HttpServlet {
 						userReportedTimes, userID);
 
 				req.setAttribute("userVO", userVO); 
-				String url = "/userMainPage/userMainPage.jsp";
+				String url = "/html/user/protected_user/userMainPage.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); 
 				successView.forward(req, res);
 
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/modifyUserInfo/modifyUserInfo.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/user/protected_user/modifyUserInfo.jsp");
 				failureView.forward(req, res);
 			}
 

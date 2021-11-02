@@ -23,7 +23,7 @@ public class LogoutHandler extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession(false);//防止建立Session
 		if(session == null){
-			res.sendRedirect(req.getContextPath() + "/html/login_user.jsp");
+			res.sendRedirect(req.getContextPath() + "/html/login/login_user.jsp");
 			return;
 		}
 		
@@ -36,7 +36,7 @@ public class LogoutHandler extends HttpServlet {
 		session.removeAttribute("coachVO");    // 教練的coachVO
 		session.removeAttribute("adminVO");    // 管理者的adminVO
 		
-		res.sendRedirect(req.getContextPath() + "/html/main_page.jsp");
+		res.sendRedirect(req.getContextPath() + "/main_page.jsp");
 
 	}
 

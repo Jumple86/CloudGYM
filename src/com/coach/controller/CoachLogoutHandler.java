@@ -29,14 +29,14 @@ public class CoachLogoutHandler extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = req.getSession(false);//防止建立Session
 		if(session == null){
-			res.sendRedirect(req.getContextPath() + "/html/login_coach.jsp");
+			res.sendRedirect(req.getContextPath() + "/html/login/login_coach.jsp");
 			return;
 		}
 		
 		session.removeAttribute("coachAccount");
 		session.removeAttribute("coachName");
 		session.removeAttribute("coachID");
-		res.sendRedirect(req.getContextPath() + "/html/login_coach.jsp");
+		res.sendRedirect(req.getContextPath() + "/html/login/login_coach.jsp");
 
 	}
 

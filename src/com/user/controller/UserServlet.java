@@ -75,11 +75,13 @@ public class UserServlet extends HttpServlet {
 				}
 
 				String userPassword = req.getParameter("userPassword").trim();
-				String passwordReg = "^[(a-zA-Z0-9_)]{6}$";
+				String passwordReg = "^[(a-zA-Z0-9_)]{6,40}$";
 				if (userPassword == null || userPassword.trim().length() == 0) {
 					errorMsgs.add("密碼: 請勿空白!");
-				} else if (!userPassword.trim().matches(passwordReg)) {
+				} else if (!userPassword.trim().matches(passwordReg) && userPassword.trim().length() <= 40) {
 					errorMsgs.add("密碼只能是英文字母,數字,且長度不能小於6碼!");
+				} else if (!userPassword.trim().matches(passwordReg) && userPassword.trim().length() > 40) {
+					errorMsgs.add("密碼長度過長,請勿大於40碼");
 				}
 
 				String passwordConfirm = req.getParameter("passwordConfirm").trim();
@@ -128,7 +130,7 @@ public class UserServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("userVO", userVO); // 含有輸入格式錯誤的userVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/sign_up_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/login/sign_up_page.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -138,14 +140,14 @@ public class UserServlet extends HttpServlet {
 						userRegisterDate, userReportedTimes);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/html/login_user.jsp";
+				String url = "/html/login/login_user.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交login_user.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/sign_up_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/login/sign_up_page.jsp");
 				failureView.forward(req, res);
 			}
 		}

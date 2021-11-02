@@ -89,7 +89,7 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("postsVO", postsVO);
-				String url = "/html/UpdateArticle.jsp";
+				String url = "/html/article/UpdateArticle.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -144,7 +144,7 @@ public class PostsServlet extends HttpServlet {
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postsVO", postsVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/Forum/UpdateArticle.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/article/UpdateArticle.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -156,14 +156,14 @@ public class PostsServlet extends HttpServlet {
 
 				/*************************** 3.修改完成,準備轉交(Send the Success view) *************/
 				req.setAttribute("postsVO", postsVO);
-				String url = "/html/ArticleList.jsp";
+				String url = "/html/article/ArticleList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/Forum/UpdateArticle.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/article/UpdateArticle.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -213,7 +213,7 @@ public class PostsServlet extends HttpServlet {
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("postsVO", postsVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/AddArticle.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/article/AddArticle.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -223,7 +223,7 @@ public class PostsServlet extends HttpServlet {
 				postsVO = postsSvc.addPosts(userid, poststitle, postscontent, postsimg, postspublishdate, tagid);
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ***********/
-				String url = "/html/ArticleList.jsp";
+				String url = "/html/article/ArticleList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
@@ -251,10 +251,10 @@ public class PostsServlet extends HttpServlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 			if ("APG".equals(url)) {
-				successView = req.getRequestDispatcher("/html/ArticleList.jsp");
+				successView = req.getRequestDispatcher("/html/article/ArticleList.jsp");
 				successView.forward(req, res);
 			} else {
-				successView = req.getRequestDispatcher("/html/back_end_post_page.jsp?postID=" + postsid);
+				successView = req.getRequestDispatcher("/html/back_end/back_end_post_page.jsp?postID=" + postsid);
 				successView.forward(req, res);
 			}
 
@@ -268,7 +268,7 @@ public class PostsServlet extends HttpServlet {
 			List<PostsVO> postsVO = postsSvc.search(str);
 			/*************************** 3.查詢完成,準備轉交(Send the Success view) ************/
 			req.setAttribute("postsVO", str);
-			String url = "/html/ArticleList_Search.jsp";
+			String url = "/html/article/ArticleList_Search.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url);
 			successView.forward(req, res);
 		}
