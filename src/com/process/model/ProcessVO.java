@@ -9,6 +9,7 @@ public class ProcessVO implements Serializable{
 	private Integer listID;
 	private String action;
 	private Integer sets;
+	private Integer actNo;
 	
 	public Integer getProcessNo() {
 		return processNo;

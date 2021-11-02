@@ -277,16 +277,16 @@ i.bi:hover{
 div.addmenu{
     width: 230px;
     position: absolute;
-    bottom: -130px;
-    left: 120px;
+    bottom: 0;
+    left: 190px;
     background-color: #EDE9F2;
-    color: black;
     text-align: center;
 }
 
 div.addmenu h3{
     font-size: 20px;
     margin-top: 10px;
+    color: black;
 }
 
 div.addmenu ul{
@@ -296,6 +296,7 @@ div.addmenu ul{
 div.addmenu li{
     height: 30px;
     line-height: 30px;
+    color: black;
 }
 
 div.addmenu li:hover{

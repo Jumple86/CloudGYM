@@ -76,7 +76,7 @@ td{
     float: right;
 }
 
-button[type=submit]{
+.btn_update{
     right: 40px;
     top: 123px;
     border: none;

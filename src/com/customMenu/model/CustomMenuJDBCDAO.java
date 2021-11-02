@@ -61,6 +61,7 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 				}
 			}
 		}
+		
 	}
 
 	@Override
@@ -154,6 +155,7 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 				customMenu.setContent(rs.getString("content"));
 				customMenu.setTitle(rs.getString("title"));
 				customMenu.setBuildTime(rs.getTimestamp("buildTime"));
+				customMenu.setCompleted(rs.getInt("completed"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -209,6 +211,7 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 				customMenu.setContent(rs.getString("content"));
 				customMenu.setTitle(rs.getString("title"));
 				customMenu.setBuildTime(rs.getTimestamp("buildTime"));
+				customMenu.setCompleted(rs.getInt("completed"));
 				list.add(customMenu);
 			}
 		} catch (SQLException e) {
@@ -262,21 +265,21 @@ public class CustomMenuJDBCDAO implements CustomMenuDAO_interface{
 //		dao.update(menu);
 		
 		//findone
-		CustomMenuVO menu = dao.findByPrimaryKey(9);
-		System.out.println(menu.getMenuID());
-		System.out.println(menu.getUserID());
-		System.out.println(menu.getContent());
-		System.out.println(menu.getTitle());
-		System.out.println(menu.getBuildTime());
+//		CustomMenuVO menu = dao.findByPrimaryKey(7);
+//		System.out.println(menu.getMenuID());
+//		System.out.println(menu.getUserID());
+//		System.out.println(menu.getContent());
+//		System.out.println(menu.getTitle());
+//		System.out.println(menu.getBuildTime());
 		
 		//findall
-//		List<CustomMenuVO> list = dao.getAll(1003);
-//		for(CustomMenuVO menu : list) {
-//			System.out.println(menu.getMenuID());
+		List<CustomMenuVO> list = dao.getAll(1003);
+		for(CustomMenuVO menu : list) {
+			System.out.println(menu.getMenuID());
 //			System.out.println(menu.getUserID());
 //			System.out.println(menu.getContent());
 //			System.out.println(menu.getTitle());
 //			System.out.println(menu.getBuildTime());
-//		}
+		}
 	}
 }

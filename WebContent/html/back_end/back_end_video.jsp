@@ -63,13 +63,8 @@
 				</c:if>
 				</li>
 				<li>
-<<<<<<< HEAD:WebContent/html/back_end_video.jsp
-				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單查詢</span></a>
-=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_video.jsp
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
@@ -196,9 +191,11 @@
 									${videoVO.listed == false ? "checked='true'" : ""}>不公開
 								</td>
 								<td>
-									<form method="post" action="<%=request.getContextPath()%>/html/video.do">
+<%-- 									<form method="post" action="<%=request.getContextPath()%>/html/video.do"> --%>
+									<form class="video">
 									<input type="hidden" name="videoID" value="${videoVO.videoID}">
-										<button type="submit" name="action" value="updatelist">
+									<input type="hidden" name="action" value="updatelist">
+										<button class ="btn_update" type="button">
 											<i class="bi bi-check-all"></i>
 										</button>
 									</form>
@@ -222,6 +219,25 @@
 		<script src="<%=request.getContextPath()%>/vendors/jquery/jquery-3.6.0.min.js"></script>
 		<script>
 		$(function(){
+			//ajax更改video狀態
+			$(".video button").on("click", function(){
+				$.ajax({
+					url: "<%=request.getContextPath()%>/html/video.do",
+					type: "post",
+					data: $(this).closest("form.video").serialize(),
+					dataType: "json",
+					success: function(data){
+						alert("狀態更新成功");
+						console.log("success");
+						console.log(data[0]);
+					},
+					error: function(xhr){
+						alert("狀態更新失敗");
+						console.log("fail");
+					}
+				})
+			})
+			
 		    $('.bi.bi-camera-reels-fill').on('click',function(){
 		    	var videoid=$(this).next().val();
 		    	console.log(videoid);

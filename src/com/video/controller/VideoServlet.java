@@ -2,6 +2,7 @@ package com.video.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.*;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.google.gson.Gson;
 import com.video.model.*;
 import com.videoAction.model.*;
 
@@ -35,9 +37,11 @@ public class VideoServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		System.out.println(action);
 		
-		if("updatelist".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
+		if("updatelist".equals(action)) {//接收來自back_end_video.jsp資料
+//			List<String> errorMsgs = new LinkedList<String>();
+//			req.setAttribute("errorMsgs", errorMsgs);
+			PrintWriter out = res.getWriter();
+//			res.setCharacterEncoding("UTF-8");
 			
 			try {
 				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
@@ -56,18 +60,31 @@ public class VideoServlet extends HttpServlet {
 				/***************************2.開始查詢資料*****************************************/
 				vo = videoSvc.updateVideo(vo);
 				System.out.println("2."+vo.getListed());
-				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
-				HttpSession session = req.getSession();
-				Object whichPage = session.getAttribute("whichPage");
-				String url = "/html/back_end_video.jsp?whichPage="+whichPage;
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
+				/***************************3.修改完成,準備轉交(Send the Success view)*************/
+//				HttpSession session = req.getSession();
+//				Object whichPage = session.getAttribute("whichPage");
+//				String url = "/html/back_end/back_end_video.jsp?whichPage="+whichPage;
+//				RequestDispatcher successView = req.getRequestDispatcher(url);
+//				successView.forward(req, res);
+				
+			//ajax 傳送更新
+				List<String> list = new ArrayList<String>();
+				list.add("updateSuccess");
+				String json = new Gson().toJson(list);
+				res.setContentType("application/json");
+				res.setCharacterEncoding("UTF-8");
+				out.write(json);
+				
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:"+e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end_video.jsp");
-				failureView.forward(req, res);
-			}						
+//				errorMsgs.add("修改資料失敗:"+e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/html/back_end/back_end_video.jsp");
+//				failureView.forward(req, res);
+			}finally {
+					if (out != null) {
+						out.close();
+					}
+				}
 		}
 		
 		if("upload".equals(action)) {

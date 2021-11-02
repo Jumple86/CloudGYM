@@ -10,7 +10,7 @@
 			<ul>
 				<li class="option"><a class="logout" href="javascript:if (confirm('確認登出?')) location.href='<%=request.getContextPath()%>/LogoutHandler'">登出</a></li>
 				<li class="option"><a class="login_ad"
-					href="<%=request.getContextPath()%>/html/back_end_Admin.jsp">管理員: ${adminNo}</a></li>
+					href="<%=request.getContextPath()%>/html/back_end/back_end_Admin.jsp">管理員: ${adminNo}</a></li>
 			</ul>
 		</div>
 	</div>

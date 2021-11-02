@@ -1,8 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.sql.Timestamp" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.user.model.*" %>
 
 <%
@@ -14,14 +13,6 @@
 	UserService userSvc = new UserService();
 	List<UserVO> list = userSvc.getAll();
 	pageContext.setAttribute("list", list);
-	
-// 	UserVO userVO = new UserVO();
-// 	UserVO userid = userSvc.findByUserId(userVO.getUserID());
-// 	Timestamp time =  userVO.getUserRegisterDate();
-// 	Date date =new Date(time.getTime());
-// 	SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
-// 	String registerDate = sd.format(date);
-// 	pageContext.setAttribute("registerDate", registerDate);
 %>
 <jsp:useBean id="userAuthSvc" scope="page" class="com.userAuth.model.UserAuthService" />
 <jsp:useBean id="adminSvc" scope="page" class="com.admin.model.AdminService" />
@@ -70,13 +61,8 @@
 				</c:if>
 				</li>
 				<li>
-<<<<<<< HEAD:WebContent/html/back_end_user.jsp
-				<a href="<%=request.getContextPath()%>/html/back_end_order.jsp"> 
-					<span class="li_btn">訂單查詢</span></a>
-=======
 				<a href="<%=request.getContextPath()%>/html/back_end/back_end_order.jsp"> 
-					<span class="li_btn">訂單明細管理</span></a>
->>>>>>> b638b3fc6793fca65528f0685fd8ea3960a48ca3:WebContent/html/back_end/back_end_user.jsp
+					<span class="li_btn">訂單查詢</span></a>
 				</li>
 				<li>
 				<c:if test="${adminSvc.getOneAdmin(adminNo).commentAuth == 1 }">
@@ -208,7 +194,10 @@
 	                        </c:otherwise>
                         </c:choose>
                         </td>
-                        <td>${userVO.userRegisterDate}</td>
+                        <td>
+                        <fmt:parseDate value="${userVO.userRegisterDate}" pattern="yyyy-MM-dd HH:mm:ss" var="myDate"/>
+						<fmt:formatDate value="${myDate}" pattern="yyyy-MM-dd"/>
+                        </td>
                         <td>
                           <span class="td_comm">
                             <i class="bi bi-chat-text-fill"  
@@ -234,7 +223,7 @@
 <%--                   <%@ include file="/pages/page2.file" %>                  --%>
                  <div class="page">
                   <%for(int i = 0; i < pageIndexArray.length; i++){%>
-                  		<a href="<%=request.getContextPath()%>/html/back_end_user.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
+                  		<a href="<%=request.getContextPath()%>/html/back_end/back_end_user.jsp?whichPage=<%=i + 1%>"><%=i + 1%></a>
                   	<%}%>
                   </div>    
             	</form>
