@@ -109,7 +109,7 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 						System.out.println(message);
 					}
 					req.setAttribute("coachMenuVO", coachMenuVO);
-					RequestDispatcher failureView  = req.getRequestDispatcher("/html/buildMenu.jsp");
+					RequestDispatcher failureView  = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -128,7 +128,7 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 
 				/*************************** 3.�憓���,皞��漱(Send the Success view) ***********/
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/html/coach/protected_coach/coach_overview.jsp");
 				successView.forward(req, res);
 				
 //				System.out.println("ok3");
@@ -136,7 +136,7 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				errorMsgs.add("鞈��炊嚗瘜憓�");
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/buildMenu.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/protected_coach/buildMenu.jsp");
 				failureView.forward(req, res);
 				System.out.println("fail");
 			}
@@ -213,7 +213,7 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("coachMenuVO", coachMenuVO);
-					RequestDispatcher failureView = req.getRequestDispatcher("/html/updateMenu.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/updateMenu.jsp");
 					failureView.forward(req, res);
 					System.out.println("fail");
 					return;
@@ -237,14 +237,14 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 				System.out.println("ok3");
 				/*************************** 3.靽格摰��,皞��漱(Send the Success view) *************/
 				req.setAttribute("coachMenuVO", coachMenuVO);
-				String url = "/html/coach_overview.jsp";
+				String url = "/html/coach/protected_coach/coach_overview.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 靽格�����,頧漱listOneEmp.jsp
 				successView.forward(req, res);
 				System.out.println("ok4");
 				/*************************** �隞���隤方��� *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("靽格鞈�仃���:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/html/updateMenu.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/html/coach/updateMenu.jsp");
 				failureView.forward(req, res);
 				System.out.println("fail2");
 				e.printStackTrace();
@@ -267,10 +267,10 @@ public class CoachMenuServlet extends HttpServlet implements Servlet {
 			RequestDispatcher successView = null;
 			String url = req.getParameter("page");
 			if ("APG".equals(url)) {
-				successView = req.getRequestDispatcher("/html/coach_overview.jsp");
+				successView = req.getRequestDispatcher("/html/coach/protected_coach/coach_overview.jsp");
 				successView.forward(req, res);
 			} else {
-				successView = req.getRequestDispatcher("/html/updateMenu.jsp" );
+				successView = req.getRequestDispatcher("/html/coach/updateMenu.jsp" );
 				successView.forward(req, res);
 			}
 
