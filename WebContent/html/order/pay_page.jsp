@@ -421,9 +421,12 @@
         					$("i.bi-cart-fill span").attr("style", "");
         				}
         			},
-        			error: function(xhr){
-        				console.log("fail");
-        			}
+        			error : function(XMLHttpResponse, textStatus, errorThrown) {
+						console.log("1 非同步呼叫返回失敗,XMLHttpResponse.readyState:"	+ XMLHttpResponse.readyState);
+						console.log("2 非同步呼叫返回失敗,XMLHttpResponse.status:"	+ XMLHttpResponse.status);
+						console.log("3 非同步呼叫返回失敗,textStatus:"	+ textStatus);
+						console.log("4 非同步呼叫返回失敗,errorThrown:" + errorThrown);
+					}
         		})	
     		});
     		

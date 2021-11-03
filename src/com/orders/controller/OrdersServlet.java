@@ -153,7 +153,7 @@ public class OrdersServlet extends HttpServlet {
 			try {
 				// 取得當前登入的人
 				HttpSession session = req.getSession();
-				String userID = (String) session.getAttribute("userID");
+				String userID = session.getAttribute("userID").toString();
 				// 取得要刪除的menuID或userID
 				String menuID = req.getParameter("menuID");
 				String coachID = req.getParameter("coachID");
@@ -212,7 +212,7 @@ public class OrdersServlet extends HttpServlet {
 				// 刪除完成，返回原頁面
 //				res.sendRedirect(req.getContextPath() + "/html/pay_page.jsp");
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			} finally {
 				if (jedis != null) {
 					jedis.close();
@@ -231,38 +231,38 @@ public class OrdersServlet extends HttpServlet {
 			
 			try {
 				/**************************1.錯誤處理*************************/
-//				String cardNumber = req.getParameter("cardNumber");
-//				if(cardNumber == null || cardNumber.trim().length() == 0) {
-//					errorMsgs.add("卡號不得為空");
-//				}
-//				
-//				String cardName = req.getParameter("cardName");
-//				if(cardName == null || cardName.trim().length() == 0) {
-//					errorMsgs.add("請輸入持卡人姓名");
-//				}
-//				
-//				String expire = req.getParameter("expire");
-//				if(expire == null || expire.trim().length() == 0) {
-//					errorMsgs.add("請輸入卡片有效期限");
-//				}
-//				
-//				String ccv = req.getParameter("ccv");
-//				if(ccv == null || ccv.trim().length() == 0) {
-//					errorMsgs.add("請輸入卡片安全碼");
-//				}
-//				
-//				CardInfo cardinfo = new CardInfo();
-//				cardinfo.setCardNumber(cardNumber);
-//				cardinfo.setCardName(cardName);
-//				cardinfo.setExpire(expire);
-//				cardinfo.setCcv(ccv);
-//				
-//				if(!errorMsgs.isEmpty()) {
-//					req.setAttribute("cardinfo", cardinfo);
-//					RequestDispatcher failureView = req.getRequestDispatcher("/html/pay_page.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
+				String cardNumber = req.getParameter("cardNumber");
+				if(cardNumber == null || cardNumber.trim().length() == 0) {
+					errorMsgs.add("卡號不得為空");
+				}
+				
+				String cardName = req.getParameter("cardName");
+				if(cardName == null || cardName.trim().length() == 0) {
+					errorMsgs.add("請輸入持卡人姓名");
+				}
+				
+				String expire = req.getParameter("expire");
+				if(expire == null || expire.trim().length() == 0) {
+					errorMsgs.add("請輸入卡片有效期限");
+				}
+				
+				String ccv = req.getParameter("ccv");
+				if(ccv == null || ccv.trim().length() == 0) {
+					errorMsgs.add("請輸入卡片安全碼");
+				}
+				
+				CardInfo cardinfo = new CardInfo();
+				cardinfo.setCardNumber(cardNumber);
+				cardinfo.setCardName(cardName);
+				cardinfo.setExpire(expire);
+				cardinfo.setCcv(ccv);
+				
+				if(!errorMsgs.isEmpty()) {
+					req.setAttribute("cardinfo", cardinfo);
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/order/pay_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
 				
 				/**************************2.開始新增訂單*************************/
 				jedis = new Jedis("localhost", 6379);
@@ -384,7 +384,7 @@ public class OrdersServlet extends HttpServlet {
 				jedis.del(userID);
 				/************************4.新增訂單資料完成，轉交至成功頁面***********************/
 				
-				RequestDispatcher successView = req.getRequestDispatcher("/html/thanks_page.jsp");
+				RequestDispatcher successView = req.getRequestDispatcher("/html/order/thanks_page.jsp");
 				successView.forward(req, res);
 			}catch(Exception e) {
 				e.printStackTrace();
