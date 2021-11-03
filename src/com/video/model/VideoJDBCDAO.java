@@ -695,12 +695,6 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	}
 
 	@Override
-	public VideoVO findByPrimaryKeyNoVideo(Integer videoID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void updateReportedTimes(Integer reportedTimes, Integer videoID) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
