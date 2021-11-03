@@ -12,4 +12,5 @@ public interface PostsDAO_interface {
 	public List<PostsVO> findAll();
 	public List<PostsVO> findAll2();
 	public List<PostsVO> findKeyword(String str);
+	public void updatePostsReportedTimes(Integer postsReportedTimes, Integer postsID);
 }

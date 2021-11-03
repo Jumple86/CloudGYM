@@ -68,4 +68,8 @@ public class PostsService {
 	public List<PostsVO> search(String str) {
 		return dao.findKeyword(str);
 	}
+	
+	public void updatePostsReportedTimes(Integer postsReportedTimes, Integer postsID) {
+		dao.updatePostsReportedTimes(postsReportedTimes, postsID);
+	}
 }

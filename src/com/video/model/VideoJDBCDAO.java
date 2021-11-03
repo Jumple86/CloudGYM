@@ -30,6 +30,7 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	private static final String FIND_BY_POSITIONNO = "SELECT videoID, userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video WHERE thePosition=?";
 	private static final String GET_ONE_STMT_NOVIDEO = "SELECT userID, title, price, intro, img, review, level, duration, listed, reportedTimes, publishTime, thePosition FROM video where videoID=?";
 	private static final String RECOMMENDED_VIDEOS = "select * from video order by rand() limit 3";
+	private static final String UPDATE_REPORTEDTIMES = "UPDATE video SET reportedTimes=? WHERE videoID=?";
 	
 	static {
 		try {
@@ -634,5 +635,40 @@ public class VideoJDBCDAO implements VideoDAO_interface {
 	public VideoVO findByPrimaryKeyNoVideo(Integer videoID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void updateReportedTimes(Integer reportedTimes, Integer videoID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWRD);
+			pstmt = con.prepareStatement(UPDATE_REPORTEDTIMES);
+			
+			pstmt.setInt(1, reportedTimes);
+			pstmt.setInt(2, videoID);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }

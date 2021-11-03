@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.coach.model.*;
 import com.comment.model.*;
 import com.google.gson.Gson;
-import com.posts.model.PostsService;
+import com.posts.model.*;
 import com.report.model.*;
 import com.reportRecord.model.*;
 import com.user.model.*;
@@ -72,6 +72,12 @@ public class ReportServlet extends HttpServlet {
 					if (!items.contains(videoID)) {
 						reportrecordSvc.addReportRecord(videoID, authorID);
 					}
+					
+					VideoService videoSvc = new VideoService();
+					VideoVO videoVO = videoSvc.findByPrimaryKey(videoID);
+					Integer videoReportedTimes = videoVO.getReportedTimes();
+					videoReportedTimes++;
+					videoSvc.updateReportedTimes(videoReportedTimes, videoID);
 					if(authorID.toString().startsWith("1")) {
 						UserVO userVO = new UserService().findByUserId(authorID);
 						Integer reportedTimes = userVO.getUserReportedTimes();
@@ -93,6 +99,12 @@ public class ReportServlet extends HttpServlet {
 					if (!items.contains(postsID)) {
 						reportrecordSvc.addReportRecord(postsID, authorID);
 					}
+					
+					PostsService postsSvc = new PostsService();
+					PostsVO postsVO = postsSvc.getByPostsID(postsID);
+					Integer postsReportedTimes = postsVO.getPostsReportedTimes();
+					postsReportedTimes++;
+					postsSvc.updatePostsReportedTimes(postsReportedTimes, postsID);
 					if(authorID.toString().startsWith("1")) {
 						UserVO userVO = new UserService().findByUserId(authorID);
 						Integer reportedTimes = userVO.getUserReportedTimes();

@@ -13,4 +13,5 @@ public interface VideoDAO_interface {
 	List<VideoVO> findByPositionNo(Integer positionNo);
 	VideoVO findByPrimaryKeyNoVideo(Integer videoID);
 	List<VideoVO> recommendedVideos();
+	void updateReportedTimes(Integer reportedTimes, Integer videoID);
 }

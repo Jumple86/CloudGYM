@@ -25,6 +25,7 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 	private static final String FIND_ALL = "select * from posts where postsshow = 1 order by postsPublishDate desc";
 	private static final String FIND_ALL2 = "select * from posts order by postsPublishDate desc";
 	private static final String FIND_KEYWORD = "select * from posts as p1 join (select userid, UserName from user union select userid, coachname from coach) as p2 on p1.userID = p2.userID where postsTitle like CONCAT('%',?,'%') or username like CONCAT('%',?,'%') or postsContent like CONCAT('%',?,'%')";
+	private static final String UPDATE_POSTSREPORTEDTIMES = "UPDATE posts SET postsReportedTimes=? WHERE postsID=?";
 	
 	static {
 		try {
@@ -468,6 +469,40 @@ public class PostsJDBCDAO implements PostsDAO_interface {
 			}
 		}
 		return keyword;
+	}
+
+	@Override
+	public void updatePostsReportedTimes(Integer postsReportedTimes, Integer postsID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			pstmt = con.prepareStatement(UPDATE_POSTSREPORTEDTIMES);
+			
+			pstmt.setInt(1, postsReportedTimes);
+			pstmt.setInt(2, postsID);
+			
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				}
+			}
+		}
 	}
 
 //	@Override

@@ -81,4 +81,7 @@ public class VideoService {
 		return dao.recommendedVideos();
 	}
 	
+	public void updateReportedTimes(Integer reportedTimes, Integer videoID) {
+		dao.updateReportedTimes(reportedTimes, videoID);
+	}
 }
