@@ -343,7 +343,7 @@ div.sub ul{
 					<ol class="more">
 						<c:forEach var="PostsVO" items="${more}" begin="0" end="15">
 						<c:if test="${PostsVO.tagID == postsVO.getTagID() && PostsVO.postsID != postsVO.getPostsID()}">
-							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+							<li><a href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:if>
 						</c:forEach>
 					</ol>				
@@ -508,7 +508,7 @@ div.sub ul{
 						list_html += '</div>';
 						list_html += content + '<br> <span style="font-size: 10px; color: rgb(155, 151, 151);">';
 						list_html += '<span>' + timestamp + '</span>';
-						list_html += '<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button>';
+// 						list_html += '<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 560px;" value="">修改</button>';
 						list_html += '<button type="submit" class="btn btn-secondary" style="font-size: 10px; margin-left: 10px;" value="">刪除</button>';
 						list_html += '</div>';
 						list_html += '</div>';

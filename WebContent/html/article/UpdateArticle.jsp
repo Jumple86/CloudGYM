@@ -266,7 +266,7 @@ div.sub ul{
 
 			</div>
 
-			<div class="sub">
+			<div class="subA">
 				<input type="hidden" name="postsid" value="<%=postsVO.getPostsID()%>">	
 				<button type="submit" class="btn btn-outline-primary" name="action" value="update">確認</button>
 				<button id="cancel" type="button" class="btn btn-outline-danger">取消</button>

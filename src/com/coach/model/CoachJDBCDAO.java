@@ -23,7 +23,7 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 	private static final String INSERT_STMT = 
 			"INSERT INTO coach(userID,coachAccount,coachName,coachPassword,coachImg,userMobile,coachSex,coachBirthday,coachDescription,coachRegisteredDate,coachCertificate,reportedTimes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_STMT = 
-			"UPDATE coach SET coachName=?,coachImg=?,coachDescription=?,coachCertificate=? WHERE userID=?";
+			"UPDATE coach SET coachName=?,coachImg=?,coachDescription=?,coachCertificate=?,reportedTimes=? WHERE userID=?";
 	private static final String DELETE_STMT =
 			"DELETE FROM coach WHERE userID=?";
 	private static final String FIND_BY_USERID_STMT = 
@@ -107,7 +107,8 @@ public class CoachJDBCDAO implements CoachDAO_interface {
 			pstmt.setBytes(2, coachVO.getCoachImg());
 			pstmt.setString(3, coachVO.getCoachDescription());
 			pstmt.setString(4, coachVO.getCoachCertificate());
-			pstmt.setInt(5, coachVO.getUserID());
+			pstmt.setInt(5, coachVO.getReportedTimes());
+			pstmt.setInt(6, coachVO.getUserID());
 			
 			
 			pstmt.executeUpdate();
