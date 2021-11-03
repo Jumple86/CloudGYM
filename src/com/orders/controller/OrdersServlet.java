@@ -231,38 +231,38 @@ public class OrdersServlet extends HttpServlet {
 			
 			try {
 				/**************************1.錯誤處理*************************/
-//				String cardNumber = req.getParameter("cardNumber");
-//				if(cardNumber == null || cardNumber.trim().length() == 0) {
-//					errorMsgs.add("卡號不得為空");
-//				}
-//				
-//				String cardName = req.getParameter("cardName");
-//				if(cardName == null || cardName.trim().length() == 0) {
-//					errorMsgs.add("請輸入持卡人姓名");
-//				}
-//				
-//				String expire = req.getParameter("expire");
-//				if(expire == null || expire.trim().length() == 0) {
-//					errorMsgs.add("請輸入卡片有效期限");
-//				}
-//				
-//				String ccv = req.getParameter("ccv");
-//				if(ccv == null || ccv.trim().length() == 0) {
-//					errorMsgs.add("請輸入卡片安全碼");
-//				}
-//				
-//				CardInfo cardinfo = new CardInfo();
-//				cardinfo.setCardNumber(cardNumber);
-//				cardinfo.setCardName(cardName);
-//				cardinfo.setExpire(expire);
-//				cardinfo.setCcv(ccv);
-//				
-//				if(!errorMsgs.isEmpty()) {
-//					req.setAttribute("cardinfo", cardinfo);
-//					RequestDispatcher failureView = req.getRequestDispatcher("/html/pay_page.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
+				String cardNumber = req.getParameter("cardNumber");
+				if(cardNumber == null || cardNumber.trim().length() == 0) {
+					errorMsgs.add("卡號不得為空");
+				}
+				
+				String cardName = req.getParameter("cardName");
+				if(cardName == null || cardName.trim().length() == 0) {
+					errorMsgs.add("請輸入持卡人姓名");
+				}
+				
+				String expire = req.getParameter("expire");
+				if(expire == null || expire.trim().length() == 0) {
+					errorMsgs.add("請輸入卡片有效期限");
+				}
+				
+				String ccv = req.getParameter("ccv");
+				if(ccv == null || ccv.trim().length() == 0) {
+					errorMsgs.add("請輸入卡片安全碼");
+				}
+				
+				CardInfo cardinfo = new CardInfo();
+				cardinfo.setCardNumber(cardNumber);
+				cardinfo.setCardName(cardName);
+				cardinfo.setExpire(expire);
+				cardinfo.setCcv(ccv);
+				
+				if(!errorMsgs.isEmpty()) {
+					req.setAttribute("cardinfo", cardinfo);
+					RequestDispatcher failureView = req.getRequestDispatcher("/html/pay_page.jsp");
+					failureView.forward(req, res);
+					return;
+				}
 				
 				/**************************2.開始新增訂單*************************/
 				jedis = new Jedis("localhost", 6379);
