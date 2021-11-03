@@ -233,6 +233,10 @@
 			<%}else{%>
             <a href="<%=request.getContextPath()%>/html/coach/protected_coach/buildVideo.jsp?userID=${userID}">影片上傳</a>
             <%} %>
+             <a href="<%=request.getContextPath()%>/html/coach/updateMenu.jsp?userID=${userID}">更新菜單</a><br>
+            
+            <a href="<%=request.getContextPath()%>/html/coach/updateVideo.jsp?userID=${userID}">更新影片</a>
+            
         </div>
         <div class="right">
             <div class="my_menu">
