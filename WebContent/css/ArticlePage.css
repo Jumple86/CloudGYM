@@ -18,7 +18,7 @@ body{
     overflow: hidden;
 }
  
-img{
+#title img {
     width: 35px;
     margin-top: 3px;
 }
@@ -27,7 +27,7 @@ img{
     float: left;
 }
  
-a{
+a {
     color: #fff;
     text-decoration: none;
     line-height: 40px;
@@ -63,7 +63,7 @@ i.bi-cart-fill span.-on{
     margin-top: 7px;
 }
 
-/***************************以上複製貼上****************************/
+/***************************隞乩��ˊ鞎潔��****************************/
 
 /* header_end */
 
@@ -117,10 +117,16 @@ img.rounded{
     font-size: 15px;
 }
 
+.more a {
+	text-decoration: none;
+	font-size: 18px;
+	line-height: 40px;
+	color: blue;
+}
 
 /* right */
 
-/* ����� */
+/* 嚙踝蕭�嚙踐�蕭嚙� */
 .feed{
     height: 140px;
     text-align: center;
@@ -134,7 +140,7 @@ img.rounded{
     margin-top: 20px;
 }
 
-/* 嚙踝蕭謕蕭 */
+/* ���雓� */
 #newcomment{
     font-size: 10px;
     margin: 10px 0px 0px 740px;
@@ -144,7 +150,7 @@ img.rounded{
     margin-left: 550px;
 }
 
-/***************************以下複製貼上****************************/
+/***************************隞乩��ˊ鞎潔��****************************/
 
 i.-on{
     display: none;

@@ -31,7 +31,6 @@
 	pageContext.setAttribute("cartCount", cartCount);
 %>
 
-
 <%
 	List<PostsVO> list = postsSvc.getAll();
 	pageContext.setAttribute("list", list);
@@ -177,30 +176,26 @@ div.sub ul{
 		</div>
 		<div id="option">
 			<ul>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/video/all_video_page.jsp">運動類型</a></li>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/coach/all_coach_page.jsp">教練</a></li>
-				<li class="option"><c:if test="${not empty userID}">
-						<a
-							href="<%=request.getContextPath()%>/html/user/protected_user/userMainPage.jsp?userID=${userID}">個人專區</a>
-					</c:if> <c:if test="${ empty userID}">個人專區</c:if></li>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">討論區</a></li>
+				<li class="option">
+				<a href="<%=request.getContextPath()%>/html/video/all_video_page.jsp">運動類型</a></li>
+				<li class="option">
+				<a href="<%=request.getContextPath()%>/html/coach/all_coach_page.jsp">教練</a></li>
+				<li class="option">
+				<c:if test="${not empty userID}">
+				<a href="<%=request.getContextPath()%>/html/user/protected_user/userMainPage.jsp?userID=${userID}">個人專區</a>
+				</c:if>
+				<c:if test="${ empty userID}">個人專區</c:if></li>
+				<li class="option">
+				<a href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">討論區</a></li>
 				<c:if test="${empty userID}">
 					<div class="item">
 						<div class="main">註冊/登入</div>
 						<div class="sub">
 							<ul>
-								<li><a
-									href="${pageContext.request.contextPath}/html/login/sign_up_page.jsp">會員註冊</a></li>
-								<li><a
-									href="${pageContext.request.contextPath}/html/login/login_user.jsp">會員登入</a></li>
-								<li><a
-									href="${pageContext.request.contextPath}/html/login/login_coach.jsp">教練登入</a></li>
-								<li><a
-									href="${pageContext.request.contextPath}/html/login/login_admin.jsp"
-									target="_blank">後台管理</a></li>
+								<li><a href="${pageContext.request.contextPath}/html/login/sign_up_page.jsp">會員註冊</a></li>
+								<li><a href="${pageContext.request.contextPath}/html/login/login_user.jsp">會員登入</a></li>
+								<li><a href="${pageContext.request.contextPath}/html/login/login_coach.jsp">教練登入</a></li>
+								<li><a href="${pageContext.request.contextPath}/html/login/login_admin.jsp" target="_blank">後台管理</a></li>
 							</ul>
 						</div>
 					</div>
@@ -211,13 +206,15 @@ div.sub ul{
 						<div class="sub"></div>
 					</div>
 				</c:if>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
-						<i class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
+				<li class="option">
+				<a href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
+						<i class="bi bi-cart-fill"> 
+						<c:if test="${hlen != 0}">
 								<span>${hlen}</span>
-							</c:if> <c:if test="${hlen == 0}">
+						</c:if> 
+						<c:if test="${hlen == 0}">
 								<span>${cartCount}</span>
-							</c:if> <span>${cartCount}</span>
+						</c:if> <span>${cartCount}</span>
 					</i>
 				</a></li>
 			</ul>
@@ -232,12 +229,12 @@ div.sub ul{
 	<div class="menu-wrapper">
 		<nav class="main-nav grid-container grid-parent">
 			<ul class="menu">
-				<li class="nav-shou-ye"><a href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">首頁</a></li>
-				<li class="nav-ren-wu-zhuan-fang"><a href="<%=request.getContextPath()%>/html/article/ArticleList_A.jsp">健身知識</a></li>
-				<li class="nav-sheng-huo-zhuan-ti"><a href="<%=request.getContextPath()%>/html/article/ArticleList_B.jsp">健康飲食</a></li>
-				<li class="nav-kua-ling-yu-xue-xi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_C.jsp">成果分享</a></li>
-				<li class="nav-ji-neng-qu-shi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_D.jsp">商品推薦</a></li>
-				<li class="nav-ji-neng-qu-shi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_E.jsp">綜合閒聊</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">首頁</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_A.jsp">健身知識</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_B.jsp">健康飲食</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_C.jsp">成果分享</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_D.jsp">商品推薦</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_E.jsp">綜合閒聊</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -268,7 +265,7 @@ div.sub ul{
 					<div class="card mb-3">
 						<div class="row g-0">
 							<div class="col-md-4">
-								<img src="<%=request.getContextPath()%>/Reader?id=${PostsVO.postsID}" alt="...">
+								<img src="<%=request.getContextPath()%>/Reader?id=${PostsVO.postsID}">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body ms-3">
@@ -356,21 +353,20 @@ div.sub ul{
 					<form METHOD="post" ACTION="<%=request.getContextPath()%>/html/Article.do">
 						<div class="card-body">
 							<div class="input-group">
-								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" />
+								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" autocomplete="off" />
 								<button class="btn btn-outline-dark" id="button-search" type="submit" name="action" value="search">搜尋</button>
 							</div>
 						</div>
 					</form>
 				</div>
 				<!-- 熱門文章 -->
-				<%! int counttop = 0; %>
 				<div class="card mb-4">
 					<div class="card-header">
 						<i class="fab fa-hotjar me-2"></i>熱門文章
 					</div>
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${top}" begin="0" end="4">
-							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+							<li><a href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
 				</div>
@@ -381,9 +377,19 @@ div.sub ul{
 					</div>
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${list}" begin="0" end="4">
-							<li><a href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+							<li><a href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
+				</div>
+				<!-- 廣告區 -->
+				<div class="card mb-4">
+					<div class="card-header mb-3">
+						<i class="fas fa-ad me-2"></i>廣告
+					</div>
+					<div class ="ad">
+						<a href="https://www.apple.com/tw/watch/" target="_blank"><img src="<%=request.getContextPath()%>/img/AD2.gif"></a>
+						<a href="https://www.nike.com/tw/w/sale-shoes-3yaepzy7ok" target="_blank"><img src="<%=request.getContextPath()%>/img/AD1.webp"></a>
+					</div>
 				</div>
 				<!-- 累計瀏覽人數 -->
 				<%!int countAll = 0;%>
@@ -418,5 +424,4 @@ div.sub ul{
 	</script>
 
 </body>
-
 </html>

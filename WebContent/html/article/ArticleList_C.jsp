@@ -236,12 +236,12 @@ div.sub ul{
 	<div class="menu-wrapper">
 		<nav class="main-nav grid-container grid-parent">
 			<ul class="menu">
-				<li class="nav-shou-ye"><a href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">首頁</a></li>
-				<li class="nav-ren-wu-zhuan-fang"><a href="<%=request.getContextPath()%>/html/article/ArticleList_A.jsp">健身知識</a></li>
-				<li class="nav-sheng-huo-zhuan-ti"><a href="<%=request.getContextPath()%>/html/article/ArticleList_B.jsp">健康飲食</a></li>
-				<li class="nav-kua-ling-yu-xue-xi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_C.jsp">成果分享</a></li>
-				<li class="nav-ji-neng-qu-shi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_D.jsp">商品推薦</a></li>
-				<li class="nav-ji-neng-qu-shi"><a href="<%=request.getContextPath()%>/html/article/ArticleList_E.jsp">綜合閒聊</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList.jsp">首頁</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_A.jsp">健身知識</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_B.jsp">健康飲食</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_C.jsp">成果分享</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_D.jsp">商品推薦</a></li>
+				<li><a href="<%=request.getContextPath()%>/html/article/ArticleList_E.jsp">綜合閒聊</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -283,7 +283,7 @@ div.sub ul{
 										<p class="card-text">${PostsVO.postsContent}</p>
 										<div class="cb">
 											<a class="btn btn-outline-primary"
-												href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">繼續閱讀</a>
+												href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">繼續閱讀</a>
 											<i class="far fa-thumbs-up"><span>${likesSvc.getCountLike(PostsVO.postsID)}</span></i>
 											<i class="far fa-comment-alt"><span>${commentSvc.getCountComment(PostsVO.postsID)}</span></i>
 										</div>
@@ -308,7 +308,7 @@ div.sub ul{
 					<form METHOD="post" ACTION="Article.do">
 						<div class="card-body">
 							<div class="input-group">
-								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" />
+								<input class="form-control" type="text" placeholder="請輸入關鍵字" aria-describedby="button-search" name="str" autocomplete="off" />
 								<button class="btn btn-outline-dark" id="button-search" type="submit" name="action" value="search">搜尋</button>
 							</div>
 						</div>
@@ -322,7 +322,7 @@ div.sub ul{
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${top}" begin="0" end="4">
 							<li><a
-								href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+								href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
 				</div>
@@ -334,7 +334,7 @@ div.sub ul{
 					<ol class="recent-posts">
 						<c:forEach var="PostsVO" items="${list}" begin="0" end="4">
 							<li><a
-								href="<%=request.getContextPath()%>/html/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
+								href="<%=request.getContextPath()%>/html/article/ArticlePage.jsp?postsID=${PostsVO.postsID}">${PostsVO.postsTitle}</a></li>
 						</c:forEach>
 					</ol>
 				</div>
