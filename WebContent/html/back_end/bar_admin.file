@@ -3,7 +3,7 @@
 		<div id="title">
 			<ul>
 				<li class="bar_li"><img src="<%=request.getContextPath()%>/img/logo.png" alt="" for="#CloudGYM"></li>
-				<li class="bar_li"><a href="${pageContext.request.contextPath}/html/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
+				<li class="bar_li"><a href="${pageContext.request.contextPath}/main_page.jsp" id="CloudGYM">CloudGYM</a></li>
 			</ul>
 		</div>
 		<div id="option">
