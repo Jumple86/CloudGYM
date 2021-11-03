@@ -8,40 +8,32 @@
   response.setDateHeader ("Expires", 0);
 %>
 
-<%
-	UserVO userVO = (UserVO) request.getAttribute("userVO");
-%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="BIG5">
+<meta charset="BIG5">	
 <title>忘記密碼</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/reset.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/forget_password.css">
 </head>
 <body>
-	<form method="post" action="ResetPassword">
+	<form method="post" action="<%=request.getContextPath()%>/ResetPassword">
 		<div id="forget">
 			<p>請輸入郵件</p>
 			    <input type="text" placeholder="請輸入郵件" id="email"
-					name="userAccount" value="<%=(userVO == null) ? "angel59272624@gmail.com" : userVO.getUserAccount()%>">
+					name="userAccount" value="tfa103cloudgym@gmail.com">
 			<hr>
-
+			
 			<%-- 錯誤表列 --%>
 			<c:if test="${not empty errorMsgs}">
 				<c:forEach var="message" items="${errorMsgs}">
 					<a id="errormsg">${message}</a>
 				</c:forEach>
 			</c:if>
-
+			
 			<input type="hidden" name="action" value="userForget">
 			<button type="submit">發送郵件</button>
-
 		</div>
-
-
-
 	</form>
 </body>
 </html>

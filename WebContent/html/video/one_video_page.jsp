@@ -22,11 +22,13 @@
 	String publishTime = sd.format(date);
 	pageContext.setAttribute("publishTime", publishTime);
 	
-	List<VideoVO> list1 = videoSvc.getByPositionNo(3);
+	List<VideoVO> list1 = videoSvc.getByPositionNo(2);
 	request.setAttribute("list1", list1);
-	List<VideoVO> list2 = videoSvc.getByPositionNo(4);
+	List<VideoVO> list2 = videoSvc.getByPositionNo(5);
 	request.setAttribute("list2", list2);
 
+	String oneVideoPage = request.getRequestURI() + "?videoID=" + videoID;
+	session.setAttribute("oneVideoPage", oneVideoPage);
 %>
 
 <%
@@ -229,15 +231,15 @@
 						<div class="sub"></div>
 					</div>
 				</c:if>
-				<li class="option"><a
-					href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
+				<li class="option">
+					<a href="<%=request.getContextPath()%>/html/order/pay_page.jsp">
 						<i class="bi bi-cart-fill"> <c:if test="${hlen != 0}">
 								<span>${hlen}</span>
 							</c:if> <c:if test="${hlen == 0}">
 								<span>${cartCount}</span>
-							</c:if> <span>${cartCount}</span>
-					</i>
-				</a></li>
+							</c:if> <span>${cartCount}</span></i>
+					</a>
+				</li>
 			</ul>
         </div>
     </div>
@@ -305,13 +307,12 @@
                         		</li>
                         	</c:forEach>
                             	<hr>
-                            	<li class="addmenu">新增菜單
+                            	
+                            	<li class="addmenu"><a href="<%=request.getContextPath()%>/html/video/addmenu.jsp?userID=${userID}">新增菜單</a>
                             	</li>
 								                            	
                         	</ul>
                     	</div>
-                    	
-                		
                 		</c:if>
                 	<form style="display:inline-block;">
                 	<i class="bi bi-exclamation-circle-fill"></i>
@@ -475,9 +476,23 @@
 	    		  });
     		  });
     		
-    		$("span.addmenu").on("click", function(){
-    			$("div.addmenu").css("display", "");
-    		})
+    		$("span.addmenu").click(function (event) { 
+    			//取消事件冒泡 
+    			event.stopPropagation(); 
+    			//按鈕的toggle,如果div是可見的,點選按鈕切換為隱藏的;如果是隱藏的,切換為可見的。 
+    			$('div.addmenu').toggle('slow'); 
+    			return false;
+    			}); 
+    		
+    		$(document).click(function(event){
+    			  var _con = $('div.addmenu');   // 設定目標區域
+    			  if(!_con.is(event.target) && _con.has(event.target).length === 0){ // Mark 1
+    				//$('#divTop').slideUp('slow');   //滑動消失
+    				$('div.addmenu').hide();          //淡出消失
+    			  }
+    		});
+    		
+    		
     		
     		// 加入菜單Ajax
     		$("div.addmenu li").on("click", function(){
