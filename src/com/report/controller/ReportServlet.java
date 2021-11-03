@@ -191,6 +191,12 @@ public class ReportServlet extends HttpServlet {
 					reportSvc.deleteReport(userID, videoID);
 					reportrecordSvc.deleteReportRecord(videoID);
 					Integer authorID = new VideoService().findByPrimaryKey(videoID).getUserID();
+					
+					VideoService videoSvc = new VideoService();
+					VideoVO videoVO = videoSvc.findByPrimaryKey(videoID);
+					Integer videoReportedTimes = videoVO.getReportedTimes();
+					videoReportedTimes--;
+					videoSvc.updateReportedTimes(videoReportedTimes, videoID);
 					if(authorID.toString().startsWith("1")) {
 						UserVO userVO = new UserService().findByUserId(authorID);
 						Integer reportedTimes = userVO.getUserReportedTimes();
@@ -210,6 +216,12 @@ public class ReportServlet extends HttpServlet {
 					reportSvc.deleteReport(userID, postsID);
 					reportrecordSvc.deleteReportRecord(postsID);
 					Integer authorID = new PostsService().getByPostsID(postsID).getUserID();
+					
+					PostsService postsSvc = new PostsService();
+					PostsVO postsVO = postsSvc.getByPostsID(postsID);
+					Integer postsReportedTimes = postsVO.getPostsReportedTimes();
+					postsReportedTimes--;
+					postsSvc.updatePostsReportedTimes(postsReportedTimes, postsID);
 					if(authorID.toString().startsWith("1")) {
 						UserVO userVO = new UserService().findByUserId(authorID);
 						Integer reportedTimes = userVO.getUserReportedTimes();
